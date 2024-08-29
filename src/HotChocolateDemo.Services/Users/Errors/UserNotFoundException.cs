@@ -1,4 +1,4 @@
-namespace HotChocolateDemo.GQL.Api.Users.Errors;
+namespace HotChocolateDemo.Services.Users.Errors;
 
 public class UserNotFoundException : Exception
 {
@@ -15,4 +15,5 @@ public class UserNotFoundException : Exception
     : base(message, innerException)
   {
   }
+
 }

@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace HotChocolateDemo.GQL.Api.Users.Creations;
+namespace HotChocolateDemo.Services.Users;
 
-public class CreateUserInputValidator : AbstractValidator<CreateUserInput>
+public class CreateUserParametersValidator : AbstractValidator<CreateUserParameters>
 {
-  public CreateUserInputValidator()
+  public CreateUserParametersValidator()
   {
     RuleFor(u => u.UserName)
       .NotEmpty()

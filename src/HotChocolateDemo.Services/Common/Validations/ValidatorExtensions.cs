@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace HotChocolateDemo.GQL.Api.Common.Validations;
+namespace HotChocolateDemo.Services.Common.Validations;
 
 /// <summary>
 /// Helper methods to run on validation rule

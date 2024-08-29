@@ -97,7 +97,7 @@ type CollectionSegmentInfo {
 
 type CreateUserPayload {
   errors: [CreateUserError!] @cost(weight: "10")
-  userEntity: UserEntity
+  user: User
 }
 
 type KeyValuePairOfStringAndObject {
@@ -141,6 +141,12 @@ type RoleEntity @key(fields: "id") @key(fields: "id") {
   name: String
   userRoles: [UserRoleEntity]
   users: [UserEntity]
+}
+
+type User {
+  birthDateTime: DateTime!
+  id: Long!
+  userName: String
 }
 
 type UserAlreadyExistsError implements Error {

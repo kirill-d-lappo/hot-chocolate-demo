@@ -1,41 +1,15 @@
 using FluentValidation;
-using HotChocolateDemo.GQL.Api.Filters;
+using HotChocolateDemo.GQL.Api;
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-  .AddGraphQLServer()
-  .AddApolloFederation(GqlFederationVersion.Federation25) // hotchoclate package
-  // .AddApolloFederationV2(ApolloFederationVersion.FEDERATION_25) // apollo package
-  .ModifyOptions(o =>
-  {
-    o.SortFieldsByName = true;
-  })
-  .AddQueryType()
-  .AddQueryConventions()
-  .AddMutationType()
-  .AddMutationConventions()
-  .AddPagingArguments()
-  .ModifyPagingOptions(o =>
-  {
-    o.IncludeNodesField = true;
-  })
-  .AddFiltering(c =>
-  {
-    c.AddDefaults();
-    c.BindRuntimeType<string, EnrichedThisStringFilterInputType>();
-    c.BindRuntimeType<bool, EnrichedThisBooleanFilterInputType>();
-  })
-  .AddSorting()
-  .AddProjections()
-  .AddHCDemoTypes()
-  .RegisterDbContextFactory<HCDemoDbContext>()
-  .AddDbContextCursorPagingProvider()
-  ;
-
 builder.Services.AddHCDemoPersistence();
+builder.Services.AddHCDemoServices();
+
+builder.Services.AddGqlServices();
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 

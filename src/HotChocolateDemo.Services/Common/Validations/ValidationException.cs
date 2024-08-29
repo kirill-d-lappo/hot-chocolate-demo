@@ -1,6 +1,6 @@
 using FluentValidation.Results;
 
-namespace HotChocolateDemo.GQL.Api.Common.Validations;
+namespace HotChocolateDemo.Services.Common.Validations;
 
 /// <summary>
 /// The exception is thrown when a validation is not passed.

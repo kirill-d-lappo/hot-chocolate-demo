@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HotChocolateDemo.Services\HotChocolateDemo.Services.csproj" />
     <ProjectReference Include="..\HotChocolateDemo.Persistence\HotChocolateDemo.Persistence.csproj" />
   </ItemGroup>
 

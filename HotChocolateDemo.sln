@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{17
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotChocolateDemo.Services", "src\HotChocolateDemo.Services\HotChocolateDemo.Services.csproj", "{9C14EA01-177F-475C-90DE-9778529507DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{486B13ED-D7CE-425F-8CBA-6E04AE858652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{486B13ED-D7CE-425F-8CBA-6E04AE858652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{486B13ED-D7CE-425F-8CBA-6E04AE858652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C14EA01-177F-475C-90DE-9778529507DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C14EA01-177F-475C-90DE-9778529507DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C14EA01-177F-475C-90DE-9778529507DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C14EA01-177F-475C-90DE-9778529507DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

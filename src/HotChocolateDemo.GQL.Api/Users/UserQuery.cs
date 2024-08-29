@@ -1,9 +1,9 @@
 using GreenDonut.Projections;
 using HotChocolate.Execution.Processing;
 using HotChocolate.Pagination;
-using HotChocolateDemo.GQL.Api.Users.Errors;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
+using HotChocolateDemo.Services.Users.Errors;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.GQL.Api.Users;
@@ -39,7 +39,7 @@ public static class UserQuery
 
     if (user == default)
     {
-      throw new UserNotFoundException("No user by provided user name");
+      throw new UserNotFoundException("No user was found by provided user name");
     }
 
     return user;
