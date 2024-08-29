@@ -1,0 +1,2 @@
+# Always use crlf in dotnet solution files
+*.sln text eol=crlf

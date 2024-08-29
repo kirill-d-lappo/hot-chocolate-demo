@@ -1,0 +1,17 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <LangVersion>preview</LangVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!-- HotChocolate / GreenDonate experimental feature-->
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);GD0001</NoWarn>
+  </PropertyGroup>
+
+</Project>
