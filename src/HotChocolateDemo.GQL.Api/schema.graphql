@@ -25,12 +25,22 @@ type AllBoolValuesEdge {
   node: Boolean
 }
 
-"A segment of a collection."
-type AllRolesCollectionSegment {
-  "A flattened list of the items."
-  items: [RoleEntity]
+"A connection to a list of items."
+type AllRolesConnection {
+  "A list of edges."
+  edges: [AllRolesEdge!]
+  "A flattened list of the nodes."
+  nodes: [RoleEntity]
   "Information to aid in pagination."
-  pageInfo: CollectionSegmentInfo!
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type AllRolesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: RoleEntity
 }
 
 "A connection to a list of items."
@@ -87,14 +97,6 @@ type AllUsersEdge {
   node: UserEntity
 }
 
-"Information about the offset pagination."
-type CollectionSegmentInfo {
-  "Indicates whether more items exist following the set defined by the clients arguments."
-  hasNextPage: Boolean!
-  "Indicates whether more items exist prior the set defined by the clients arguments."
-  hasPreviousPage: Boolean!
-}
-
 type CreateUserPayload {
   errors: [CreateUserError!] @cost(weight: "10")
   user: User
@@ -125,11 +127,18 @@ type PageInfo {
   startCursor: String
 }
 
+type PermissionEntity @key(fields: "key") @key(fields: "id") {
+  id: Long!
+  key: String
+  rolePermissions: [RolePermissionEntity]
+  roles: [RoleEntity]
+}
+
 type Query {
   _entities(representations: [_Any!]!): [_Entity]!
   _service: _Service!
   allBoolValues("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int where: BooleanInputType @cost(weight: "10")): AllBoolValuesConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
-  allRoles(order: [RoleEntitySortInput!] @cost(weight: "10") skip: Int take: Int where: RoleEntityFilterInput @cost(weight: "10")): AllRolesCollectionSegment @listSize(assumedSize: 50, slicingArguments: [ "take" ], sizedFields: [ "items" ]) @cost(weight: "10")
+  allRoles("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [RoleEntitySortInput!] @cost(weight: "10") where: RoleEntityFilterInput @cost(weight: "10")): AllRolesConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
   allStringValues("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int where: StringInputType @cost(weight: "10")): AllStringValuesConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
   allUserRoles("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserRoleEntitySortInput!] @cost(weight: "10") where: UserRoleEntityFilterInput @cost(weight: "10")): AllUserRolesConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
   allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserEntitySortInput!] @cost(weight: "10") where: UserEntityFilterInput @cost(weight: "10")): AllUsersConnection @listSize(assumedSize: 50, slicingArguments: [ "first", "last" ], sizedFields: [ "edges", "nodes" ]) @cost(weight: "10")
@@ -139,8 +148,17 @@ type Query {
 type RoleEntity @key(fields: "id") @key(fields: "id") {
   id: Long!
   name: String
+  permissions: [PermissionEntity]
+  rolePermissions: [RolePermissionEntity]
   userRoles: [UserRoleEntity]
   users: [UserEntity]
+}
+
+type RolePermissionEntity @key(fields: "roleId permissionId") {
+  permission: PermissionEntity
+  permissionId: Long!
+  role: RoleEntity
+  roleId: Long!
 }
 
 type User {
@@ -201,7 +219,7 @@ union CreateUserError = UserAlreadyExistsError | ValidationError
 union UserByUserNameResult = UserEntity | UserNotFoundError
 
 "Union of all types that key directive applied. This information is needed by the Apollo federation gateway."
-union _Entity = RoleEntity | UserRoleEntity | UserEntity
+union _Entity = UserRoleEntity | RoleEntity | UserEntity | RolePermissionEntity | PermissionEntity
 
 input BooleanInputType {
   and: [BooleanInputType!]
@@ -234,10 +252,24 @@ input IntOperationFilterInput {
   nlte: Int @cost(weight: "10")
 }
 
+input ListFilterInputTypeOfPermissionEntityFilterInput {
+  all: PermissionEntityFilterInput @cost(weight: "10")
+  none: PermissionEntityFilterInput @cost(weight: "10")
+  some: PermissionEntityFilterInput @cost(weight: "10")
+  any: Boolean @cost(weight: "10")
+}
+
 input ListFilterInputTypeOfRoleEntityFilterInput {
   all: RoleEntityFilterInput @cost(weight: "10")
   none: RoleEntityFilterInput @cost(weight: "10")
   some: RoleEntityFilterInput @cost(weight: "10")
+  any: Boolean @cost(weight: "10")
+}
+
+input ListFilterInputTypeOfRolePermissionEntityFilterInput {
+  all: RolePermissionEntityFilterInput @cost(weight: "10")
+  none: RolePermissionEntityFilterInput @cost(weight: "10")
+  some: RolePermissionEntityFilterInput @cost(weight: "10")
   any: Boolean @cost(weight: "10")
 }
 
@@ -270,18 +302,38 @@ input LongOperationFilterInput {
   nlte: Long @cost(weight: "10")
 }
 
+input PermissionEntityFilterInput {
+  and: [PermissionEntityFilterInput!]
+  or: [PermissionEntityFilterInput!]
+  id: LongOperationFilterInput
+  key: StringInputType
+  roles: ListFilterInputTypeOfRoleEntityFilterInput
+  rolePermissions: ListFilterInputTypeOfRolePermissionEntityFilterInput
+}
+
 input RoleEntityFilterInput {
   and: [RoleEntityFilterInput!]
   or: [RoleEntityFilterInput!]
   id: LongOperationFilterInput
   name: StringInputType
   users: ListFilterInputTypeOfUserEntityFilterInput
+  permissions: ListFilterInputTypeOfPermissionEntityFilterInput
   userRoles: ListFilterInputTypeOfUserRoleEntityFilterInput
+  rolePermissions: ListFilterInputTypeOfRolePermissionEntityFilterInput
 }
 
 input RoleEntitySortInput {
   id: SortEnumType @cost(weight: "10")
   name: SortEnumType @cost(weight: "10")
+}
+
+input RolePermissionEntityFilterInput {
+  and: [RolePermissionEntityFilterInput!]
+  or: [RolePermissionEntityFilterInput!]
+  roleId: LongOperationFilterInput
+  permissionId: LongOperationFilterInput
+  role: RoleEntityFilterInput
+  permission: PermissionEntityFilterInput
 }
 
 input StringInputType {

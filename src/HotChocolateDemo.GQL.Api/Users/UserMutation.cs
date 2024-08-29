@@ -15,7 +15,6 @@ public class UserMutation
     IUserService userService,
     CancellationToken ct)
   {
-
     var createParams = new CreateUserParameters
     {
       UserName = input.UserName,

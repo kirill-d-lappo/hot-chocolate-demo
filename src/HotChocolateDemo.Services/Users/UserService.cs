@@ -4,6 +4,7 @@ using HotChocolateDemo.Persistence.Models;
 using HotChocolateDemo.Services.Common.Validations;
 using HotChocolateDemo.Services.Users.Errors;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HotChocolateDemo.Services.Users;
 
@@ -11,15 +12,24 @@ public class UserService : IUserService
 {
   private readonly IValidator<CreateUserParameters> _validator;
   private readonly IDbContextFactory<HCDemoDbContext> _dbContextFactory;
+  private readonly ILogger<UserService> _logger;
 
-  public UserService(IValidator<CreateUserParameters> validator, IDbContextFactory<HCDemoDbContext> dbContextFactory)
+  public UserService(
+    IValidator<CreateUserParameters> validator,
+    IDbContextFactory<HCDemoDbContext> dbContextFactory,
+    ILogger<UserService> logger)
   {
     _validator = validator;
     _dbContextFactory = dbContextFactory;
+    _logger = logger;
   }
 
   public async Task<User> CreateUserAsync(CreateUserParameters parameters, CancellationToken ct)
   {
+    using var _ = _logger.BeginScope("{@Parameters}", parameters);
+
+    _logger.LogWarning("Create User method {@Parameters}");
+
     await _validator.ThrowWhenNotValidAsync(parameters, ct);
 
     var userName = parameters.UserName;
@@ -39,6 +49,7 @@ public class UserService : IUserService
     var user = new UserEntity
     {
       UserName = userName,
+
       // FixMe [2024-01-01 klappo] add birthday
     };
 

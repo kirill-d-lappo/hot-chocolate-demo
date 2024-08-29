@@ -7,12 +7,14 @@ namespace HotChocolateDemo.GQL.Api.Roles;
 [QueryType]
 public static class RolesQuery
 {
-  [UseOffsetPaging]
+  [UsePaging]
   [UseProjection]
   [UseFiltering]
   [UseSorting]
   public static IQueryable<RoleEntity> AllRoles(HCDemoDbContext dbContext)
   {
-    return dbContext.Roles.AsSplitQuery().AsNoTracking();
+    return dbContext.Roles
+      .AsSplitQuery()
+      .AsNoTracking();
   }
 }

@@ -13,5 +13,9 @@ public class RoleEntity
 
   public List<UserEntity> Users { get; set; }
 
+  public List<PermissionEntity> Permissions { get; set; }
+
   public List<UserRoleEntity> UserRoles { get; set; }
+
+  public List<RolePermissionEntity> RolePermissions { get; set; }
 }

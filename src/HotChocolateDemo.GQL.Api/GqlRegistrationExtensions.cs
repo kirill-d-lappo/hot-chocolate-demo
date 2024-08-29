@@ -7,8 +7,7 @@ public static class GqlRegistrationExtensions
 {
   public static IServiceCollection AddGqlServices(this IServiceCollection services)
   {
-    services
-      .AddGraphQLServer()
+    services.AddGraphQLServer()
       .AddApolloFederation(GqlFederationVersion.Federation25) // hotchoclate package
       // .AddApolloFederationV2(ApolloFederationVersion.FEDERATION_25) // apollo package
       .ModifyOptions(o =>
@@ -32,10 +31,9 @@ public static class GqlRegistrationExtensions
       })
       .AddSorting()
       .AddProjections()
-      .AddHCDemoTypes()
       .RegisterDbContextFactory<HCDemoDbContext>()
       .AddDbContextCursorPagingProvider()
-      ;
+      .AddHCDemoTypes();
 
     return services;
   }

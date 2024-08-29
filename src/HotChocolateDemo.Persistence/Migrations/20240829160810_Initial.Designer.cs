@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotChocolateDemo.Persistence.Migrations
 {
     [DbContext(typeof(HCDemoDbContext))]
-    [Migration("20240828134932_RolesAndInitData")]
-    partial class RolesAndInitData
+    [Migration("20240829160810_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,44 @@ namespace HotChocolateDemo.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.PermissionEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permissions", "dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Key = "create:user"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Key = "update:user"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Key = "delete:user"
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            Key = "delete:user"
+                        });
+                });
 
             modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RoleEntity", b =>
                 {
@@ -51,6 +89,43 @@ namespace HotChocolateDemo.Persistence.Migrations
                         {
                             Id = 2L,
                             Name = "driver"
+                        });
+                });
+
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RolePermissionEntity", b =>
+                {
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PermissionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions", "dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1L,
+                            PermissionId = 1L
+                        },
+                        new
+                        {
+                            RoleId = 1L,
+                            PermissionId = 2L
+                        },
+                        new
+                        {
+                            RoleId = 1L,
+                            PermissionId = 3L
+                        },
+                        new
+                        {
+                            RoleId = 2L,
+                            PermissionId = 3L
                         });
                 });
 
@@ -115,19 +190,23 @@ namespace HotChocolateDemo.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("RoleEntityUserEntity", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RolePermissionEntity", b =>
                 {
-                    b.Property<long>("RolesId")
-                        .HasColumnType("bigint");
+                    b.HasOne("HotChocolateDemo.Persistence.Models.PermissionEntity", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<long>("UsersId")
-                        .HasColumnType("bigint");
+                    b.HasOne("HotChocolateDemo.Persistence.Models.RoleEntity", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.Navigation("Permission");
 
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("RoleEntityUserEntity", "dbo");
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserRoleEntity", b =>
@@ -149,23 +228,15 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RoleEntityUserEntity", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.PermissionEntity", b =>
                 {
-                    b.HasOne("HotChocolateDemo.Persistence.Models.RoleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotChocolateDemo.Persistence.Models.UserEntity", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RoleEntity", b =>
                 {
+                    b.Navigation("RolePermissions");
+
                     b.Navigation("UserRoles");
                 });
 

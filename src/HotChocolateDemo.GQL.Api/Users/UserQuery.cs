@@ -18,9 +18,8 @@ public static class UserQuery
   public static IQueryable<UserEntity> AllUsers(HCDemoDbContext dbContext)
   {
     return dbContext.Users
-      .AsSplitQuery()
       .AsNoTracking()
-      .OrderBy(u => u.Id);
+      .AsSplitQuery();
   }
 
   [Error<UserNotFoundException>]
@@ -29,7 +28,8 @@ public static class UserQuery
     IUserByUserNameDataLoader userByUserName,
     ISelection selection,
     PagingArguments pagingArguments,
-    CancellationToken ct)
+    CancellationToken ct
+  )
   {
     var user = await userByUserName
 
