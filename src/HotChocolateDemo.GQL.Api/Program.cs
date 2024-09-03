@@ -4,8 +4,15 @@ using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Serilog.Formatting.Display;
 using Serilog.Sinks.SystemConsole.Themes;
+
+var cts = new CancellationTokenSource();
+var ct = cts.Token;
+Console.CancelKeyPress += (s, e) =>
+{
+    cts.Cancel();
+    e.Cancel = true;
+};
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,40 +24,60 @@ builder.Services.AddGqlServices();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
 builder.Host.UseSerilog(
-  (context, config) =>
-  {
-    config.ReadFrom.Configuration(context.Configuration);
-    config.WriteTo.Console(theme: AnsiConsoleTheme.Sixteen);
-  });
+    (context, config) =>
+    {
+        config.ReadFrom.Configuration(context.Configuration);
+        config.WriteTo.Console(theme: AnsiConsoleTheme.Sixteen);
+    });
 
 var app = builder.Build();
 
-if (!IsGraphQLCommand(args))
+await RunAsync(app, args, async (app, args, ct) =>
 {
-  await MigrateDatabase<HCDemoDbContext>(app);
-}
+    await MigrateDatabase<HCDemoDbContext>(app, ct);
 
-app.MapGraphQL();
+    app.MapGraphQL();
 
-app.RunWithGraphQLCommands(args);
+    await app.RunAsync(ct);
+
+    return;
+
+    static async Task MigrateDatabase<TDbContext>(IHost app, CancellationToken ct)
+        where TDbContext : DbContext
+    {
+        using var scope = app.Services
+            .CreateScope();
+
+        await using var dbContext = await scope
+            .ServiceProvider
+            .GetRequiredService<IDbContextFactory<TDbContext>>()
+            .CreateDbContextAsync(ct);
+
+        await dbContext.Database.MigrateAsync(ct);
+    }
+}, ct);
 
 return;
 
-static async Task MigrateDatabase<TDbContext>(IHost app)
-  where TDbContext : DbContext
+static async Task RunAsync(
+    WebApplication app,
+    string[] args,
+    Func<WebApplication, string[], CancellationToken, Task> appAction,
+    CancellationToken ct)
 {
-  using var scope = app.Services
-    .CreateScope();
+    if (IsGraphQLCommand(args))
+    {
+        await app.RunWithGraphQLCommandsAsync(args);
 
-  await using var dbContext = await scope
-    .ServiceProvider
-    .GetRequiredService<IDbContextFactory<TDbContext>>()
-    .CreateDbContextAsync();
+        return;
+    }
 
-  await dbContext.Database.MigrateAsync();
-}
+    await appAction(app, args, ct);
 
-static bool IsGraphQLCommand(string[] args)
-{
-  return args is ["schema", ..,];
+    return;
+
+    static bool IsGraphQLCommand(string[] args)
+    {
+        return args is ["schema", ..,];
+    }
 }
