@@ -7,13 +7,13 @@ public class CreateUserParametersValidator : AbstractValidator<CreateUserParamet
   public CreateUserParametersValidator()
   {
     RuleFor(u => u.UserName)
-      .NotEmpty()
-      .WithErrorCode("USERNAME__EMPTY");
+     .NotEmpty()
+     .WithErrorCode("Validation.CreateUser.UserName.Required");
 
     RuleFor(u => u.BirthDateTime)
-      .Must(d => (DateTimeOffset.UtcNow - d).Days > 365 * 18)
-      .WithErrorCode("BIRTHDATETIME__TOO_YOUNG")
-      .Must(d => d.ToUnixTimeSeconds() > 0)
-      .WithErrorCode("BIRTHDATETIME__TOO_OLD");
+     .Must(d => (DateTimeOffset.UtcNow - d).Days > 365 * 18)
+     .WithErrorCode("Validation.CreateUser.BirthDate.TooYoung")
+     .Must(d => d.ToUnixTimeSeconds() > 0)
+     .WithErrorCode("Validation.CreateUser.BirthDate.TooOld");
   }
 }

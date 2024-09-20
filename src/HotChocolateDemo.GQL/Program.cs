@@ -2,6 +2,7 @@ using FluentValidation;
 using HotChocolateDemo.GQL;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -40,6 +41,15 @@ return await app.RunWithCliAsync(
     await MigrateDatabase<HCDemoDbContext>(app, ct);
 
     app.MapGraphQL();
+    app.MapGet(
+      "/",
+      context =>
+      {
+        context.Response.Redirect("./graphql", false);
+
+        return Task.CompletedTask;
+      }
+    );
 
     await app.RunAsync(ct);
 

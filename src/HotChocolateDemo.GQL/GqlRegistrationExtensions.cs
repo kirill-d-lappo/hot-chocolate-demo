@@ -22,6 +22,12 @@ public static class GqlRegistrationExtensions
      .AddMutationType()
      .AddMutationConventions()
      .AddPagingArguments()
+     .ModifyRequestOptions(
+        o =>
+        {
+          o.IncludeExceptionDetails = true;
+        }
+      )
      .ModifyPagingOptions(
         o =>
         {

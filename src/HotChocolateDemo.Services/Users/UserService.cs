@@ -17,7 +17,8 @@ public class UserService : IUserService
   public UserService(
     IValidator<CreateUserParameters> validator,
     IDbContextFactory<HCDemoDbContext> dbContextFactory,
-    ILogger<UserService> logger)
+    ILogger<UserService> logger
+  )
   {
     _validator = validator;
     _dbContextFactory = dbContextFactory;
@@ -28,7 +29,7 @@ public class UserService : IUserService
   {
     using var _ = _logger.BeginScope("{@Parameters}", parameters);
 
-    _logger.LogWarning("Create User method {@Parameters}");
+    _logger.LogWarning("Create User method");
 
     await _validator.ThrowWhenNotValidAsync(parameters, ct);
 
@@ -36,10 +37,11 @@ public class UserService : IUserService
 
     await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);
 
-    var existingUserName = await dbContext.Users
-      .AsNoTracking()
-      .Select(u => u.UserName)
-      .FirstOrDefaultAsync(u => u == userName, ct);
+    var existingUserName = await dbContext
+     .Users
+     .AsNoTracking()
+     .Select(u => u.UserName)
+     .FirstOrDefaultAsync(u => u == userName, ct);
 
     if (existingUserName != default)
     {
@@ -58,9 +60,10 @@ public class UserService : IUserService
 
     var userId = user.Id;
 
-    user = await dbContext.Users
-      .Where(u => u.Id == userId)
-      .FirstOrDefaultAsync(ct);
+    user = await dbContext
+     .Users
+     .Where(u => u.Id == userId)
+     .FirstOrDefaultAsync(ct);
 
     return new User
     {

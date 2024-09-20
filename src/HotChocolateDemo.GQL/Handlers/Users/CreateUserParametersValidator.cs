@@ -8,6 +8,6 @@ public class UserByUserNameInputValidator : AbstractValidator<UserByUserNameInpu
   {
     RuleFor(u => u.UserName)
      .NotEmpty()
-     .WithErrorCode("USERNAME__EMPTY");
+     .WithErrorCode("Validation.CreateUser.UserNameIsRequired");
   }
 }
