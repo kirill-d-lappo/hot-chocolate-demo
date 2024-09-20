@@ -4,29 +4,28 @@ using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotChocolateDemo.GQL.Api.Users;
+namespace HotChocolateDemo.GQL.Handlers.Users;
 
 internal static class UserDataLoader
 {
   [DataLoader(Lookups = [nameof(CreateUserByIdLookup),])]
-  public static async Task<Dictionary<long, UserEntity>> GetUserByIdAsync(
+  public static async Task<Dictionary<long, Page<UserEntity>>> GetUserByIdAsync(
     IReadOnlyList<long> ids,
     ISelectorBuilder selectorBuilder,
     PagingArguments pagingArguments,
     IDbContextFactory<HCDemoDbContext> contextFactory,
-    CancellationToken ct)
+    CancellationToken ct
+  )
   {
     await using var context = await contextFactory.CreateDbContextAsync(ct);
 
-    return await context.Users
-      .AsNoTracking()
-      .Select(selectorBuilder)
-      .SelectKey(b => b.Id)
-      .Where(r => ids.Contains(r.Id))
-      .OrderBy(r => r.Id)
-      .ToDictionaryAsync(r => r.Id, ct);
-
-    // .ToBatchPageAsync(t => t.Id, pagingArguments, ct); // waiting for rc1
+    return await context
+     .Users
+     .AsNoTracking()
+     .Select(selectorBuilder, b => b.Id)
+     .Where(r => ids.Contains(r.Id))
+     .OrderBy(r => r.Id)
+     .ToBatchPageAsync(t => t.Id, pagingArguments, ct);
   }
 
   public static long CreateUserByIdLookup(UserEntity user)
@@ -35,24 +34,23 @@ internal static class UserDataLoader
   }
 
   [DataLoader(Lookups = [nameof(CreateUserByUserNameLookup),])]
-  public static async Task<Dictionary<string, UserEntity>> GetUserByUserNameAsync(
+  public static async Task<Dictionary<string, Page<UserEntity>>> GetUserByUserNameAsync(
     IReadOnlyList<string> usernames,
     ISelectorBuilder selectorBuilder,
     PagingArguments pagingArguments,
     IDbContextFactory<HCDemoDbContext> contextFactory,
-    CancellationToken ct)
+    CancellationToken ct
+  )
   {
     await using var context = await contextFactory.CreateDbContextAsync(ct);
 
-    return await context.Users
-      .AsNoTracking()
-      .Select(selectorBuilder)
-      .SelectKey(b => b.Id)
-      .Where(r => usernames.Contains(r.UserName))
-      .OrderBy(r => r.Id)
-      .ToDictionaryAsync(r => r.UserName, ct);
-
-    // .ToBatchPageAsync(t => t.Id, pagingArguments, ct); // waiting for rc1
+    return await context
+     .Users
+     .AsNoTracking()
+     .Select(selectorBuilder, b => b.Id)
+     .Where(r => usernames.Contains(r.UserName))
+     .OrderBy(r => r.Id)
+     .ToBatchPageAsync(t => t.UserName, pagingArguments, ct);
   }
 
   public static string CreateUserByUserNameLookup(UserEntity user)

@@ -1,19 +1,15 @@
-using HotChocolateDemo.GQL.Api.Users.Creations;
 using HotChocolateDemo.Services.Common.Validations;
 using HotChocolateDemo.Services.Users;
 using HotChocolateDemo.Services.Users.Errors;
 
-namespace HotChocolateDemo.GQL.Api.Users;
+namespace HotChocolateDemo.GQL.Handlers.Users;
 
 [MutationType]
 public class UserMutation
 {
   [Error<UserAlreadyExistsException>]
   [Error<ValidationException>]
-  public async Task<User> CreateUserAsync(
-    CreateUserInput input,
-    IUserService userService,
-    CancellationToken ct)
+  public async Task<User> CreateUserAsync(CreateUserInput input, IUserService userService, CancellationToken ct)
   {
     var createParams = new CreateUserParameters
     {

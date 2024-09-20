@@ -3,7 +3,7 @@ using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotChocolateDemo.GQL.Api.Roles;
+namespace HotChocolateDemo.GQL.Handlers.Roles;
 
 internal static class RoleDataLoader
 {
@@ -17,12 +17,12 @@ internal static class RoleDataLoader
   {
     await using var context = await contextFactory.CreateDbContextAsync(ct);
 
-    return await context.Roles
-      .AsNoTracking()
-      .Select(selectorBuilder)
-      .SelectKey(r => r.Id)
-      .Where(r => ids.Contains(r.Id))
-      .ToDictionaryAsync(b => b.Id, ct);
+    return await context
+     .Roles
+     .AsNoTracking()
+     .Select(selectorBuilder, r => r.Id)
+     .Where(r => ids.Contains(r.Id))
+     .ToDictionaryAsync(b => b.Id, ct);
   }
 
   public static long CreateRoleByIdLookup(RoleEntity role)

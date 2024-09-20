@@ -2,7 +2,7 @@ using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotChocolateDemo.GQL.Api.UserRoles;
+namespace HotChocolateDemo.GQL.Handlers.UserRoles;
 
 [QueryType]
 public static class UserRoleQuery
@@ -13,8 +13,9 @@ public static class UserRoleQuery
   [UseSorting]
   public static IQueryable<UserRoleEntity> AllUserRoles(HCDemoDbContext dbContext)
   {
-    return dbContext.UserRoles
-      .AsSplitQuery()
-      .AsNoTracking();
+    return dbContext
+     .UserRoles
+     .AsSplitQuery()
+     .AsNoTracking();
   }
 }

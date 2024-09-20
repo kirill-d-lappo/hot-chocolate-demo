@@ -1,23 +1,11 @@
-namespace HotChocolateDemo.GQL.Api.Strings;
+namespace HotChocolateDemo.GQL.Handlers.Strings;
 
 [QueryType]
 public class StringValuesQuery
 {
-  private static readonly string[] StringValues =
-  [
-    "New-York",
-    "Chicago",
-    "Paris",
-    null,
-    "",
-  ];
+  private static readonly string[] StringValues = ["New-York", "Chicago", "Paris", null, "",];
 
-  private static readonly bool?[] BooleanValues =
-  [
-    true,
-    false,
-    null,
-  ];
+  private static readonly bool?[] BooleanValues = [true, false, null,];
 
   [UsePaging]
   [UseFiltering]

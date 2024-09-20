@@ -8,7 +8,7 @@ public static class ServicesRegistrationExtensions
 {
   public static IServiceCollection AddHCDemoServices(this IServiceCollection services)
   {
-    services.AddValidatorsFromAssemblyContaining(typeof(IUserService));
+    services.AddValidatorsFromAssemblyContaining(typeof(ServicesRegistrationExtensions));
 
     services.AddScoped<IUserService, UserService>();
 

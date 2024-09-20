@@ -1,4 +1,4 @@
-namespace HotChocolateDemo.GQL.Api.Users.Creations;
+namespace HotChocolateDemo.GQL.Handlers.Users;
 
 public class CreateUserInput
 {
