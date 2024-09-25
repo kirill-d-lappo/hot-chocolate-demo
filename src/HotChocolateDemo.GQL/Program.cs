@@ -5,6 +5,7 @@ using HotChocolateDemo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Serilog.Formatting.Compact;
 using Serilog.Sinks.SystemConsole.Themes;
 
 var cts = new CancellationTokenSource();
@@ -28,7 +29,14 @@ builder.Host.UseSerilog(
   (context, config) =>
   {
     config.ReadFrom.Configuration(context.Configuration);
-    config.WriteTo.Console(theme: AnsiConsoleTheme.Sixteen);
+    if (context.HostingEnvironment.IsDevelopment())
+    {
+      config.WriteTo.Console(theme: AnsiConsoleTheme.Sixteen);
+    }
+    else
+    {
+      config.WriteTo.Console(new RenderedCompactJsonFormatter());
+    }
   }
 );
 
