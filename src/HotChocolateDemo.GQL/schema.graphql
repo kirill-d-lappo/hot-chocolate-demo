@@ -99,7 +99,7 @@ type AllUsersEdge {
 
 type CreateUserPayload {
   errors: [CreateUserError!] @cost(weight: "10")
-  user: User
+  userEntity: UserEntity
 }
 
 type KeyValuePairOfStringAndObject {
@@ -161,17 +161,12 @@ type RolePermissionEntity @key(fields: "roleId permissionId") {
   roleId: Long!
 }
 
-type User {
-  birthDateTime: DateTime!
-  id: Long!
-  userName: String
-}
-
 type UserAlreadyExistsError implements Error {
   message: String!
 }
 
 type UserEntity @key(fields: "id") @key(fields: "id") {
+  birthDate: DateTime
   id: Long!
   roles: [RoleEntity]
   userName: String
@@ -235,6 +230,21 @@ input BooleanOperationFilterInput {
 input CreateUserInput {
   birthDateTime: DateTime!
   userName: String
+}
+
+input DateTimeOperationFilterInput {
+  eq: DateTime @cost(weight: "10")
+  neq: DateTime @cost(weight: "10")
+  in: [DateTime] @cost(weight: "10")
+  nin: [DateTime] @cost(weight: "10")
+  gt: DateTime @cost(weight: "10")
+  ngt: DateTime @cost(weight: "10")
+  gte: DateTime @cost(weight: "10")
+  ngte: DateTime @cost(weight: "10")
+  lt: DateTime @cost(weight: "10")
+  nlt: DateTime @cost(weight: "10")
+  lte: DateTime @cost(weight: "10")
+  nlte: DateTime @cost(weight: "10")
 }
 
 input IntOperationFilterInput {
@@ -367,6 +377,7 @@ input UserEntityFilterInput {
   or: [UserEntityFilterInput!]
   id: LongOperationFilterInput
   userName: StringInputType
+  birthDate: DateTimeOperationFilterInput
   roles: ListFilterInputTypeOfRoleEntityFilterInput
   userRoles: ListFilterInputTypeOfUserRoleEntityFilterInput
 }
@@ -374,6 +385,7 @@ input UserEntityFilterInput {
 input UserEntitySortInput {
   id: SortEnumType @cost(weight: "10")
   userName: SortEnumType @cost(weight: "10")
+  birthDate: SortEnumType @cost(weight: "10")
 }
 
 input UserRoleEntityFilterInput {

@@ -2,7 +2,6 @@ using FluentValidation;
 using HotChocolateDemo.GQL;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Formatting.Compact;
@@ -46,7 +45,10 @@ return await app.RunWithCliAsync(
   args,
   async (app, _, ct) =>
   {
-    await MigrateDatabase<HCDemoDbContext>(app, ct);
+    if (app.Environment.IsDevelopment())
+    {
+      await MigrateDatabase<HCDemoDbContext>(app, ct);
+    }
 
     app.MapGraphQL();
     app.MapGet(

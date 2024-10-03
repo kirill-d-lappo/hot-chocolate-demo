@@ -25,12 +25,8 @@ public class UserService : IUserService
     _logger = logger;
   }
 
-  public async Task<User> CreateUserAsync(CreateUserParameters parameters, CancellationToken ct)
+  public async Task<long> CreateUserAsync(CreateUserParameters parameters, CancellationToken ct)
   {
-    using var _ = _logger.BeginScope("{@Parameters}", parameters);
-
-    _logger.LogWarning("Create User method");
-
     await _validator.ThrowWhenNotValidAsync(parameters, ct);
 
     var userName = parameters.UserName;
@@ -51,27 +47,40 @@ public class UserService : IUserService
     var user = new UserEntity
     {
       UserName = userName,
-
-      // FixMe [2024-01-01 klappo] add birthday
     };
 
     await dbContext.Users.AddAsync(user, ct);
     await dbContext.SaveChangesAsync(ct);
 
     var userId = user.Id;
+    _logger.LogInformation("User created: {UserName} {Id}", userName, userId);
 
-    user = await dbContext
-     .Users
-     .Where(u => u.Id == userId)
-     .FirstOrDefaultAsync(ct);
+    return userId;
+  }
+
+  public async Task<User> FindUserByUserNameAsync(string userName, CancellationToken ct)
+  {
+    if (string.IsNullOrWhiteSpace(userName))
+    {
+      throw new ArgumentException("Can't be empty", nameof(userName));
+    }
+
+    var userEntity = await FindUserEntityByUserNameAsync(userName, ct);
 
     return new User
     {
-      Id = user.Id,
-      UserName = user.UserName,
-
-      // FixMe [2024-01-01 klappo] add birthday to entity
-      BirthDateTime = parameters.BirthDateTime,
+      Id = userEntity.Id,
+      UserName = userEntity.UserName,
     };
+  }
+
+  private async Task<UserEntity> FindUserEntityByUserNameAsync(string userName, CancellationToken ct)
+  {
+    await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);
+
+    return await dbContext
+     .Users
+     .AsNoTracking()
+     .FirstOrDefaultAsync(u => u.UserName == userName, ct);
   }
 }

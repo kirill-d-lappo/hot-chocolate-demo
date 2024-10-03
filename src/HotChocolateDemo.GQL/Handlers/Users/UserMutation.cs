@@ -1,4 +1,5 @@
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Persistence.Models;
 using HotChocolateDemo.Services.Common.Validations;
 using HotChocolateDemo.Services.Users;
 using HotChocolateDemo.Services.Users.Errors;
@@ -9,12 +10,14 @@ namespace HotChocolateDemo.GQL.Handlers.Users;
 [MutationType]
 public class UserMutation
 {
+  [UseFirstOrDefault]
+  [UseProjection]
   [Error<UserAlreadyExistsException>]
   [Error<ValidationException>]
-  public async Task<User> CreateUserAsync(
+  public async Task<IQueryable<UserEntity>> CreateUserAsync(
     CreateUserInput input,
     IUserService userService,
-    IDbContextFactory<HCDemoDbContext> dbContextFactory,
+    HCDemoDbContext dbContext,
     CancellationToken ct
   )
   {
@@ -24,14 +27,11 @@ public class UserMutation
       BirthDateTime = input.BirthDateTime,
     };
 
-    var user = await userService.CreateUserAsync(createParams, ct);
+    var userId = await userService.CreateUserAsync(createParams, ct);
 
-    var dbContext = await dbContextFactory.CreateDbContextAsync(ct);
-
-    var userEntity = dbContext.Users.FirstOrDefault(u => u.UserName == input.UserName);
-
-    user.Id = userEntity?.Id ?? 0;
-
-    return user;
+    return dbContext
+     .Users
+     .AsNoTracking()
+     .Where(u => u.Id == userId);
   }
 }
