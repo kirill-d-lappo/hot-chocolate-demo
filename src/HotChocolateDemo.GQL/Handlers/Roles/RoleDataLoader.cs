@@ -20,7 +20,7 @@ internal static class RoleDataLoader
     return await context
      .Roles
      .AsNoTracking()
-     .Select(selectorBuilder, r => r.Id)
+     .Select(r => r.Id, selectorBuilder)
      .Where(r => ids.Contains(r.Id))
      .ToDictionaryAsync(b => b.Id, ct);
   }

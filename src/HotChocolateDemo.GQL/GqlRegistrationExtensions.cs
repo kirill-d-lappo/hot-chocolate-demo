@@ -9,7 +9,7 @@ public static class GqlRegistrationExtensions
   {
     services
      .AddGraphQLServer()
-     .AddApolloFederation(GqlFederationVersion.Federation25) // HotChocolate package
+     .AddApolloFederation(GqlFederationVersion.Federation27) // HotChocolate package
       // .AddApolloFederationV2(ApolloFederationVersion.FEDERATION_25) // Apollo package
      .ModifyOptions(
         o =>

@@ -22,7 +22,7 @@ internal static class UserDataLoader
     return await context
      .Users
      .AsNoTracking()
-     .Select(selectorBuilder, b => b.Id)
+     .Select(b => b.Id, selectorBuilder)
      .Where(r => ids.Contains(r.Id))
      .OrderBy(r => r.Id)
      .ToBatchPageAsync(t => t.Id, pagingArguments, ct);
@@ -47,7 +47,7 @@ internal static class UserDataLoader
     return await context
      .Users
      .AsNoTracking()
-     .Select(selectorBuilder, b => b.Id)
+     .Select(b => b.Id, selectorBuilder)
      .Where(r => usernames.Contains(r.UserName))
      .OrderBy(r => r.Id)
      .ToBatchPageAsync(t => t.UserName, pagingArguments, ct);
