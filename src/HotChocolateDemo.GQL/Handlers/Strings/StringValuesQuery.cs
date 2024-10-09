@@ -9,14 +9,14 @@ public class StringValuesQuery
 
   [UsePaging]
   [UseFiltering]
-  public IQueryable<string> GetAllStringValues()
+  public IQueryable<string> AllStringValues()
   {
     return StringValues.AsQueryable();
   }
 
   [UsePaging]
   [UseFiltering]
-  public IQueryable<bool?> GetAllBoolValues()
+  public IQueryable<bool?> AllBoolValues()
   {
     return BooleanValues.AsQueryable();
   }
