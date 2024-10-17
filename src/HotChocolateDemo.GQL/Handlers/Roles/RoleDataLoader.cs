@@ -1,4 +1,4 @@
-using GreenDonut.Projections;
+using GreenDonut.Selectors;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;

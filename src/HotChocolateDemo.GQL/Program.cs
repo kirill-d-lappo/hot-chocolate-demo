@@ -45,10 +45,12 @@ return await app.RunWithCliAsync(
   args,
   async (app, _, ct) =>
   {
+#if DEBUG
     if (app.Environment.IsDevelopment())
     {
       await MigrateDatabase<HCDemoDbContext>(app, ct);
     }
+#endif
 
     app.MapGraphQL();
     app.MapGet(

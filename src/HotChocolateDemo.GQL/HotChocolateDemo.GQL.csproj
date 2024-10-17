@@ -1,5 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--    <PublishAot>true</PublishAot>-->
+    <!--    <StaticallyLinked>true</StaticallyLinked>-->
+
+    <!--    <InvariantGlobalization>true</InvariantGlobalization>-->
+    <!--    <StripSymbols>false</StripSymbols>-->
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="ApolloGraphQL.HotChocolate.Federation" />
     <PackageReference Include="FluentValidation" />
