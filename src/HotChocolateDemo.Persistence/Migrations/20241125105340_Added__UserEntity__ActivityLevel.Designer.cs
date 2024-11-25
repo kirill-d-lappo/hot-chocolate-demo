@@ -4,6 +4,7 @@ using HotChocolateDemo.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotChocolateDemo.Persistence.Migrations
 {
     [DbContext(typeof(HCDemoDbContext))]
-    partial class HCDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241125105340_Added__UserEntity__ActivityLevel")]
+    partial class Added__UserEntity__ActivityLevel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

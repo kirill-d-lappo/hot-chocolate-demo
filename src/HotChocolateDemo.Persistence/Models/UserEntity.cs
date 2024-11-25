@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using HotChocolateDemo.Models;
 
 namespace HotChocolateDemo.Persistence.Models;
 
@@ -12,6 +13,8 @@ public class UserEntity
   public string UserName { get; set; }
 
   public DateTimeOffset? BirthDate { get; set; }
+
+  public UserActivityLevel ActivityLevel { get; set; }
 
   public List<RoleEntity> Roles { get; set; }
 

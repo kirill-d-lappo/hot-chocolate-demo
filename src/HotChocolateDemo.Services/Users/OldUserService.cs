@@ -34,10 +34,10 @@ public class OldUserService : IOldUserService
     await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);
 
     var existingUserName = await dbContext
-     .Users
-     .AsNoTracking()
-     .Select(u => u.UserName)
-     .FirstOrDefaultAsync(u => u == userName, ct);
+      .Users
+      .AsNoTracking()
+      .Select(u => u.UserName)
+      .FirstOrDefaultAsync(u => u == userName, ct);
 
     if (existingUserName != default)
     {
@@ -71,6 +71,7 @@ public class OldUserService : IOldUserService
     {
       Id = userEntity.Id,
       UserName = userEntity.UserName,
+      ActivityLevel = userEntity.ActivityLevel,
     };
   }
 
@@ -79,8 +80,8 @@ public class OldUserService : IOldUserService
     await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);
 
     return await dbContext
-     .Users
-     .AsNoTracking()
-     .FirstOrDefaultAsync(u => u.UserName == userName, ct);
+      .Users
+      .AsNoTracking()
+      .FirstOrDefaultAsync(u => u.UserName == userName, ct);
   }
 }

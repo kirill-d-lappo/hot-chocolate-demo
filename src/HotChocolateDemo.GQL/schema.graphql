@@ -1,4 +1,4 @@
-﻿schema @link(import: [ "@tag", "@key", "@shareable", "FieldSet" ], url: "https:\/\/specs.apollo.dev\/federation\/v2.7") {
+﻿schema @link(import: [ "@key", "@tag", "@shareable", "FieldSet" ], url: "https:\/\/specs.apollo.dev\/federation\/v2.7") {
   query: Query
   mutation: Mutation
 }
@@ -167,6 +167,7 @@ type UserAlreadyExistsError implements Error {
 }
 
 type UserEntity @key(fields: "id") @key(fields: "id") {
+  activityLevel: UserActivityLevel!
   birthDate: DateTime
   id: Long!
   roles: [RoleEntity]
@@ -369,6 +370,13 @@ input StringOperationFilterInput {
   nendsWith: String
 }
 
+input UserActivityLevelOperationFilterInput {
+  eq: UserActivityLevel
+  neq: UserActivityLevel
+  in: [UserActivityLevel!]
+  nin: [UserActivityLevel!]
+}
+
 input UserByUserNameInput {
   userName: String!
 }
@@ -379,6 +387,7 @@ input UserEntityFilterInput {
   id: LongOperationFilterInput
   userName: StringInputType
   birthDate: DateTimeOperationFilterInput
+  activityLevel: UserActivityLevelOperationFilterInput
   roles: ListFilterInputTypeOfRoleEntityFilterInput
   userRoles: ListFilterInputTypeOfUserRoleEntityFilterInput
 }
@@ -387,6 +396,7 @@ input UserEntitySortInput {
   id: SortEnumType
   userName: SortEnumType
   birthDate: SortEnumType
+  activityLevel: SortEnumType
 }
 
 input UserRoleEntityFilterInput {
@@ -414,6 +424,12 @@ enum Severity {
 enum SortEnumType {
   ASC
   DESC
+}
+
+enum UserActivityLevel {
+  BASIC
+  ADVANCED
+  PRO
 }
 
 "Used to indicate a combination of fields that can be used to uniquely identify and fetch an object or interface."

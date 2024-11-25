@@ -22,7 +22,7 @@ public static class RolesQuery
   }
 
   public static async Task<RoleEntity> RoleByIdViaDataLoader(
-    long roleId,
+    [GraphQLNonNullType] long roleId,
     ISelection selection,
     IRoleByIdDataLoader dataLoader,
     CancellationToken ct
