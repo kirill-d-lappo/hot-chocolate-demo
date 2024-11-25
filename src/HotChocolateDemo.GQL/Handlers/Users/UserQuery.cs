@@ -1,4 +1,5 @@
 using FluentValidation;
+using HotChocolate.Data.Filters;
 using HotChocolate.Execution.Processing;
 using HotChocolate.Pagination;
 using HotChocolate.Types.Pagination;
@@ -22,12 +23,13 @@ public static class UserQuery
   public static Task<Connection<UserEntity>> AllUsers(
     PagingArguments pagingArgs,
     ISelection selection,
-    IUserService oldUserService,
+    IFilterContext filterContext,
+    IUserService userService,
     CancellationToken ct
   )
   {
-    return oldUserService
-      .FindAllUsers(pagingArgs, selection.AsSelector<UserEntity>(), ct)
+    return userService
+      .FindAllUsers(pagingArgs, selection, filterContext, ct)
       .ToConnectionAsync();
   }
 

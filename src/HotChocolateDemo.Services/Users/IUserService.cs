@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using HotChocolate.Data.Filters;
+using HotChocolate.Execution.Processing;
 using HotChocolate.Pagination;
 using HotChocolateDemo.Persistence.Models;
 
@@ -8,7 +10,8 @@ public interface IUserService
 {
   Task<Page<UserEntity>> FindAllUsers(
     PagingArguments pageArgs,
-    Expression<Func<UserEntity, UserEntity>> projection = default,
+    ISelection selection = default,
+    IFilterContext filterContext = default,
     CancellationToken ct = default
   );
 }

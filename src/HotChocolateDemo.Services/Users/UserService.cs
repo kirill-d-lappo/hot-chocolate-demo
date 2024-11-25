@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using HotChocolate.Data.Filters;
+using HotChocolate.Execution.Processing;
 using HotChocolate.Pagination;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
@@ -17,7 +19,8 @@ public class UserService : IUserService
 
   public async Task<Page<UserEntity>> FindAllUsers(
     PagingArguments pageArgs,
-    Expression<Func<UserEntity, UserEntity>> projection = default,
+    ISelection selection = default,
+    IFilterContext filterContext = default,
     CancellationToken ct = default
   )
   {
@@ -25,8 +28,8 @@ public class UserService : IUserService
       .Users
       .AsNoTracking()
       .OrderBy(u => u.Id)
-      .ThenBy(u => u.UserName)
-      .SelectProjection(projection)
+      .WhereNotNull(filterContext)
+      .SelectNotNull(selection)
       .ToPageAsync(pageArgs, ct);
   }
 }

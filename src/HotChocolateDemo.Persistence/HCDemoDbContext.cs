@@ -53,12 +53,14 @@ public class HCDemoDbContext : DbContext
         {
           Id = 1,
           UserName = "klappo",
+          BirthDate = DateTimeOffset.UtcNow.AddYears(-20),
           ActivityLevel = UserActivityLevel.Advanced,
         },
         new UserEntity
         {
           Id = 2,
           UserName = "dmutrov",
+          BirthDate = DateTimeOffset.UtcNow.AddYears(-25),
           ActivityLevel = UserActivityLevel.Pro,
         }
       );
