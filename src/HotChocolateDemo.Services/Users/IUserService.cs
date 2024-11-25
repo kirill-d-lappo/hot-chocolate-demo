@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using HotChocolate.Pagination;
 using HotChocolateDemo.Persistence.Models;
 
-namespace HotChocolateDemo.Services.Business;
+namespace HotChocolateDemo.Services.Users;
 
 public interface IUserService
 {

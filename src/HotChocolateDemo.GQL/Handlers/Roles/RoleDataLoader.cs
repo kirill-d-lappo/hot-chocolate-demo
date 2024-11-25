@@ -7,7 +7,7 @@ namespace HotChocolateDemo.GQL.Handlers.Roles;
 
 internal static class RoleDataLoader
 {
-  [DataLoader(Lookups = [nameof(CreateRoleByIdLookup),])]
+  [DataLoader]
   public static async Task<Dictionary<long, RoleEntity>> GetRoleByIdAsync(
     IReadOnlyList<long> ids,
     ISelectorBuilder selectorBuilder,
@@ -18,15 +18,10 @@ internal static class RoleDataLoader
     await using var context = await contextFactory.CreateDbContextAsync(ct);
 
     return await context
-     .Roles
-     .AsNoTracking()
-     .Select(r => r.Id, selectorBuilder)
-     .Where(r => ids.Contains(r.Id))
-     .ToDictionaryAsync(b => b.Id, ct);
-  }
-
-  public static long CreateRoleByIdLookup(RoleEntity role)
-  {
-    return role.Id;
+      .Roles
+      .AsNoTracking()
+      .Select(r => r.Id, selectorBuilder)
+      .Where(r => ids.Contains(r.Id))
+      .ToDictionaryAsync(b => b.Id, ct);
   }
 }

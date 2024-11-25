@@ -4,7 +4,7 @@ using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotChocolateDemo.Services.Business;
+namespace HotChocolateDemo.Services.Users;
 
 public class UserService : IUserService
 {
@@ -22,11 +22,11 @@ public class UserService : IUserService
   )
   {
     return await _dbContext
-     .Users
-     .AsNoTracking()
-     .OrderBy(u => u.Id)
-     .ThenBy(u => u.UserName)
-     .SelectProjection(projection)
-     .ToPageAsync(pageArgs, ct);
+      .Users
+      .AsNoTracking()
+      .OrderBy(u => u.Id)
+      .ThenBy(u => u.UserName)
+      .SelectProjection(projection)
+      .ToPageAsync(pageArgs, ct);
   }
 }

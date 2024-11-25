@@ -1,3 +1,5 @@
+using GreenDonut.Selectors;
+using HotChocolate.Execution.Processing;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +16,20 @@ public static class RolesQuery
   public static IQueryable<RoleEntity> AllRoles(HCDemoDbContext dbContext)
   {
     return dbContext
-     .Roles
-     .AsSplitQuery()
-     .AsNoTracking();
+      .Roles
+      .AsSplitQuery()
+      .AsNoTracking();
+  }
+
+  public static async Task<RoleEntity> RoleByIdViaDataLoader(
+    long roleId,
+    ISelection selection,
+    IRoleByIdDataLoader dataLoader,
+    CancellationToken ct
+  )
+  {
+    return await dataLoader
+      .Select(selection)
+      .LoadAsync(roleId, ct);
   }
 }

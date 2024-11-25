@@ -11,8 +11,7 @@ public static class ServicesRegistrationExtensions
     services.AddValidatorsFromAssemblyContaining(typeof(ServicesRegistrationExtensions));
 
     services.AddScoped<IOldUserService, OldUserService>();
-
-    services.AddScoped<OldUserService>();
+    services.AddScoped<IUserService, UserService>();
 
     return services;
   }

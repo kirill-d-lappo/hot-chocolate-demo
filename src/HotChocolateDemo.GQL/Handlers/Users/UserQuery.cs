@@ -4,7 +4,6 @@ using HotChocolate.Pagination;
 using HotChocolate.Types.Pagination;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
-using HotChocolateDemo.Services.Business;
 using HotChocolateDemo.Services.Common.Validations;
 using HotChocolateDemo.Services.Users;
 using HotChocolateDemo.Services.Users.Errors;
@@ -23,13 +22,13 @@ public static class UserQuery
   public static Task<Connection<UserEntity>> AllUsers(
     PagingArguments pagingArgs,
     ISelection selection,
-    UserService oldUserService,
+    IUserService oldUserService,
     CancellationToken ct
   )
   {
     return oldUserService
-     .FindAllUsers(pagingArgs, selection.AsSelector<UserEntity>(), ct)
-     .ToConnectionAsync();
+      .FindAllUsers(pagingArgs, selection.AsSelector<UserEntity>(), ct)
+      .ToConnectionAsync();
   }
 
   [Error<UserNotFoundException>]
@@ -44,9 +43,9 @@ public static class UserQuery
     await validator.ThrowWhenNotValidAsync(input, ct);
 
     var user = await dbContext
-     .Users
-     .AsNoTracking()
-     .FirstOrDefaultAsync(u => u.UserName == input.UserName, ct);
+      .Users
+      .AsNoTracking()
+      .FirstOrDefaultAsync(u => u.UserName == input.UserName, ct);
 
     if (user == null)
     {

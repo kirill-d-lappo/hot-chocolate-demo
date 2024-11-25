@@ -8,33 +8,35 @@ public static class GqlRegistrationExtensions
   public static IServiceCollection AddGqlServices(this IServiceCollection services)
   {
     services
-     .AddGraphQLServer()
-     .AddApolloFederation(GqlFederationVersion.Federation27) // HotChocolate package
+
+      // Note [2024-11-25 klappo] costs calculation is disabled for a while
+      .AddGraphQLServer(disableDefaultSecurity: true)
+      .AddApolloFederation(GqlFederationVersion.Federation27) // HotChocolate package
       // .AddApolloFederationV2(ApolloFederationVersion.FEDERATION_25) // Apollo package
-     .ModifyOptions(
+      .ModifyOptions(
         o =>
         {
           o.SortFieldsByName = true;
         }
       )
-     .AddQueryType()
-     .AddQueryConventions()
-     .AddMutationType()
-     .AddMutationConventions()
-     .AddPagingArguments()
-     .ModifyRequestOptions(
+      .AddQueryType()
+      .AddQueryConventions()
+      .AddMutationType()
+      .AddMutationConventions()
+      .AddPagingArguments()
+      .ModifyRequestOptions(
         o =>
         {
           o.IncludeExceptionDetails = true;
         }
       )
-     .ModifyPagingOptions(
+      .ModifyPagingOptions(
         o =>
         {
           o.IncludeNodesField = true;
         }
       )
-     .AddFiltering(
+      .AddFiltering(
         c =>
         {
           c.AddDefaults();
@@ -42,11 +44,11 @@ public static class GqlRegistrationExtensions
           c.BindRuntimeType<bool, EnrichedThisBooleanFilterInputType>();
         }
       )
-     .AddSorting()
-     .AddProjections()
-     .RegisterDbContextFactory<HCDemoDbContext>()
-     .AddDbContextCursorPagingProvider()
-     .AddHCDemoTypes();
+      .AddSorting()
+      .AddProjections()
+      .RegisterDbContextFactory<HCDemoDbContext>()
+      .AddDbContextCursorPagingProvider()
+      .AddHCDemoTypes();
 
     return services;
   }
