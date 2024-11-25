@@ -3,6 +3,7 @@
     <PackageReference Include="ApolloGraphQL.HotChocolate.Federation" />
     <PackageReference Include="HotChocolate.ApolloFederation" />
     <PackageReference Include="HotChocolate.Data" />
+    <PackageReference Include="HotChocolate.Pagination.EntityFramework" />
     <PackageReference Include="HotChocolate.Types.Analyzers">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

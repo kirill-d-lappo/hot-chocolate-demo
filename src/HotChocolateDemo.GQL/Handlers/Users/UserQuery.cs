@@ -1,7 +1,12 @@
 using FluentValidation;
+using HotChocolate.Execution.Processing;
+using HotChocolate.Pagination;
+using HotChocolate.Types.Pagination;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
+using HotChocolateDemo.Services.Business;
 using HotChocolateDemo.Services.Common.Validations;
+using HotChocolateDemo.Services.Users;
 using HotChocolateDemo.Services.Users.Errors;
 using Microsoft.EntityFrameworkCore;
 using ValidationException = HotChocolateDemo.Services.Common.Validations.ValidationException;
@@ -15,12 +20,16 @@ public static class UserQuery
   [UseProjection]
   [UseFiltering]
   [UseSorting]
-  public static IQueryable<UserEntity> AllUsers(HCDemoDbContext dbContext)
+  public static Task<Connection<UserEntity>> AllUsers(
+    PagingArguments pagingArgs,
+    ISelection selection,
+    UserService oldUserService,
+    CancellationToken ct
+  )
   {
-    return dbContext
-     .Users
-     .AsNoTracking()
-     .AsSplitQuery();
+    return oldUserService
+     .FindAllUsers(pagingArgs, selection.AsSelector<UserEntity>(), ct)
+     .ToConnectionAsync();
   }
 
   [Error<UserNotFoundException>]

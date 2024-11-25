@@ -16,7 +16,7 @@ public class UserMutation
   [Error<ValidationException>]
   public async Task<IQueryable<UserEntity>> CreateUserAsync(
     CreateUserInput input,
-    IUserService userService,
+    IOldUserService oldUserService,
     HCDemoDbContext dbContext,
     CancellationToken ct
   )
@@ -27,7 +27,7 @@ public class UserMutation
       BirthDateTime = input.BirthDateTime,
     };
 
-    var userId = await userService.CreateUserAsync(createParams, ct);
+    var userId = await oldUserService.CreateUserAsync(createParams, ct);
 
     return dbContext
      .Users

@@ -8,6 +8,7 @@ public static class HCDemoDbRegistrationExtensions
   public static void AddHCDemoPersistence(this IServiceCollection services)
   {
     services.AddPooledDbContextFactory<HCDemoDbContext>(ConfigureDbContext);
+    services.AddDbContextPool<HCDemoDbContext>(ConfigureDbContext);
   }
 
   private static void ConfigureDbContext(IServiceProvider serviceProvider, DbContextOptionsBuilder options)

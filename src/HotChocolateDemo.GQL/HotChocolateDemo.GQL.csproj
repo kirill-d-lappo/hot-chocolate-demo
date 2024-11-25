@@ -19,7 +19,10 @@
     <PackageReference Include="HotChocolate.Data" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" />
     <PackageReference Include="HotChocolate.Diagnostics" />
-    <PackageReference Include="HotChocolate.Types.Analyzers" />
+    <PackageReference Include="HotChocolate.Types.Analyzers">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="HotChocolate.Types.Sorting" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>

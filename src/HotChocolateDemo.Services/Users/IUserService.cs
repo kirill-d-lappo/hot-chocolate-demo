@@ -1,8 +1,14 @@
-namespace HotChocolateDemo.Services.Users;
+using System.Linq.Expressions;
+using HotChocolate.Pagination;
+using HotChocolateDemo.Persistence.Models;
+
+namespace HotChocolateDemo.Services.Business;
 
 public interface IUserService
 {
-  Task<User> FindUserByUserNameAsync(string userName, CancellationToken ct);
-
-  Task<long> CreateUserAsync(CreateUserParameters parameters, CancellationToken ct);
+  Task<Page<UserEntity>> FindAllUsers(
+    PagingArguments pageArgs,
+    Expression<Func<UserEntity, UserEntity>> projection = default,
+    CancellationToken ct = default
+  );
 }
