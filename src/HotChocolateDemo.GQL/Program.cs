@@ -11,6 +11,7 @@ builder.Services.AddHCDemoPersistence();
 builder.Services.AddHCDemoServices();
 
 builder.Services.AddGqlServices();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
@@ -21,6 +22,8 @@ builder.Host.UseSerilog(
     config.WriteTo.Console(theme: AnsiConsoleTheme.Sixteen);
   }
 );
+
+builder.AddOtelServices();
 
 var app = builder.Build();
 
@@ -38,6 +41,8 @@ return await app.RunWithConsoleCancellationAsync(
       args,
       async (app, args, ct) =>
       {
+        app.MapHealthChecks("/healthz");
+        app.MapPrometheusScrapingEndpoint();
         app.MapGraphQL();
         app.MapGet(
           "/",

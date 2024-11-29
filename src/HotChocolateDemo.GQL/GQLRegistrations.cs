@@ -3,7 +3,7 @@ using HotChocolateDemo.Persistence;
 
 namespace HotChocolateDemo.GQL;
 
-public static class GqlRegistrationExtensions
+public static class GQLRegistrations
 {
   public static IServiceCollection AddGqlServices(this IServiceCollection services)
   {
@@ -49,6 +49,7 @@ public static class GqlRegistrationExtensions
       .AddProjections()
       .RegisterDbContextFactory<HCDemoDbContext>()
       .AddDbContextCursorPagingProvider()
+      .AddInstrumentation()
       .AddHCDemoTypes();
 
     return services;
