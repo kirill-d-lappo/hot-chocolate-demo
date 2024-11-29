@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="UpdateGraphqlSchemaTarget" AfterTargets="PostBuildEvent" Condition="$(GQLUpdateSchema) != false">
+    <PropertyGroup>
+      <GQLGenBinaryExtension Condition=" '$(OS)' == 'Windows_NT' ">.exe</GQLGenBinaryExtension>
+      <GQLGenBinaryPath Condition=" '$(GQLGenBinaryPath)' == '' ">$(OutputPath)$(AssemblyName)$(GQLGenBinaryExtension)</GQLGenBinaryPath>
+      <GQLGenCommand Condition=" '$(GQLGenCommand)' == '' ">"$(GQLGenBinaryPath)" schema export --output "$(GQLGenSchemaPath)"</GQLGenCommand>
+    </PropertyGroup>
+
+    <Message Text="Publishing GraphQL Schema to '$(GQLGenSchemaPath)'" Importance="high" />
+    <Exec IgnoreExitCode="true" ConsoleToMSBuild="true" Command="$(GQLGenCommand)">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GQLGenOutput" />
+      <Output TaskParameter="ExitCode" PropertyName="GQLGenExitCode" />
+    </Exec>
+
+    <!-- Note [2024-10-01 klappo] weak check-->
+    <!-- Note [2024-10-01 klappo] RunWithGraphQLCommandsAsync from HotChocolate returns 0 exit code even when exception -->
+    <PropertyGroup>
+      <GQLGenHasError Condition="$(GQLGenOutput.Contains('exception'))">true</GQLGenHasError>
+    </PropertyGroup>
+
+    <Message Text="GQLGEN: GQLGenExitCode: $(GQLGenExitCode)" Importance="normal" />
+    <Message Text="GQLGEN: GQLGenHasError: $(GQLGenHasError)" Importance="normal" />
+
+    <Error Text="Error at generating GraphQL schema, check build logs" Code="$(GQLGenHasError)" Condition=" '$(GQLGenHasError)' != '' " />
+  </Target>
+</Project>

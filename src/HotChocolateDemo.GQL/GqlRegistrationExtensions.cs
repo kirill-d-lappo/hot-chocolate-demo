@@ -13,6 +13,7 @@ public static class GqlRegistrationExtensions
       .AddGraphQLServer(disableDefaultSecurity: true)
       .AddApolloFederation(GqlFederationVersion.Federation27) // HotChocolate package
       // .AddApolloFederationV2(ApolloFederationVersion.FEDERATION_25) // Apollo package
+      .AddErrorLogging()
       .ModifyOptions(
         o =>
         {
