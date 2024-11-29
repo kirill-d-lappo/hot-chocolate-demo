@@ -3,6 +3,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
     <!--    <PublishAot>true</PublishAot>-->
     <!--    <StaticallyLinked>true</StaticallyLinked>-->
 

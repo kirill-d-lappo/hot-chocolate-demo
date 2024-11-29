@@ -4,7 +4,7 @@ using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotChocolateDemo.GQL.Handlers.Users;
+namespace HotChocolateDemo.GQL.Handlers.Users.Queries;
 
 internal static class UserDataLoader
 {
@@ -20,12 +20,12 @@ internal static class UserDataLoader
     await using var context = await contextFactory.CreateDbContextAsync(ct);
 
     return await context
-     .Users
-     .AsNoTracking()
-     .Select(b => b.Id, selectorBuilder)
-     .Where(r => ids.Contains(r.Id))
-     .OrderBy(r => r.Id)
-     .ToBatchPageAsync(t => t.Id, pagingArguments, ct);
+      .Users
+      .AsNoTracking()
+      .Select(b => b.Id, selectorBuilder)
+      .Where(r => ids.Contains(r.Id))
+      .OrderBy(r => r.Id)
+      .ToBatchPageAsync(t => t.Id, pagingArguments, ct);
   }
 
   public static long CreateUserByIdLookup(UserEntity user)
@@ -45,12 +45,12 @@ internal static class UserDataLoader
     await using var context = await contextFactory.CreateDbContextAsync(ct);
 
     return await context
-     .Users
-     .AsNoTracking()
-     .Select(b => b.Id, selectorBuilder)
-     .Where(r => usernames.Contains(r.UserName))
-     .OrderBy(r => r.Id)
-     .ToBatchPageAsync(t => t.UserName, pagingArguments, ct);
+      .Users
+      .AsNoTracking()
+      .Select(b => b.Id, selectorBuilder)
+      .Where(r => usernames.Contains(r.UserName))
+      .OrderBy(r => r.Id)
+      .ToBatchPageAsync(t => t.UserName, pagingArguments, ct);
   }
 
   public static string CreateUserByUserNameLookup(UserEntity user)

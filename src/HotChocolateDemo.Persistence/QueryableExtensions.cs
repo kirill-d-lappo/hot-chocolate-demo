@@ -1,4 +1,5 @@
-﻿using HotChocolate.Data.Filters;
+﻿using System.Linq.Expressions;
+using HotChocolate.Data.Filters;
 using HotChocolate.Execution.Processing;
 
 namespace HotChocolateDemo.Persistence;
@@ -6,6 +7,16 @@ namespace HotChocolateDemo.Persistence;
 public static class QueryableExtensions
 {
   public static IQueryable<T> SelectNotNull<T>(this IQueryable<T> queryable, ISelection selection)
+  {
+    if (selection == null)
+    {
+      return queryable;
+    }
+
+    return queryable.Select(selection);
+  }
+
+  public static IQueryable<T> SelectNotNull<T>(this IQueryable<T> queryable, Expression<Func<T, T>> selection)
   {
     if (selection == null)
     {

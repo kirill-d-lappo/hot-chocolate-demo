@@ -1,4 +1,5 @@
 using FluentValidation;
+using HotChocolateDemo.Services.Roles;
 using HotChocolateDemo.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,10 @@ public static class ServicesRegistrationExtensions
     services.AddValidatorsFromAssemblyContaining(typeof(ServicesRegistrationExtensions));
 
     services.AddScoped<IOldUserService, OldUserService>();
-    services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IUserProviderService, UserProviderService>();
+    services.AddScoped<IUserCreationService, UserCreationService>();
+
+    services.AddScoped<IRoleProviderService, RoleProviderService>();
 
     return services;
   }

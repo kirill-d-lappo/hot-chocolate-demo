@@ -29,6 +29,11 @@ public class HCDemoDbContext : DbContext
 
     modelBuilder
       .Entity<UserEntity>()
+      .HasIndex(u => u.UserName)
+      .IsUnique();
+
+    modelBuilder
+      .Entity<UserEntity>()
       .HasMany(e => e.Roles)
       .WithMany(e => e.Users)
       .UsingEntity<UserRoleEntity>();

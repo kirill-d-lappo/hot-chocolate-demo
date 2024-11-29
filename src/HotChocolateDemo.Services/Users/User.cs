@@ -8,7 +8,7 @@ public class User
 
   public string UserName { get; set; }
 
-  public DateTimeOffset BirthDateTime { get; set; }
+  public DateTimeOffset? BirthDateTime { get; set; }
 
   public UserActivityLevel ActivityLevel { get; set; }
 }

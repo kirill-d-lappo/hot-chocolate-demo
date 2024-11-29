@@ -1,4 +1,4 @@
-﻿schema @link(import: [ "@key", "@tag", "@shareable", "FieldSet" ], url: "https:\/\/specs.apollo.dev\/federation\/v2.7") {
+﻿schema @link(import: [ "@shareable", "@tag", "FieldSet" ], url: "https:\/\/specs.apollo.dev\/federation\/v2.7") {
   query: Query
   mutation: Mutation
 }
@@ -8,83 +8,11 @@ interface Error {
 }
 
 "A connection to a list of items."
-type AllBoolValuesConnection {
-  "A list of edges."
-  edges: [AllBoolValuesEdge!]
-  "A flattened list of the nodes."
-  nodes: [Boolean]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type AllBoolValuesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Boolean
-}
-
-"A connection to a list of items."
-type AllRolesConnection {
-  "A list of edges."
-  edges: [AllRolesEdge!]
-  "A flattened list of the nodes."
-  nodes: [RoleEntity]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type AllRolesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: RoleEntity
-}
-
-"A connection to a list of items."
-type AllStringValuesConnection {
-  "A list of edges."
-  edges: [AllStringValuesEdge!]
-  "A flattened list of the nodes."
-  nodes: [String]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type AllStringValuesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: String
-}
-
-"A connection to a list of items."
-type AllUserRolesConnection {
-  "A list of edges."
-  edges: [AllUserRolesEdge!]
-  "A flattened list of the nodes."
-  nodes: [UserRoleEntity]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type AllUserRolesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: UserRoleEntity
-}
-
-"A connection to a list of items."
 type AllUsersConnection {
   "A list of edges."
   edges: [AllUsersEdge!]
   "A flattened list of the nodes."
-  nodes: [UserEntity]
+  nodes: [User]
   "Information to aid in pagination."
   pageInfo: PageInfo!
 }
@@ -94,12 +22,12 @@ type AllUsersEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: UserEntity
+  node: User
 }
 
 type CreateUserPayload {
   errors: [CreateUserError!]
-  userEntity: UserEntity
+  userId: Long
 }
 
 type KeyValuePairOfStringAndObject {
@@ -127,63 +55,48 @@ type PageInfo {
   startCursor: String @shareable
 }
 
-type PermissionEntity @key(fields: "key") @key(fields: "id") {
-  id: Long!
-  key: String
-  rolePermissions: [RolePermissionEntity]
-  roles: [RoleEntity]
-}
-
 type Query {
-  _entities(representations: [_Any!]!): [_Entity]!
   _service: _Service!
-  allBoolValues("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int where: BooleanInputType): AllBoolValuesConnection
-  allRoles("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [RoleEntitySortInput!] where: RoleEntityFilterInput): AllRolesConnection
-  allStringValues("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int where: StringInputType): AllStringValuesConnection
-  allUserRoles("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserRoleEntitySortInput!] where: UserRoleEntityFilterInput): AllUserRolesConnection
-  allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserEntitySortInput!] where: UserEntityFilterInput): AllUsersConnection
-  roleByIdViaDataLoader(roleId: Long!): RoleEntity
-  userByUserName(input: UserByUserNameInput!): UserByUserNameResult!
+  "Searches for all users in the system."
+  allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserSortInput!] where: UserFilterInput): AllUsersConnection
+  "Searches for user by its id."
+  userById(input: UserByIdInput): User
 }
 
-type RoleEntity @key(fields: "id") @key(fields: "id") {
+type Role {
   id: Long!
   name: String
-  permissions: [PermissionEntity]
-  rolePermissions: [RolePermissionEntity]
-  userRoles: [UserRoleEntity]
-  users: [UserEntity]
 }
 
-type RolePermissionEntity @key(fields: "roleId permissionId") {
-  permission: PermissionEntity
-  permissionId: Long!
-  role: RoleEntity
-  roleId: Long!
+"A connection to a list of items."
+type RolesConnection {
+  "A list of edges."
+  edges: [RolesEdge!]
+  "A flattened list of the nodes."
+  nodes: [Role]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type RolesEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Role
+}
+
+type User {
+  activityLevel: UserActivityLevel!
+  birthDateTime: DateTime
+  id: Long!
+  "Roles that were assigned to a user."
+  roles("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): RolesConnection
+  userName: String
 }
 
 type UserAlreadyExistsError implements Error {
   message: String!
-}
-
-type UserEntity @key(fields: "id") @key(fields: "id") {
-  activityLevel: UserActivityLevel!
-  birthDate: DateTime
-  id: Long!
-  roles: [RoleEntity]
-  userName: String
-  userRoles: [UserRoleEntity]
-}
-
-type UserNotFoundError implements Error {
-  message: String!
-}
-
-type UserRoleEntity @key(fields: "userId roleId") {
-  role: RoleEntity
-  roleId: Long!
-  user: UserEntity
-  userId: Long!
 }
 
 type ValidationError implements Error {
@@ -213,11 +126,6 @@ type _Service {
 
 union CreateUserError = UserAlreadyExistsError | ValidationError
 
-union UserByUserNameResult = UserEntity | UserNotFoundError | ValidationError
-
-"Union of all types that key directive applied. This information is needed by the Apollo federation gateway."
-union _Entity = UserRoleEntity | UserEntity | RoleEntity | RolePermissionEntity | PermissionEntity
-
 input BooleanInputType {
   and: [BooleanInputType!]
   or: [BooleanInputType!]
@@ -231,7 +139,7 @@ input BooleanOperationFilterInput {
 
 input CreateUserInput {
   birthDateTime: DateTime!
-  userName: String
+  userName: String!
 }
 
 input DateTimeOperationFilterInput {
@@ -264,41 +172,6 @@ input IntOperationFilterInput {
   nlte: Int
 }
 
-input ListFilterInputTypeOfPermissionEntityFilterInput {
-  all: PermissionEntityFilterInput
-  none: PermissionEntityFilterInput
-  some: PermissionEntityFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfRoleEntityFilterInput {
-  all: RoleEntityFilterInput
-  none: RoleEntityFilterInput
-  some: RoleEntityFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfRolePermissionEntityFilterInput {
-  all: RolePermissionEntityFilterInput
-  none: RolePermissionEntityFilterInput
-  some: RolePermissionEntityFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfUserEntityFilterInput {
-  all: UserEntityFilterInput
-  none: UserEntityFilterInput
-  some: UserEntityFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfUserRoleEntityFilterInput {
-  all: UserRoleEntityFilterInput
-  none: UserRoleEntityFilterInput
-  some: UserRoleEntityFilterInput
-  any: Boolean
-}
-
 input LongOperationFilterInput {
   eq: Long
   neq: Long
@@ -312,40 +185,6 @@ input LongOperationFilterInput {
   nlt: Long
   lte: Long
   nlte: Long
-}
-
-input PermissionEntityFilterInput {
-  and: [PermissionEntityFilterInput!]
-  or: [PermissionEntityFilterInput!]
-  id: LongOperationFilterInput
-  key: StringInputType
-  roles: ListFilterInputTypeOfRoleEntityFilterInput
-  rolePermissions: ListFilterInputTypeOfRolePermissionEntityFilterInput
-}
-
-input RoleEntityFilterInput {
-  and: [RoleEntityFilterInput!]
-  or: [RoleEntityFilterInput!]
-  id: LongOperationFilterInput
-  name: StringInputType
-  users: ListFilterInputTypeOfUserEntityFilterInput
-  permissions: ListFilterInputTypeOfPermissionEntityFilterInput
-  userRoles: ListFilterInputTypeOfUserRoleEntityFilterInput
-  rolePermissions: ListFilterInputTypeOfRolePermissionEntityFilterInput
-}
-
-input RoleEntitySortInput {
-  id: SortEnumType
-  name: SortEnumType
-}
-
-input RolePermissionEntityFilterInput {
-  and: [RolePermissionEntityFilterInput!]
-  or: [RolePermissionEntityFilterInput!]
-  roleId: LongOperationFilterInput
-  permissionId: LongOperationFilterInput
-  role: RoleEntityFilterInput
-  permission: PermissionEntityFilterInput
 }
 
 input StringInputType {
@@ -377,42 +216,24 @@ input UserActivityLevelOperationFilterInput {
   nin: [UserActivityLevel!]
 }
 
-input UserByUserNameInput {
-  userName: String!
+input UserByIdInput {
+  id: Long!
 }
 
-input UserEntityFilterInput {
-  and: [UserEntityFilterInput!]
-  or: [UserEntityFilterInput!]
+input UserFilterInput {
+  and: [UserFilterInput!]
+  or: [UserFilterInput!]
   id: LongOperationFilterInput
   userName: StringInputType
-  birthDate: DateTimeOperationFilterInput
+  birthDateTime: DateTimeOperationFilterInput
   activityLevel: UserActivityLevelOperationFilterInput
-  roles: ListFilterInputTypeOfRoleEntityFilterInput
-  userRoles: ListFilterInputTypeOfUserRoleEntityFilterInput
 }
 
-input UserEntitySortInput {
+input UserSortInput {
   id: SortEnumType
   userName: SortEnumType
-  birthDate: SortEnumType
+  birthDateTime: SortEnumType
   activityLevel: SortEnumType
-}
-
-input UserRoleEntityFilterInput {
-  and: [UserRoleEntityFilterInput!]
-  or: [UserRoleEntityFilterInput!]
-  userId: LongOperationFilterInput
-  roleId: LongOperationFilterInput
-  user: UserEntityFilterInput
-  role: RoleEntityFilterInput
-}
-
-input UserRoleEntitySortInput {
-  userId: SortEnumType
-  roleId: SortEnumType
-  user: UserEntitySortInput
-  role: RoleEntitySortInput
 }
 
 enum Severity {
@@ -431,9 +252,6 @@ enum UserActivityLevel {
   ADVANCED
   PRO
 }
-
-"Used to indicate a combination of fields that can be used to uniquely identify and fetch an object or interface."
-directive @key(fields: FieldSet! resolvable: Boolean = true) repeatable on OBJECT | INTERFACE
 
 "Links definitions within the document to external schemas."
 directive @link("Gets optional list of imported element names." import: [String!] "Gets imported specification url." url: String!) repeatable on SCHEMA

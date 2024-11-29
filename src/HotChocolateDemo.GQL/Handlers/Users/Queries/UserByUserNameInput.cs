@@ -1,4 +1,4 @@
-namespace HotChocolateDemo.GQL.Handlers.Users;
+namespace HotChocolateDemo.GQL.Handlers.Users.Queries;
 
 public class UserByUserNameInput
 {

@@ -1,16 +1,16 @@
 using System.Linq.Expressions;
 using HotChocolate.Data.Filters;
-using HotChocolate.Execution.Processing;
 using HotChocolate.Pagination;
-using HotChocolateDemo.Persistence.Models;
 
 namespace HotChocolateDemo.Services.Users;
 
-public interface IUserService
+public interface IUserProviderService
 {
-  Task<Page<UserEntity>> FindAllUsers(
+  Task<User> FindUserByIdAsync(long id, CancellationToken ct);
+
+  Task<Page<User>> FindAllUsersAsync(
     PagingArguments pageArgs,
-    ISelection selection = default,
+    Expression<Func<User, User>> selection = default,
     IFilterContext filterContext = default,
     CancellationToken ct = default
   );

@@ -1,6 +1,6 @@
 using GreenDonut.Selectors;
 using HotChocolateDemo.Persistence;
-using HotChocolateDemo.Persistence.Models;
+using HotChocolateDemo.Services.Roles;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.GQL.Handlers.Roles;
@@ -8,7 +8,7 @@ namespace HotChocolateDemo.GQL.Handlers.Roles;
 internal static class RoleDataLoader
 {
   [DataLoader]
-  public static async Task<Dictionary<long, RoleEntity>> GetRoleByIdAsync(
+  public static async Task<Dictionary<long, Role>> GetRoleByIdAsync(
     IReadOnlyList<long> ids,
     ISelectorBuilder selectorBuilder,
     IDbContextFactory<HCDemoDbContext> contextFactory,
@@ -20,8 +20,15 @@ internal static class RoleDataLoader
     return await context
       .Roles
       .AsNoTracking()
-      .Select(r => r.Id, selectorBuilder)
       .Where(r => ids.Contains(r.Id))
+      .Select(
+        r => new Role
+        {
+          Id = r.Id,
+          Name = r.Name,
+        }
+      )
+      .Select(r => r.Id, selectorBuilder)
       .ToDictionaryAsync(b => b.Id, ct);
   }
 }
