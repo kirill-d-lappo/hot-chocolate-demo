@@ -1,45 +1,47 @@
 ﻿using FluentValidation;
+using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
-using HotChocolateDemo.Persistence.Models;
 using HotChocolateDemo.Services.Common.Validations;
-using HotChocolateDemo.Services.Users.Errors;
+using HotChocolateDemo.Services.UserManagement.Users.Errors;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace HotChocolateDemo.Services.Users;
+namespace HotChocolateDemo.Services.UserManagement.Users;
 
 public class UserCreationService : IUserCreationService
 {
-  private readonly HCDemoDbContext _dbContext;
+  private readonly IDbContextFactory<HCDemoDbContext> _dbContextFactory;
   private readonly IValidator<CreateUserParameters> _validator;
   private readonly ILogger<UserCreationService> _logger;
 
   public UserCreationService(
-    HCDemoDbContext dbContext,
+    IDbContextFactory<HCDemoDbContext> dbContextFactory,
     IValidator<CreateUserParameters> validator,
     ILogger<UserCreationService> logger
   )
   {
-    _dbContext = dbContext;
+    _dbContextFactory = dbContextFactory;
     _validator = validator;
     _logger = logger;
   }
 
   public async Task<long> CreateUserAsync(CreateUserParameters parameters, CancellationToken ct)
   {
-    await _validator.ThrowWhenNotValidAsync(parameters, ct);
+    await _validator.ValidateAndThrowAsync(parameters, ct);
 
     var userName = parameters.UserName;
 
-    var user = new UserEntity
+    var user = new User
     {
       UserName = userName,
     };
 
-    await _dbContext.Users.AddAsync(user, ct);
+    await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);
+    await dbContext.Users.AddAsync(user, ct);
 
     try
     {
-      await _dbContext.SaveChangesAsync(ct);
+      await dbContext.SaveChangesAsync(ct);
     }
 
     // FixMe [2024-11-29 klappo] set specific exception type here

@@ -1,4 +1,5 @@
-using HotChocolateDemo.Models;
+using HotChocolateDemo.Models.Orders;
+using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,36 +14,62 @@ public class HCDemoDbContext : DbContext
   {
   }
 
-  public DbSet<UserEntity> Users { get; set; }
+  public DbSet<User> Users { get; set; }
 
-  public DbSet<RoleEntity> Roles { get; set; }
+  public DbSet<Role> Roles { get; set; }
 
-  public DbSet<PermissionEntity> Permissions { get; set; }
+  public DbSet<Permission> Permissions { get; set; }
 
   public DbSet<UserRoleEntity> UserRoles { get; set; }
 
   public DbSet<RolePermissionEntity> RolePermissions { get; set; }
+
+  public DbSet<Food> Foods { get; set; }
+
+  public DbSet<Order> Orders { get; set; }
+
+  public DbSet<FoodOrderItem> FoodOrderItems { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder.HasDefaultSchema(Schema);
 
     modelBuilder
-      .Entity<UserEntity>()
+      .Entity<User>()
       .HasIndex(u => u.UserName)
       .IsUnique();
 
     modelBuilder
-      .Entity<UserEntity>()
+      .Entity<Permission>()
+      .HasIndex(u => u.Key)
+      .IsUnique();
+
+    modelBuilder
+      .Entity<User>()
       .HasMany(e => e.Roles)
       .WithMany(e => e.Users)
       .UsingEntity<UserRoleEntity>();
 
     modelBuilder
-      .Entity<RoleEntity>()
+      .Entity<Role>()
       .HasMany(e => e.Permissions)
       .WithMany(e => e.Roles)
       .UsingEntity<RolePermissionEntity>();
+
+    modelBuilder
+      .Entity<Order>()
+      .HasMany(e => e.Foods)
+      .WithMany(e => e.Orders)
+      .UsingEntity<FoodOrderItem>(
+        l => l
+          .HasOne(vav => vav.Food)
+          .WithMany(n => n.FoodOrderItems)
+          .OnDelete(DeleteBehavior.ClientSetNull),
+        r => r
+          .HasOne(vav => vav.Order)
+          .WithMany(n => n.FoodOrderItems)
+          .OnDelete(DeleteBehavior.Cascade)
+      );
 
     InitData(modelBuilder);
 
@@ -52,33 +79,33 @@ public class HCDemoDbContext : DbContext
   private static void InitData(ModelBuilder modelBuilder)
   {
     modelBuilder
-      .Entity<UserEntity>()
+      .Entity<User>()
       .HasData(
-        new UserEntity
+        new User
         {
           Id = 1,
           UserName = "klappo",
-          BirthDate = DateTimeOffset.UtcNow.AddYears(-20),
+          BirthDateTime = DateTimeOffset.UtcNow.AddYears(-20),
           ActivityLevel = UserActivityLevel.Advanced,
         },
-        new UserEntity
+        new User
         {
           Id = 2,
           UserName = "dmutrov",
-          BirthDate = DateTimeOffset.UtcNow.AddYears(-25),
+          BirthDateTime = DateTimeOffset.UtcNow.AddYears(-25),
           ActivityLevel = UserActivityLevel.Pro,
         }
       );
 
     modelBuilder
-      .Entity<RoleEntity>()
+      .Entity<Role>()
       .HasData(
-        new RoleEntity
+        new Role
         {
           Id = 1,
           Name = "admin",
         },
-        new RoleEntity
+        new Role
         {
           Id = 2,
           Name = "driver",
@@ -106,24 +133,24 @@ public class HCDemoDbContext : DbContext
       );
 
     modelBuilder
-      .Entity<PermissionEntity>()
+      .Entity<Permission>()
       .HasData(
-        new PermissionEntity
+        new Permission
         {
           Id = 1,
           Key = "create:user",
         },
-        new PermissionEntity
+        new Permission
         {
           Id = 2,
           Key = "update:user",
         },
-        new PermissionEntity
+        new Permission
         {
           Id = 3,
           Key = "delete:user",
         },
-        new PermissionEntity
+        new Permission
         {
           Id = 4,
           Key = "delete:user",

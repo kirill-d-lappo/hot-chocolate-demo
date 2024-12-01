@@ -5,6 +5,8 @@ using FluentValidation.Results;
 
 namespace HotChocolateDemo.Services.Common.Validations;
 
+// FixMe [2024-12-01 klappo] need to test ValidateAndThrowAsync from the package
+
 /// <summary>
 /// Helper methods to run on validation rule
 /// </summary>

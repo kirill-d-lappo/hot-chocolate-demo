@@ -1,4 +1,4 @@
-namespace HotChocolateDemo.Services.Users;
+namespace HotChocolateDemo.Services.UserManagement.Users;
 
 public interface IUserCreationService
 {

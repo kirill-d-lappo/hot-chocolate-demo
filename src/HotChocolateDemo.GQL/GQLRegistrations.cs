@@ -11,8 +11,9 @@ public static class GQLRegistrations
 
       // Note [2024-11-25 klappo] costs calculation is disabled for a while
       .AddGraphQLServer(disableDefaultSecurity: true)
-      .AddApolloFederation(GqlFederationVersion.Federation27) // HotChocolate package
-      // .AddApolloFederationV2(ApolloFederationVersion.FEDERATION_25) // Apollo package
+      .AddQueryConventions()
+      .AddMutationConventions()
+      .AddApolloFederation(GqlFederationVersion.Federation27)
       .AddErrorLogging()
       .ModifyOptions(
         o =>
@@ -50,7 +51,8 @@ public static class GQLRegistrations
       .RegisterDbContextFactory<HCDemoDbContext>()
       .AddDbContextCursorPagingProvider()
       .AddInstrumentation()
-      .AddHCDemoTypes();
+      .AddHCDemoTypes()
+      .AddHCDemoServiceTypes();
 
     return services;
   }

@@ -1,3 +1,4 @@
+global using GreenDonut;
 global using HotChocolate.Data;
 global using HotChocolate.Types;
 global using KeyAttribute = System.ComponentModel.DataAnnotations.KeyAttribute;

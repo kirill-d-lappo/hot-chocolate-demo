@@ -1,4 +1,4 @@
-namespace HotChocolateDemo.Services.Users.Errors;
+namespace HotChocolateDemo.Services.UserManagement.Users.Errors;
 
 public class UserNotFoundException : Exception
 {
@@ -15,5 +15,4 @@ public class UserNotFoundException : Exception
     : base(message, innerException)
   {
   }
-
 }

@@ -1,6 +1,4 @@
-using System.Runtime.Serialization;
-
-namespace HotChocolateDemo.Services.Users.Errors;
+namespace HotChocolateDemo.Services.UserManagement.Users.Errors;
 
 public class UserAlreadyExistsException : Exception
 {

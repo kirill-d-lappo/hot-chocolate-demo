@@ -1,6 +1,6 @@
 using HotChocolateDemo.Services.Common.Validations;
-using HotChocolateDemo.Services.Users;
-using HotChocolateDemo.Services.Users.Errors;
+using HotChocolateDemo.Services.UserManagement.Users;
+using HotChocolateDemo.Services.UserManagement.Users.Errors;
 
 namespace HotChocolateDemo.GQL.Handlers.Users.CreateUsers;
 

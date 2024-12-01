@@ -1,4 +1,4 @@
-﻿namespace HotChocolateDemo.Models;
+﻿namespace HotChocolateDemo.Models.UserManagement;
 
 [Flags]
 public enum UserActivityLevel : short

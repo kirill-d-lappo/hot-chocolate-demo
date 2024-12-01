@@ -6,7 +6,7 @@ namespace HotChocolateDemo.Persistence;
 
 public static class QueryableExtensions
 {
-  public static IQueryable<T> SelectNotNull<T>(this IQueryable<T> queryable, ISelection selection)
+  public static IQueryable<T> WithSelection<T>(this IQueryable<T> queryable, ISelection selection)
   {
     if (selection == null)
     {
@@ -16,17 +16,17 @@ public static class QueryableExtensions
     return queryable.Select(selection);
   }
 
-  public static IQueryable<T> SelectNotNull<T>(this IQueryable<T> queryable, Expression<Func<T, T>> selection)
+  public static IQueryable<T> WithSelection<T>(this IQueryable<T> queryable, Expression<Func<T, T>> selector)
   {
-    if (selection == null)
+    if (selector == null)
     {
       return queryable;
     }
 
-    return queryable.Select(selection);
+    return queryable.Select(selector);
   }
 
-  public static IQueryable<T> WhereNotNull<T>(this IQueryable<T> queryable, IFilterContext filterContext)
+  public static IQueryable<T> WithFilter<T>(this IQueryable<T> queryable, IFilterContext filterContext)
   {
     if (filterContext == null)
     {

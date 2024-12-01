@@ -1,7 +1,9 @@
-using HotChocolate.Data.Filters;
+using GreenDonut.Selectors;
+using HotChocolate.Execution.Processing;
 using HotChocolate.Pagination;
 using HotChocolate.Types.Pagination;
-using HotChocolateDemo.Services.Users;
+using HotChocolateDemo.Models.UserManagement;
+using HotChocolateDemo.Services.UserManagement.Users;
 
 namespace HotChocolateDemo.GQL.Handlers.Users.Queries;
 
@@ -12,18 +14,15 @@ public static class UserQuery
   /// Searches for all users in the system.
   /// </summary>
   [UsePaging]
-  [UseProjection]
-  [UseFiltering]
-  [UseSorting]
   public static Task<Connection<User>> AllUsers(
     PagingArguments pagingArgs,
-    IFilterContext filterContext,
+    ISelection selection,
     IUserProviderService userService,
     CancellationToken ct
   )
   {
     return userService
-      .FindAllUsersAsync(pagingArgs, null, filterContext, ct)
+      .FindAllUsersAsync(pagingArgs, selection.AsSelector<User>(), ct)
       .ToConnectionAsync();
   }
 
@@ -31,8 +30,28 @@ public static class UserQuery
   /// Searches for user by its id.
   /// </summary>
   [UseProjection]
-  public static Task<User> UserById(UserByIdInput input, IUserProviderService userService, CancellationToken ct)
+  public static Task<User> UserById(
+    UserByIdInput input,
+    ISelection selection,
+    IFindUserByIdDataLoader userService,
+    CancellationToken ct
+  )
   {
-    return userService.FindUserByIdAsync(input.Id, ct);
+    return userService
+      .Select(selection)
+      .LoadAsync(input.Id, ct);
+  }
+
+  [UseProjection]
+  public static async Task<IEnumerable<User>> AllUsersByActivityLevel(
+    UserActivityLevel level,
+    ISelection selection,
+    IUserByActivityLevelDataLoader userService,
+    CancellationToken ct
+  )
+  {
+    return await userService
+      .Select(selection)
+      .LoadAsync(level, ct);
   }
 }

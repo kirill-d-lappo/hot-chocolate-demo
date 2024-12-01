@@ -55,43 +55,33 @@ type PageInfo {
   startCursor: String @shareable
 }
 
+type Permission {
+  id: ID!
+  key: String
+  roles: [Role]
+}
+
 type Query {
   _service: _Service!
   "Searches for all users in the system."
-  allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserSortInput!] where: UserFilterInput): AllUsersConnection
+  allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): AllUsersConnection
+  allUsersByActivityLevel(level: UserActivityLevel!): [User]
   "Searches for user by its id."
   userById(input: UserByIdInput): User
 }
 
 type Role {
-  id: Long!
+  id: ID!
   name: String
-}
-
-"A connection to a list of items."
-type RolesConnection {
-  "A list of edges."
-  edges: [RolesEdge!]
-  "A flattened list of the nodes."
-  nodes: [Role]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-}
-
-"An edge in a connection."
-type RolesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Role
+  permissions: [Permission]
+  users: [User]
 }
 
 type User {
   activityLevel: UserActivityLevel!
   birthDateTime: DateTime
-  id: Long!
-  "Roles that were assigned to a user."
-  roles("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): RolesConnection
+  id: ID!
+  roles: [Role]
   userName: String
 }
 
@@ -142,21 +132,6 @@ input CreateUserInput {
   userName: String!
 }
 
-input DateTimeOperationFilterInput {
-  eq: DateTime
-  neq: DateTime
-  in: [DateTime]
-  nin: [DateTime]
-  gt: DateTime
-  ngt: DateTime
-  gte: DateTime
-  ngte: DateTime
-  lt: DateTime
-  nlt: DateTime
-  lte: DateTime
-  nlte: DateTime
-}
-
 input IntOperationFilterInput {
   eq: Int
   neq: Int
@@ -170,21 +145,6 @@ input IntOperationFilterInput {
   nlt: Int
   lte: Int
   nlte: Int
-}
-
-input LongOperationFilterInput {
-  eq: Long
-  neq: Long
-  in: [Long]
-  nin: [Long]
-  gt: Long
-  ngt: Long
-  gte: Long
-  ngte: Long
-  lt: Long
-  nlt: Long
-  lte: Long
-  nlte: Long
 }
 
 input StringInputType {
@@ -209,42 +169,14 @@ input StringOperationFilterInput {
   nendsWith: String
 }
 
-input UserActivityLevelOperationFilterInput {
-  eq: UserActivityLevel
-  neq: UserActivityLevel
-  in: [UserActivityLevel!]
-  nin: [UserActivityLevel!]
-}
-
 input UserByIdInput {
   id: Long!
-}
-
-input UserFilterInput {
-  and: [UserFilterInput!]
-  or: [UserFilterInput!]
-  id: LongOperationFilterInput
-  userName: StringInputType
-  birthDateTime: DateTimeOperationFilterInput
-  activityLevel: UserActivityLevelOperationFilterInput
-}
-
-input UserSortInput {
-  id: SortEnumType
-  userName: SortEnumType
-  birthDateTime: SortEnumType
-  activityLevel: SortEnumType
 }
 
 enum Severity {
   ERROR
   WARNING
   INFO
-}
-
-enum SortEnumType {
-  ASC
-  DESC
 }
 
 enum UserActivityLevel {

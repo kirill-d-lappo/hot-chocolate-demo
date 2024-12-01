@@ -13,7 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ApolloGraphQL.HotChocolate.Federation" />
     <PackageReference Include="FluentValidation" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="HotChocolate.ApolloFederation" />
@@ -44,6 +43,10 @@
   <ItemGroup>
     <ProjectReference Include="..\HotChocolateDemo.Services\HotChocolateDemo.Services.csproj" />
     <ProjectReference Include="..\HotChocolateDemo.Persistence\HotChocolateDemo.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers\Roles\" />
   </ItemGroup>
 
   <Import Project="../../HotChocolateDemo.SchemaGen.props" />
