@@ -6,13 +6,11 @@ public class UserNotFoundException : Exception
   {
   }
 
-  public UserNotFoundException(string message)
-    : base(message)
+  public UserNotFoundException(long userId, Exception innerException = null)
+    : base($"User {userId} was not found", innerException)
   {
+    UserId = userId;
   }
 
-  public UserNotFoundException(string message, Exception innerException)
-    : base(message, innerException)
-  {
-  }
+  public long UserId { get; set; }
 }

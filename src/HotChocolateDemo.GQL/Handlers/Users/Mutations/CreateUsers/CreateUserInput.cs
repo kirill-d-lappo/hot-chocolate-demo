@@ -1,9 +1,10 @@
 using HotChocolateDemo.Models.UserManagement;
 
-namespace HotChocolateDemo.Services.UserManagement.Users;
+namespace HotChocolateDemo.GQL.Handlers.Users.Mutations.CreateUsers;
 
-public class CreateUserParameters
+public class CreateUserInput
 {
+  [GraphQLNonNullType]
   public string UserName { get; set; }
 
   public DateTimeOffset? BirthDateTime { get; set; }

@@ -11,8 +11,6 @@ public static class GQLRegistrations
 
       // Note [2024-11-25 klappo] costs calculation is disabled for a while
       .AddGraphQLServer(disableDefaultSecurity: true)
-      .AddQueryConventions()
-      .AddMutationConventions()
       .AddApolloFederation(GqlFederationVersion.Federation27)
       .AddErrorLogging()
       .ModifyOptions(
@@ -25,6 +23,8 @@ public static class GQLRegistrations
       .AddQueryConventions()
       .AddMutationType()
       .AddMutationConventions()
+      .AddGlobalObjectIdentification()                    // adds "node" query and support for ID type
+      .AddDefaultNodeIdSerializer(useUrlSafeBase64: true) // and support for ID type
       .AddPagingArguments()
       .ModifyRequestOptions(
         o =>

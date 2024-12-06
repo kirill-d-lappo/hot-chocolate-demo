@@ -17,10 +17,12 @@ internal static class SqlServerConfigurations
       connectionString = $"name={ConnectionName}";
     }
 
-    return optionsBuilder.UseSqlServer(connectionString, ConfigureAdministrationDbContext);
+    return optionsBuilder
+      .UseSqlServer(connectionString, ConfigureSqlServer)
+      .UseInitData();
   }
 
-  private static void ConfigureAdministrationDbContext(SqlServerDbContextOptionsBuilder b)
+  private static void ConfigureSqlServer(SqlServerDbContextOptionsBuilder b)
   {
     b.MigrationsHistoryTable("__EFMigrationsHistory", HCDemoDbContext.Schema);
   }

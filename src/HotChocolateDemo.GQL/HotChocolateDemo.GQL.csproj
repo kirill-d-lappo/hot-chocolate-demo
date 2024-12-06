@@ -45,10 +45,6 @@
     <ProjectReference Include="..\HotChocolateDemo.Persistence\HotChocolateDemo.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\Roles\" />
-  </ItemGroup>
-
   <Import Project="../../HotChocolateDemo.SchemaGen.props" />
   <Import Project="../../HotChocolateDemo.SchemaGen.targets" />
 

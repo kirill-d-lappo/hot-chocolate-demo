@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
-using HotChocolateDemo.Services.Common.Validations;
 using HotChocolateDemo.Services.UserManagement.Users.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -34,6 +33,8 @@ public class UserCreationService : IUserCreationService
     var user = new User
     {
       UserName = userName,
+      BirthDateTime = parameters.BirthDateTime,
+      ActivityLevel = parameters.ActivityLevel,
     };
 
     await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);
@@ -43,9 +44,7 @@ public class UserCreationService : IUserCreationService
     {
       await dbContext.SaveChangesAsync(ct);
     }
-
-    // FixMe [2024-11-29 klappo] set specific exception type here
-    catch (Exception e)
+    catch (DbUpdateException e)
     {
       throw new UserAlreadyExistsException(userName, e);
     }

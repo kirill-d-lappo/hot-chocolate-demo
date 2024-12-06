@@ -1,9 +1,9 @@
 ﻿namespace HotChocolateDemo.Models.UserManagement;
 
-[Flags]
 public enum UserActivityLevel : short
 {
-  Basic = 0,
-  Advanced = 1,
-  Pro = 2,
+  Unknown = 0,
+  Basic = 10,
+  Advanced = 20,
+  Pro = 30,
 }

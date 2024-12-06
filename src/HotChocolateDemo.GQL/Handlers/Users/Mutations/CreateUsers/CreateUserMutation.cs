@@ -1,17 +1,19 @@
-using HotChocolateDemo.Services.Common.Validations;
+using FluentValidation;
+using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Services.UserManagement.Users;
 using HotChocolateDemo.Services.UserManagement.Users.Errors;
 
-namespace HotChocolateDemo.GQL.Handlers.Users.CreateUsers;
+namespace HotChocolateDemo.GQL.Handlers.Users.Mutations.CreateUsers;
 
 [MutationType]
 public class CreateUserMutation
 {
   [Error<UserAlreadyExistsException>]
   [Error<ValidationException>]
-  public async Task<CreateUserPayload> CreateUserAsync(
+  public async Task<User> CreateUserAsync(
     CreateUserInput input,
     IUserCreationService userCreationService,
+    IFindUserByIdDataLoader findUserByIdDataLoader,
     CancellationToken ct
   )
   {
@@ -19,15 +21,7 @@ public class CreateUserMutation
 
     var userId = await userCreationService.CreateUserAsync(createParams, ct);
 
-    return ToCreateUserPayload(userId);
-  }
-
-  private static CreateUserPayload ToCreateUserPayload(long userId)
-  {
-    return new CreateUserPayload
-    {
-      UserId = userId,
-    };
+    return await findUserByIdDataLoader.LoadAsync(userId, ct);
   }
 
   private static CreateUserParameters ToCreateUserParams(CreateUserInput input)
@@ -36,6 +30,7 @@ public class CreateUserMutation
     {
       UserName = input.UserName,
       BirthDateTime = input.BirthDateTime,
+      ActivityLevel = input.ActivityLevel,
     };
   }
 }
