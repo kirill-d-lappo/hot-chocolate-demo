@@ -34,4 +34,25 @@ public class UpdateUserMutation
       ActivityLevel = input.ActivityLevel,
     };
   }
+
+  [Error<UserNotFoundException>]
+  public async Task<User> UpdateUserImage(
+    [GraphQLNonNullType] UpdateUserImageInput input,
+    IUserImageUpdateService updateService,
+    IFindUserByIdDataLoader findUserByIdDataLoader,
+    CancellationToken ct
+  )
+  {
+    var userId = input.UserId;
+    var imageFile = input.File;
+    var updateParameters = new UpdateUserImageParameters
+    {
+      UserId = userId,
+      ImageStream = imageFile.OpenReadStream(),
+    };
+
+    await updateService.UpdateUserImageAsync(updateParameters, ct);
+
+    return await findUserByIdDataLoader.LoadAsync(userId, ct);
+  }
 }

@@ -42,6 +42,7 @@ type KeyValuePairOfStringAndObject {
 type Mutation {
   createUser(input: CreateUserInput): CreateUserPayload!
   updateUser(input: UpdateUserInput): UpdateUserPayload!
+  updateUserImage(input: UpdateUserImageInput!): UpdateUserImagePayload!
 }
 
 "Information about pagination in a connection."
@@ -82,6 +83,11 @@ type Role {
   users: [User]
 }
 
+type UpdateUserImagePayload {
+  errors: [UpdateUserImageError!]
+  user: User
+}
+
 type UpdateUserPayload {
   errors: [UpdateUserError!]
   user: User
@@ -91,12 +97,18 @@ type User implements Node {
   activityLevel: UserActivityLevel!
   birthDateTime: DateTime
   id: ID!
+  imageFileName: String
   roles: [Role]
   userName: String
 }
 
 type UserAlreadyExistsError implements Error {
   message: String!
+}
+
+type UserNotFoundError implements Error {
+  message: String!
+  userId: Long!
 }
 
 type ValidationError implements Error {
@@ -119,7 +131,9 @@ type _Service {
 
 union CreateUserError = UserAlreadyExistsError | ValidationError
 
-union UpdateUserError = ValidationError
+union UpdateUserError = UserNotFoundError | ValidationError
+
+union UpdateUserImageError = UserNotFoundError
 
 input BooleanInputType {
   and: [BooleanInputType!]
@@ -175,6 +189,11 @@ input StringOperationFilterInput {
   nendsWith: String
 }
 
+input UpdateUserImageInput {
+  file: Upload!
+  userId: ID!
+}
+
 input UpdateUserInput {
   activityLevel: UserActivityLevel! = BASIC
   birthDateTime: DateTime
@@ -215,6 +234,9 @@ scalar FieldSet
 
 "The `Long` scalar type represents non-fractional signed whole 64-bit numeric values. Long can represent values between -(2^63) and 2^63 - 1."
 scalar Long
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
 
 "The _Any scalar is used to pass representations of entities from external services into the root _entities field for execution. Validation of the _Any scalar is done by matching the __typename and @external fields defined in the schema."
 scalar _Any

@@ -133,6 +133,10 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Property<DateTimeOffset?>("BirthDateTime")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("ImageFileName")
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(450)");
 

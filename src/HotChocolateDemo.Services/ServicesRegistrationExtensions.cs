@@ -14,6 +14,8 @@ public static class ServicesRegistrationExtensions
     services.AddScoped<IUserProviderService, UserProviderService>();
     services.AddScoped<IUserCreationService, UserCreationService>();
     services.AddScoped<IUserUpdateService, UserUpdateService>();
+    services.AddScoped<IUserImageUpdateService, UserImageUpdateService>();
+    services.AddScoped<IUserImageStorage, LocalUserImageStorage>();
 
     services.AddScoped<IRoleProviderService, RoleProviderService>();
 
