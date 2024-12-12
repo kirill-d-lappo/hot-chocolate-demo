@@ -4,6 +4,7 @@ using HotChocolateDemo.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotChocolateDemo.Persistence.Migrations
 {
     [DbContext(typeof(HCDemoDbContext))]
-    partial class HCDemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241209135116_Added_User_ImageFileName")]
+    partial class Added_User_ImageFileName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,12 +81,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders", "dbo");
                 });
@@ -200,15 +198,6 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Navigation("Food");
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.Order", b =>
-                {
-                    b.HasOne("HotChocolateDemo.Models.UserManagement.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RolePermissionEntity", b =>

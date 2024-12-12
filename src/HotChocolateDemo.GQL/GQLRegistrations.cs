@@ -25,6 +25,10 @@ public static class GQLRegistrations
       .AddMutationConventions()
       .AddGlobalObjectIdentification() // adds "node" query and support for ID type
       // .AddDefaultNodeIdSerializer(useUrlSafeBase64: true) // and support for ID type
+      .AddSubscriptionType()
+
+      // .AddSubscriptionDiagnostics()
+      .AddInMemorySubscriptions() // for test purposes only
       .AddPagingArguments()
       .ModifyRequestOptions(
         o =>

@@ -1,6 +1,7 @@
-﻿schema @link(import: [ "@tag", "@shareable", "FieldSet" ], url: "https:\/\/specs.apollo.dev\/federation\/v2.7") {
+﻿schema @link(import: [ "@shareable", "@tag", "FieldSet" ], url: "https:\/\/specs.apollo.dev\/federation\/v2.7") {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }
 
 interface Error {
@@ -30,9 +31,30 @@ type AllUsersEdge {
   node: User
 }
 
+type CreateOrderPayload {
+  errors: [CreateOrderError!]
+  order: Order
+}
+
 type CreateUserPayload {
   errors: [CreateUserError!]
   user: User
+}
+
+type Food {
+  foodOrderItems: [FoodOrderItem]
+  id: ID!
+  name: String
+  orders: [Order]
+}
+
+type FoodOrderItem {
+  count: Int!
+  food: Food
+  foodId: Long!
+  id: ID!
+  order: Order
+  orderId: Long!
 }
 
 type KeyValuePairOfStringAndObject {
@@ -40,9 +62,19 @@ type KeyValuePairOfStringAndObject {
 }
 
 type Mutation {
+  createOrder(input: CreateOrderInput!): CreateOrderPayload!
   createUser(input: CreateUserInput): CreateUserPayload!
   updateUser(input: UpdateUserInput): UpdateUserPayload!
   updateUserImage(input: UpdateUserImageInput!): UpdateUserImagePayload!
+}
+
+type Order {
+  foodOrderItems: [FoodOrderItem]
+  foods: [Food]
+  id: ID!
+  orderNumber: String
+  user: User
+  userId: Long
 }
 
 "Information about pagination in a connection."
@@ -81,6 +113,10 @@ type Role {
   name: String
   permissions: [Permission]
   users: [User]
+}
+
+type Subscription {
+  onNewOrderWasCreated: Order
 }
 
 type UpdateUserImagePayload {
@@ -129,6 +165,8 @@ type _Service {
   sdl: String!
 }
 
+union CreateOrderError = ValidationError
+
 union CreateUserError = UserAlreadyExistsError | ValidationError
 
 union UpdateUserError = UserNotFoundError | ValidationError
@@ -144,6 +182,10 @@ input BooleanInputType {
 input BooleanOperationFilterInput {
   eq: Boolean
   neq: Boolean
+}
+
+input CreateOrderInput {
+  userId: ID!
 }
 
 input CreateUserInput {
