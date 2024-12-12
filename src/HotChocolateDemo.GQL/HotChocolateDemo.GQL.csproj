@@ -4,6 +4,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Note [2024/12/12 klappo] 1591 - Not all public classes in GQL project might have/need documenation-->
     <NoWarn>$(NoWarn);1591</NoWarn>
     <!--    <PublishAot>true</PublishAot>-->
     <!--    <StaticallyLinked>true</StaticallyLinked>-->

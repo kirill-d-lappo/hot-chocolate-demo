@@ -9,7 +9,7 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <!-- HotChocolate / GreenDonate experimental feature-->
+  <!-- Note[2024-12-12 klappo] HotChocolate / GreenDonate experimental feature-->
   <PropertyGroup>
     <NoWarn>$(NoWarn);GD0001</NoWarn>
   </PropertyGroup>
