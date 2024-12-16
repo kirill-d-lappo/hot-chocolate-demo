@@ -23,7 +23,7 @@ builder.Host.UseSerilog(
   }
 );
 
-builder.AddOtelServices();
+builder.AddTelemetry();
 
 var app = builder.Build();
 
