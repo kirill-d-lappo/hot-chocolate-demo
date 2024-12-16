@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="UpdateGraphqlSchemaTarget" AfterTargets="PostBuildEvent" Condition="$(GQLUpdateSchema) != false">
+  <Target Name="UpdateGraphqlSchemaTarget" AfterTargets="PostBuildEvent" Condition="'$(GQLSchemaGenOutput)' != ''">
     <PropertyGroup>
       <GQLGenBinaryExtension Condition=" '$(OS)' == 'Windows_NT' ">.exe</GQLGenBinaryExtension>
       <GQLGenBinaryPath Condition=" '$(GQLGenBinaryPath)' == '' ">$(OutputPath)$(AssemblyName)$(GQLGenBinaryExtension)</GQLGenBinaryPath>
-      <GQLGenCommand Condition=" '$(GQLGenCommand)' == '' ">"$(GQLGenBinaryPath)" schema export --output "$(GQLGenSchemaPath)"</GQLGenCommand>
+      <GQLGenCommand Condition=" '$(GQLGenCommand)' == '' ">"$(GQLGenBinaryPath)" schema export --output "$(GQLSchemaGenOutput)"</GQLGenCommand>
     </PropertyGroup>
 
-    <Message Text="Publishing GraphQL Schema to '$(GQLGenSchemaPath)'" Importance="high" />
+    <Message Text="Publishing GraphQL Schema to '$(GQLSchemaGenOutput)'" Importance="high" />
     <Exec IgnoreExitCode="true" ConsoleToMSBuild="true" Command="$(GQLGenCommand)">
       <Output TaskParameter="ConsoleOutput" PropertyName="GQLGenOutput" />
       <Output TaskParameter="ExitCode" PropertyName="GQLGenExitCode" />

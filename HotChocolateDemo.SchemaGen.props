@@ -3,7 +3,6 @@
 
   <!--Task parameters default values, this can be overridden-->
   <PropertyGroup>
-    <GQLGenUpdateSchema Condition=" '$(GQLUpdateSchema)' == '' ">true</GQLGenUpdateSchema>
-    <GQLGenSchemaPath Condition=" '$(GQLSchemaPath)' == '' ">$(MSBuildProjectDirectory)\schema.graphql</GQLGenSchemaPath>
+    <GQLSchemaGenOutput />
   </PropertyGroup>
 </Project>
