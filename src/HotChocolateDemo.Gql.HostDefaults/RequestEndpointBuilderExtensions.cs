@@ -1,6 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 
-namespace HotChocolateDemo.GQL;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.Hosting;
 
 public static class RequestEndpointBuilderExtensions
 {

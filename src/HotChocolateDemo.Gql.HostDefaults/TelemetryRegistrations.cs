@@ -15,6 +15,7 @@ public static class TelemetryRegistrations
   {
     var appName = builder.Environment.ApplicationName;
     var envName = builder.Environment.EnvironmentName;
+    var isDevelopment = builder.Environment.IsDevelopment();
 
     var otel = builder.Services.AddOpenTelemetry();
 
@@ -32,6 +33,7 @@ public static class TelemetryRegistrations
         .AddRuntimeInstrumentation()
         .AddAspNetCoreInstrumentation()
         .AddHttpClientInstrumentation()
+        .AddSqlClientInstrumentation()
         .AddPrometheusExporter()
 
       // Metrics provides by ASP.NET Core in .NET 8
@@ -46,7 +48,14 @@ public static class TelemetryRegistrations
         tr.AddAspNetCoreInstrumentation();
         tr.AddHttpClientInstrumentation();
         tr.AddHotChocolateInstrumentation();
-        tr.AddSqlClientInstrumentation();
+        tr.AddSqlClientInstrumentation(
+          o =>
+          {
+            o.RecordException = true;
+            o.EnableConnectionLevelAttributes = isDevelopment;
+            o.SetDbStatementForText = isDevelopment;
+          }
+        );
       }
     );
 
