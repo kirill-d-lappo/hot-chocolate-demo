@@ -1,3 +1,4 @@
+using HotChocolate.Diagnostics;
 using HotChocolateDemo.GQL.Filters;
 using HotChocolateDemo.Persistence;
 
@@ -53,7 +54,14 @@ public static class GQLRegistrations
       .AddProjections()
       .RegisterDbContextFactory<HCDemoDbContext>()
       .AddDbContextCursorPagingProvider()
-      .AddInstrumentation()
+      .AddInstrumentation(
+        o =>
+        {
+          o.RequestDetails = RequestDetails.All;
+          o.IncludeDocument = true;
+          o.RenameRootActivity = true;
+        }
+      )
       .AddUploadType()
       .AddHCDemoTypes()
       .AddHCDemoServiceTypes();
