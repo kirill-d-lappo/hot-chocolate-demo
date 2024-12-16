@@ -11,19 +11,20 @@ builder.Services.AddHCDemoPersistence();
 builder.Services.AddHCDemoServices();
 
 builder.Services.AddGqlServices();
-builder.Services.AddHealthChecks();
 
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
+builder.Logging.ClearProviders();
 builder.Host.UseSerilog(
   (context, config) =>
   {
     config.ReadFrom.Configuration(context.Configuration);
     config.WriteTo.Console(theme: AnsiConsoleTheme.Sixteen);
-  }
+  },
+  writeToProviders: true
 );
 
-builder.AddTelemetry();
+builder.AddServiceDefaults();
 
 var app = builder.Build();
 
@@ -41,18 +42,10 @@ return await app.RunWithConsoleCancellationAsync(
       args,
       async (app, args, ct) =>
       {
-        app.MapHealthChecks("/healthz");
-        app.MapPrometheusScrapingEndpoint();
-        app.MapGraphQL();
-        app.MapGet(
-          "/",
-          context =>
-          {
-            context.Response.Redirect("./graphql", false);
+        app.MapDefaultEndpoints();
 
-            return Task.CompletedTask;
-          }
-        );
+        app.MapGraphQL();
+        app.MapRedirect("./graphql");
 
         await app.RunAsync(ct);
 

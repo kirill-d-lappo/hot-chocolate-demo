@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="HotChocolate.ApolloFederation" />
     <PackageReference Include="HotChocolate.Data" />
     <PackageReference Include="HotChocolate.Pagination.EntityFramework" />
     <PackageReference Include="HotChocolate.Types.Analyzers">
