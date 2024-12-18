@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <PackageVersion Update="HotChocolate.Diagnostics" Version="14.2.0" />
+    <PackageVersion Update="Microsoft.Extensions.ServiceDiscovery" Version="9.0.0" />
+    <PackageVersion Update="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
