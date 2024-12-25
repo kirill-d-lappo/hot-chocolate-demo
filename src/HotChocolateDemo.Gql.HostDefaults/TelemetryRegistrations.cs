@@ -27,7 +27,6 @@ public static class TelemetryRegistrations
         .AddEnvironmentVariableDetector()
     );
 
-    // Add Metrics for ASP.NET Core and our custom metrics and export to Prometheus
     otel = otel.WithMetrics(
       m => m
         .AddRuntimeInstrumentation()
@@ -35,10 +34,6 @@ public static class TelemetryRegistrations
         .AddHttpClientInstrumentation()
         .AddSqlClientInstrumentation()
         .AddPrometheusExporter()
-
-      // Metrics provides by ASP.NET Core in .NET 8
-      // .AddMeter("Microsoft.AspNetCore.Hosting")
-      // .AddMeter("Microsoft.AspNetCore.Server.Kestrel")
     );
 
     otel = otel.WithTracing(
