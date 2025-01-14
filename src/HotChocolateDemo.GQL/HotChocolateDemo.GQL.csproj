@@ -44,5 +44,4 @@
   <Import Project="../../HotChocolateDemo.SchemaGen.props" />
   <Import Project="../../HotChocolateDemo.SchemaGen.targets" />
 
-
 </Project>
