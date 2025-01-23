@@ -16,6 +16,7 @@ public static class GQLRegistrations
 
       // Note [2024-11-25 klappo] costs calculation is disabled for a while
       .AddGraphQLServer(disableDefaultSecurity: true)
+      .InitializeOnStartup()
       .AddErrorLogging()
       .ModifyOptions(
         o =>
