@@ -68,7 +68,7 @@ public static class GQLRegistrations
         }
       )
       .AddFileSystemOperationDocumentStorage("./PersistedOperations")
-      .UsePersistedOperationPipeline()
+      .UseAutomaticPersistedOperationPipeline()
       .AddUploadType()
       .AddHCDemoTypes()
       .AddHCDemoServiceTypes();
