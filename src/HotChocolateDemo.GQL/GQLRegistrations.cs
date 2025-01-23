@@ -8,6 +8,10 @@ public static class GQLRegistrations
 {
   public static IServiceCollection AddGqlServices(this IServiceCollection services)
   {
+    // Note [2025-01-23 klappo] that hash provider is used in persisted operations
+    // FixMe [2025-01-23 klappo] figure it out how it is used in HC pipeline, atm the pipeline just grabs file by its name
+    services.AddMD5DocumentHashProvider();
+
     services
 
       // Note [2024-11-25 klappo] costs calculation is disabled for a while
@@ -62,6 +66,8 @@ public static class GQLRegistrations
           o.RenameRootActivity = true;
         }
       )
+      .AddFileSystemOperationDocumentStorage("./PersistedOperations")
+      .UsePersistedOperationPipeline()
       .AddUploadType()
       .AddHCDemoTypes()
       .AddHCDemoServiceTypes();

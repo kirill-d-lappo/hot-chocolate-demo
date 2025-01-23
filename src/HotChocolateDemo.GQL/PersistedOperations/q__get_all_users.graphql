@@ -1,0 +1,8 @@
+query get_all_users{
+  allUsers {
+    nodes {
+      id
+      userName
+    }
+  }
+}
