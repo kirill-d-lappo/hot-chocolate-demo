@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
 using GreenDonut.Data;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Persistence.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.Services.UserManagement.Users;
@@ -22,6 +24,7 @@ internal static class UserDataLoader
       .AsNoTracking()
       .OrderBy(r => r.Id)
       .Where(r => ids.Contains(r.Id))
+      .Select(UserSelector)
       .Select(b => b.Id, selectorBuilder)
       .ToDictionaryAsync(u => u.Id, ct);
   }
@@ -42,6 +45,7 @@ internal static class UserDataLoader
       .AsNoTracking()
       .OrderBy(r => r.Id)
       .Where(r => usernames.Contains(r.UserName))
+      .Select(UserSelector)
       .Select(b => b.Id, selectorBuilder)
       .ToBatchPageAsync(t => t.UserName, pagingArguments, ct);
   }
@@ -60,7 +64,17 @@ internal static class UserDataLoader
       .Users
       .AsNoTracking()
       .Where(r => levels.Contains(r.ActivityLevel))
+      .Select(UserSelector)
       .Select(b => b.Id, selectorBuilder)
       .ToLookup(t => t.ActivityLevel);
   }
+
+  private static Expression<Func<UserEntity, User>> UserSelector { get; } = u => new User
+  {
+    Id = u.Id,
+    UserName = u.UserName,
+    BirthDateTime = u.BirthDateTime,
+    ActivityLevel = u.ActivityLevel,
+    ImageFileName = u.ImageFileName,
+  };
 }

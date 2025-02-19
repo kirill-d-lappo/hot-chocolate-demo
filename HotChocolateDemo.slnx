@@ -7,6 +7,7 @@
     <File Path="Directory.Build.props" />
     <File Path="HotChocolateDemo.SchemaGen.props" />
     <File Path="HotChocolateDemo.SchemaGen.targets" />
+    <File Path="global.json" />
   </Folder>
   <Project Path="src\HotChocolateDemo.Gql.HostDefaults\HotChocolateDemo.Gql.HostDefaults.csproj" Type="Classic C#" />
   <Project Path="src\HotChocolateDemo.Gql\HotChocolateDemo.Gql.csproj" Type="Classic C#" />

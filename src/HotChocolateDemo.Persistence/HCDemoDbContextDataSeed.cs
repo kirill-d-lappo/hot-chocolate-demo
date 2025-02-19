@@ -1,4 +1,5 @@
 ﻿using HotChocolateDemo.Models.UserManagement;
+using HotChocolateDemo.Persistence.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.Persistence;
@@ -32,7 +33,7 @@ public static class HCDemoDbContextDataSeed
       return;
     }
 
-    var permissions = new Permission[]
+    var permissions = new PermissionEntity[]
     {
       new()
       {
@@ -54,7 +55,7 @@ public static class HCDemoDbContextDataSeed
 
     dbContext.Permissions.AddRange(permissions);
 
-    var roles = new Role[]
+    var roles = new RoleEntity[]
     {
       new()
       {
@@ -70,7 +71,7 @@ public static class HCDemoDbContextDataSeed
 
     dbContext.Roles.AddRange(roles);
 
-    var users = new User[]
+    var users = new UserEntity[]
     {
       new()
       {

@@ -1,6 +1,7 @@
 using HotChocolate.Diagnostics;
 using HotChocolate.Execution;
 using HotChocolateDemo.Gql.Filters;
+using HotChocolateDemo.Gql.Handlers.Orders.Queries;
 using HotChocolateDemo.Persistence;
 
 namespace HotChocolateDemo.Gql;
@@ -59,14 +60,7 @@ public static class GqlRegistrations
           o.IncludeNodesField = true;
         }
       )
-      .AddFiltering(
-        c =>
-        {
-          c.AddDefaults();
-          c.BindRuntimeType<string, EnrichedThisStringFilterInputType>();
-          c.BindRuntimeType<bool, EnrichedThisBooleanFilterInputType>();
-        }
-      )
+      .AddFiltering()
       .AddSorting()
       .AddProjections()
       .RegisterDbContextFactory<HCDemoDbContext>()

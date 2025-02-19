@@ -3,6 +3,7 @@ using GreenDonut.Data;
 using HotChocolate.Data.Filters;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Persistence.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.Services.UserManagement.Roles;
@@ -28,9 +29,16 @@ public class RoleProviderService : IRoleProviderService
     return await dbContext
       .Roles
       .AsNoTracking()
+      .Select(RoleSelector)
       .WithFilter(filterContext)
       .WithSelection(selection)
       .OrderBy(u => u.Id)
       .ToPageAsync(pageArgs, ct);
   }
+
+  private static Expression<Func<RoleEntity, Role>> RoleSelector { get; } = r => new Role
+  {
+    Id = r.Id,
+    Name = r.Name,
+  };
 }

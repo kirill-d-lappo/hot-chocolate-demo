@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using HotChocolate.Subscriptions;
-using HotChocolateDemo.Models.Orders;
+﻿using HotChocolateDemo.Models.Orders;
 using HotChocolateDemo.Services.OrderManagement.Orders;
 using HotChocolateDemo.Services.OrderManagement.Orders.Events;
 

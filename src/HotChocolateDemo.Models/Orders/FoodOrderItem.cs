@@ -2,7 +2,6 @@
 
 public class FoodOrderItem
 {
-  [GraphQLId]
   public long Id { get; set; }
 
   public long FoodId { get; set; }

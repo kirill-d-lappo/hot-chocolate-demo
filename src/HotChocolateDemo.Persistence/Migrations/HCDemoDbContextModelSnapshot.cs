@@ -18,12 +18,12 @@ namespace HotChocolateDemo.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("dbo")
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.Food", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.FoodEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("Foods", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.FoodOrderItem", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.FoodOrderItemEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("FoodOrderItems", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.Order", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.OrderEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("Orders", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.UserManagement.Permission", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.PermissionEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,7 +97,8 @@ namespace HotChocolateDemo.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Key")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 
@@ -108,7 +109,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("Permissions", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.UserManagement.Role", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.RoleEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,7 +125,22 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("Roles", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.UserManagement.User", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.RolePermissionEntity", b =>
+                {
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PermissionId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("RolePermissions", "dbo");
+                });
+
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.UserEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,7 +159,8 @@ namespace HotChocolateDemo.Persistence.Migrations
                         .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.HasKey("Id");
 
@@ -154,22 +171,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("Users", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RolePermissionEntity", b =>
-                {
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("PermissionId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("RoleId", "PermissionId");
-
-                    b.HasIndex("PermissionId");
-
-                    b.ToTable("RolePermissions", "dbo");
-                });
-
-            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserRoleEntity", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.UserRoleEntity", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -184,14 +186,14 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.ToTable("UserRoles", "dbo");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.FoodOrderItem", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.FoodOrderItemEntity", b =>
                 {
-                    b.HasOne("HotChocolateDemo.Models.Orders.Food", "Food")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.Orders.FoodEntity", "Food")
                         .WithMany("FoodOrderItems")
                         .HasForeignKey("FoodId")
                         .IsRequired();
 
-                    b.HasOne("HotChocolateDemo.Models.Orders.Order", "Order")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.Orders.OrderEntity", "Order")
                         .WithMany("FoodOrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -202,24 +204,24 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.Order", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.OrderEntity", b =>
                 {
-                    b.HasOne("HotChocolateDemo.Models.UserManagement.User", "User")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.UserManagement.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.RolePermissionEntity", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.RolePermissionEntity", b =>
                 {
-                    b.HasOne("HotChocolateDemo.Models.UserManagement.Permission", "Permission")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.UserManagement.PermissionEntity", "Permission")
                         .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotChocolateDemo.Models.UserManagement.Role", "Role")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.UserManagement.RoleEntity", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -230,15 +232,15 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserRoleEntity", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.UserManagement.UserRoleEntity", b =>
                 {
-                    b.HasOne("HotChocolateDemo.Models.UserManagement.Role", "Role")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.UserManagement.RoleEntity", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HotChocolateDemo.Models.UserManagement.User", "User")
+                    b.HasOne("HotChocolateDemo.Persistence.Models.UserManagement.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -249,12 +251,12 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.Food", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.FoodEntity", b =>
                 {
                     b.Navigation("FoodOrderItems");
                 });
 
-            modelBuilder.Entity("HotChocolateDemo.Models.Orders.Order", b =>
+            modelBuilder.Entity("HotChocolateDemo.Persistence.Models.Orders.OrderEntity", b =>
                 {
                     b.Navigation("FoodOrderItems");
                 });

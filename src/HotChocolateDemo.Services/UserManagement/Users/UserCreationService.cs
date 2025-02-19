@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Persistence.Models.UserManagement;
 using HotChocolateDemo.Services.UserManagement.Users.Errors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,7 +30,7 @@ public class UserCreationService : IUserCreationService
 
     var userName = parameters.UserName;
 
-    var user = new User
+    var user = new UserEntity
     {
       UserName = userName,
       BirthDateTime = parameters.BirthDateTime,

@@ -4,7 +4,6 @@ namespace HotChocolateDemo.Models.Orders;
 
 public class Food
 {
-  [GraphQLId]
   public long Id { get; set; }
 
   [MaxLength(64)]

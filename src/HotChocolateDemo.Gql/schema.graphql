@@ -9,6 +9,24 @@ interface Error {
 }
 
 "A connection to a list of items."
+type AllOrdersConnection {
+  "A list of edges."
+  edges: [AllOrdersEdge!]
+  "A flattened list of the nodes."
+  nodes: [Order]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type AllOrdersEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Order
+}
+
+"A connection to a list of items."
 type AllUsersConnection {
   "A list of edges."
   edges: [AllUsersEdge!]
@@ -38,7 +56,7 @@ type CreateUserPayload {
 
 type Food {
   foodOrderItems: [FoodOrderItem]
-  id: ID!
+  id: Long!
   name: String
   orders: [Order]
 }
@@ -47,7 +65,7 @@ type FoodOrderItem {
   count: Int!
   food: Food
   foodId: Long!
-  id: ID!
+  id: Long!
   order: Order
   orderId: Long!
 }
@@ -66,7 +84,7 @@ type Mutation {
 type Order {
   foodOrderItems: [FoodOrderItem]
   foods: [Food]
-  id: ID!
+  id: Long!
   orderNumber: String
   user: User
   userId: Long
@@ -91,6 +109,8 @@ type Permission {
 }
 
 type Query {
+  "Searches for all orders in the system."
+  allOrders("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [OrderSortInput!] where: OrderFilterInput): AllOrdersConnection
   "Searches for all users in the system."
   allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): AllUsersConnection
   allUsersByActivityLevel(level: UserActivityLevel!): [User]
@@ -179,6 +199,15 @@ input CreateUserInput {
   userName: String!
 }
 
+input IdFilterInput {
+  and: [IdFilterInput!]
+  or: [IdFilterInput!]
+  eq: Long
+  neq: Long
+  in: Long
+  nin: Long
+}
+
 input IntOperationFilterInput {
   eq: Int
   neq: Int
@@ -192,6 +221,30 @@ input IntOperationFilterInput {
   nlt: Int
   lte: Int
   nlte: Int
+}
+
+input OrderFilterInput {
+  and: [OrderFilterInput!]
+  or: [OrderFilterInput!]
+  id: IdFilterInput
+  orderNumber: OrderNumberFilterInput
+  userId: IdFilterInput
+}
+
+input OrderNumberFilterInput {
+  and: [OrderNumberFilterInput!]
+  or: [OrderNumberFilterInput!]
+  eq: String
+  neq: String
+  in: String
+  nin: String
+  startsWith: String
+  nstartsWith: String
+}
+
+input OrderSortInput {
+  id: SortEnumType
+  orderNumber: SortEnumType
 }
 
 input StringInputType {
@@ -227,14 +280,58 @@ input UpdateUserInput {
   id: ID!
 }
 
+input UserBirthdayFilterInput {
+  and: [UserBirthdayFilterInput!]
+  or: [UserBirthdayFilterInput!]
+  eq: DateTime
+  neq: DateTime
+  gt: DateTime
+  gte: DateTime
+  ngt: DateTime
+  ngte: DateTime
+  lt: DateTime
+  lte: DateTime
+  nlt: DateTime
+  nlte: DateTime
+}
+
 input UserByIdInput {
   id: Long!
+}
+
+input UserFilterInput {
+  and: [UserFilterInput!]
+  or: [UserFilterInput!]
+  id: IdFilterInput
+  userName: UserNameFilterInput
+  birthDateTime: UserBirthdayFilterInput
+}
+
+input UserNameFilterInput {
+  and: [UserNameFilterInput!]
+  or: [UserNameFilterInput!]
+  eq: String
+  neq: String
+  in: String
+  nin: String
+  startsWith: String
+  nstartsWith: String
+}
+
+input UserSortInput {
+  id: SortEnumType
+  userName: SortEnumType
 }
 
 enum Severity {
   ERROR
   WARNING
   INFO
+}
+
+enum SortEnumType {
+  ASC
+  DESC
 }
 
 enum UserActivityLevel {

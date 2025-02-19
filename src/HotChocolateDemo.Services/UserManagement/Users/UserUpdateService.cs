@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Services.UserManagement.Users.Errors;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.Extensions.Logging;
 
 namespace HotChocolateDemo.Services.UserManagement.Users;
 

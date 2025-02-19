@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using HotChocolateDemo.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
-namespace HotChocolateDemo.Persistence.Models;
+namespace HotChocolateDemo.Persistence.Models.UserManagement;
 
 [PrimaryKey(nameof(RoleId), nameof(PermissionId))]
 public class RolePermissionEntity
@@ -13,7 +12,7 @@ public class RolePermissionEntity
   [ForeignKey(nameof(Permission))]
   public long PermissionId { get; set; }
 
-  public Role Role { get; set; }
+  public RoleEntity Role { get; set; }
 
-  public Permission Permission { get; set; }
+  public PermissionEntity Permission { get; set; }
 }

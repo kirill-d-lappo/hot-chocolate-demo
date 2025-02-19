@@ -1,6 +1,5 @@
-using HotChocolateDemo.Models.Orders;
-using HotChocolateDemo.Models.UserManagement;
-using HotChocolateDemo.Persistence.Models;
+using HotChocolateDemo.Persistence.Models.Orders;
+using HotChocolateDemo.Persistence.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.Persistence;
@@ -14,53 +13,53 @@ public class HCDemoDbContext : DbContext
   {
   }
 
-  public DbSet<User> Users { get; set; }
+  public DbSet<UserEntity> Users { get; set; }
 
-  public DbSet<Role> Roles { get; set; }
+  public DbSet<RoleEntity> Roles { get; set; }
 
-  public DbSet<Permission> Permissions { get; set; }
+  public DbSet<PermissionEntity> Permissions { get; set; }
 
   public DbSet<UserRoleEntity> UserRoles { get; set; }
 
   public DbSet<RolePermissionEntity> RolePermissions { get; set; }
 
-  public DbSet<Food> Foods { get; set; }
+  public DbSet<FoodEntity> Foods { get; set; }
 
-  public DbSet<Order> Orders { get; set; }
+  public DbSet<OrderEntity> Orders { get; set; }
 
-  public DbSet<FoodOrderItem> FoodOrderItems { get; set; }
+  public DbSet<FoodOrderItemEntity> FoodOrderItems { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder.HasDefaultSchema(Schema);
 
     modelBuilder
-      .Entity<User>()
+      .Entity<UserEntity>()
       .HasIndex(u => u.UserName)
       .IsUnique();
 
     modelBuilder
-      .Entity<Permission>()
+      .Entity<PermissionEntity>()
       .HasIndex(u => u.Key)
       .IsUnique();
 
     modelBuilder
-      .Entity<User>()
+      .Entity<UserEntity>()
       .HasMany(e => e.Roles)
       .WithMany(e => e.Users)
       .UsingEntity<UserRoleEntity>();
 
     modelBuilder
-      .Entity<Role>()
+      .Entity<RoleEntity>()
       .HasMany(e => e.Permissions)
       .WithMany(e => e.Roles)
       .UsingEntity<RolePermissionEntity>();
 
     modelBuilder
-      .Entity<Order>()
+      .Entity<OrderEntity>()
       .HasMany(e => e.Foods)
       .WithMany(e => e.Orders)
-      .UsingEntity<FoodOrderItem>(
+      .UsingEntity<FoodOrderItemEntity>(
         l => l
           .HasOne(vav => vav.Food)
           .WithMany(n => n.FoodOrderItems)

@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
 using GreenDonut.Data;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Persistence.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotChocolateDemo.Services.UserManagement.Roles;
@@ -21,6 +23,7 @@ internal static class RoleDataLoader
       .Roles
       .AsNoTracking()
       .Where(r => ids.Contains(r.Id))
+      .Select(RoleSelector)
       .Select(r => r.Id, selectorBuilder)
       .ToDictionaryAsync(b => b.Id, ct);
   }
@@ -40,7 +43,14 @@ internal static class RoleDataLoader
       .AsNoTracking()
       .Where(ur => userIds.Contains(ur.UserId))
       .Select(ur => ur.Role)
+      .Select(RoleSelector)
       .Select(r => r.Id, selectorBuilder)
       .ToLookup(b => b.Id);
   }
+
+  private static Expression<Func<RoleEntity, Role>> RoleSelector { get; } = r => new Role
+  {
+    Id = r.Id,
+    Name = r.Name,
+  };
 }

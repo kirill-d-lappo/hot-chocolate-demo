@@ -1,6 +1,6 @@
 ﻿using HotChocolate.Subscriptions;
-using HotChocolateDemo.Models.Orders;
 using HotChocolateDemo.Persistence;
+using HotChocolateDemo.Persistence.Models.Orders;
 using HotChocolateDemo.Services.OrderManagement.Orders.Errors;
 using HotChocolateDemo.Services.OrderManagement.Orders.Events;
 using Microsoft.EntityFrameworkCore;
@@ -44,9 +44,9 @@ public class OrderCreationService : IOrderCreationService
     return order.Id;
   }
 
-  private async Task<Order> CreateOrder(CreateOrderParameters parameters, CancellationToken ct)
+  private async Task<OrderEntity> CreateOrder(CreateOrderParameters parameters, CancellationToken ct)
   {
-    var order = new Order
+    var order = new OrderEntity
     {
       OrderNumber = Guid
         .NewGuid()

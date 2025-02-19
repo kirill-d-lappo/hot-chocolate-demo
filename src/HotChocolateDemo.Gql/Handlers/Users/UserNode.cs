@@ -1,5 +1,4 @@
 ﻿using HotChocolateDemo.Models.UserManagement;
-using HotChocolateDemo.Services.UserManagement.Users;
 
 namespace HotChocolateDemo.Gql.Handlers.Users;
 
