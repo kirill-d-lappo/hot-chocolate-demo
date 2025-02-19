@@ -9,7 +9,7 @@
     <File Path="HotChocolateDemo.SchemaGen.targets" />
   </Folder>
   <Project Path="src\HotChocolateDemo.Gql.HostDefaults\HotChocolateDemo.Gql.HostDefaults.csproj" Type="Classic C#" />
-  <Project Path="src\HotChocolateDemo.GQL\HotChocolateDemo.GQL.csproj" Type="Classic C#" />
+  <Project Path="src\HotChocolateDemo.Gql\HotChocolateDemo.Gql.csproj" Type="Classic C#" />
   <Project Path="src\HotChocolateDemo.Models\HotChocolateDemo.Models.csproj" Type="Classic C#" />
   <Project Path="src\HotChocolateDemo.Persistence\HotChocolateDemo.Persistence.csproj" Type="Classic C#" />
   <Project Path="src\HotChocolateDemo.Services\HotChocolateDemo.Services.csproj" Type="Classic C#" />

@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HotChocolateDemo.GQL\HotChocolateDemo.GQL.csproj" />
+    <ProjectReference Include="..\HotChocolateDemo.Gql\HotChocolateDemo.Gql.csproj" />
   </ItemGroup>
 
 </Project>
