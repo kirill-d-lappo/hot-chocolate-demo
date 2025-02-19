@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
+using GreenDonut.Data;
 using HotChocolate.Data.Filters;
-using HotChocolate.Pagination;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +18,8 @@ public class RoleProviderService : IRoleProviderService
 
   public async Task<Page<Role>> FindAllAsync(
     PagingArguments pageArgs,
-    Expression<Func<Role, Role>> selection = default,
-    IFilterContext filterContext = default,
+    Expression<Func<Role, Role>> selection = null,
+    IFilterContext filterContext = null,
     CancellationToken ct = default
   )
   {

@@ -13,7 +13,7 @@
 
     <!--    <InvariantGlobalization>true</InvariantGlobalization>-->
     <!--    <StripSymbols>false</StripSymbols>-->
-    <GQLSchemaGenOutput>schema.graphql</GQLSchemaGenOutput>
+    <GQLSchemaGenOutput>./schema.graphql</GQLSchemaGenOutput>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +28,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="HotChocolate.Types.Sorting" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

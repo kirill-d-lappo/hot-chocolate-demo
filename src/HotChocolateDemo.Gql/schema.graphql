@@ -8,11 +8,6 @@ interface Error {
   message: String!
 }
 
-"The node interface is implemented by entities that have a global unique identifier."
-interface Node {
-  id: ID!
-}
-
 "A connection to a list of items."
 type AllUsersConnection {
   "A list of edges."
@@ -99,16 +94,12 @@ type Query {
   "Searches for all users in the system."
   allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): AllUsersConnection
   allUsersByActivityLevel(level: UserActivityLevel!): [User]
-  "Fetches an object given its ID."
-  node("ID of the object." id: ID!): Node
-  "Lookup nodes by a list of IDs."
-  nodes("The list of node IDs." ids: [ID!]!): [Node]!
   "Searches for user by its id."
   userById(input: UserByIdInput): User
 }
 
 type Role {
-  id: ID!
+  id: Long!
   name: String
   permissions: [Permission]
   users: [User]
@@ -128,10 +119,10 @@ type UpdateUserPayload {
   user: User
 }
 
-type User implements Node {
+type User {
   activityLevel: UserActivityLevel!
   birthDateTime: DateTime
-  id: ID!
+  id: Long!
   imageFileName: String
   roles: [Role]
   userName: String

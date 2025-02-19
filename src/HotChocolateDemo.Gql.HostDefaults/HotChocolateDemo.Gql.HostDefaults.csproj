@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <IsAspireSharedProject>true</IsAspireSharedProject>
-    <RootNamespace>HotChocolateDemo.ServiceDefaults</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

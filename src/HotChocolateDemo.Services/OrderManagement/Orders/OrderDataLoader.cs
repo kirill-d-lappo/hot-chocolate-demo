@@ -1,4 +1,4 @@
-using GreenDonut.Selectors;
+using GreenDonut.Data;
 using HotChocolateDemo.Models.Orders;
 using HotChocolateDemo.Persistence;
 using Microsoft.EntityFrameworkCore;

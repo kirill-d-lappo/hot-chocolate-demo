@@ -9,7 +9,7 @@ internal static class SqlServerConfigurations
 
   public static DbContextOptionsBuilder UseHCDemoDb(
     this DbContextOptionsBuilder optionsBuilder,
-    string connectionString = default
+    string connectionString = null
   )
   {
     if (string.IsNullOrWhiteSpace(connectionString))

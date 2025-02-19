@@ -46,8 +46,8 @@ public static class TelemetryRegistrations
         tr.AddSqlClientInstrumentation(
           o =>
           {
+            // o.EnableConnectionLevelAttributes = isDevelopment;
             o.RecordException = true;
-            o.EnableConnectionLevelAttributes = isDevelopment;
             o.SetDbStatementForText = isDevelopment;
           }
         );

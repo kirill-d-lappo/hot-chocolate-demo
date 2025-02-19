@@ -4,7 +4,8 @@ namespace HotChocolateDemo.Models.UserManagement;
 
 public class User
 {
-  [GraphQLId]
+  // [GraphQLId]
+  // [GraphQLKey] // alias to HotChocolate.ApolloFederation.Types.KeyAttribute
   public long Id { get; set; }
 
   public string UserName { get; set; }

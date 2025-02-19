@@ -1,4 +1,4 @@
-using GreenDonut.Selectors;
+using GreenDonut.Data;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
 using Microsoft.EntityFrameworkCore;

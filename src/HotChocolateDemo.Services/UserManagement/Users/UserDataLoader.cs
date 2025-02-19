@@ -1,5 +1,4 @@
-using GreenDonut.Selectors;
-using HotChocolate.Pagination;
+using GreenDonut.Data;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Persistence;
 using Microsoft.EntityFrameworkCore;

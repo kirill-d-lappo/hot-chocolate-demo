@@ -2,7 +2,8 @@
 
 public class Role
 {
-  [GraphQLId]
+  // [GraphQLId]
+  // [GraphQLKey] // alias to HotChocolate.ApolloFederation.Types.KeyAttribute
   public long Id { get; set; }
 
   public string Name { get; set; }

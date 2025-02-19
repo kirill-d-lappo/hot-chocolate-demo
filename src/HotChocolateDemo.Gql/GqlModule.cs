@@ -1,5 +1,5 @@
-[assembly: Module("HCDemoTypes")]
-[assembly: DataLoaderModule("HCDemoDataLoader")]
+[assembly: Module("HCDemoGqlTypes")]
+[assembly: DataLoaderModule("HCDemoGqlDataLoader")]
 [assembly:
   DataLoaderDefaults(
     AccessModifier = DataLoaderAccessModifier.PublicInterface,

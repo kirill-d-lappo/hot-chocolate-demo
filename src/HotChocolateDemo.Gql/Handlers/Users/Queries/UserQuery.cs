@@ -1,6 +1,5 @@
-using GreenDonut.Selectors;
+using GreenDonut.Data;
 using HotChocolate.Execution.Processing;
-using HotChocolate.Pagination;
 using HotChocolate.Types.Pagination;
 using HotChocolateDemo.Models.UserManagement;
 using HotChocolateDemo.Services.UserManagement.Users;
