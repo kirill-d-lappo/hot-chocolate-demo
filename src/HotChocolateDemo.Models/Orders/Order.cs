@@ -10,6 +10,8 @@ public class Order
   [MaxLength(64)]
   public string OrderNumber { get; set; }
 
+  public OrderCreationSource CreationSource { get; set; }
+
   public long? UserId { get; set; }
 
   public User User { get; set; }

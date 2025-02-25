@@ -34,5 +34,6 @@ internal static class OrderDataLoader
     Id = o.Id,
     UserId = o.UserId,
     OrderNumber = o.OrderNumber,
+    CreationSource = o.CreationSource,
   };
 }

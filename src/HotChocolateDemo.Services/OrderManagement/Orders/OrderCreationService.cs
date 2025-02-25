@@ -52,6 +52,7 @@ public class OrderCreationService : IOrderCreationService
         .NewGuid()
         .ToString("N"),
       UserId = parameters.UserId,
+      CreationSource = parameters.CreationSource,
     };
 
     await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);

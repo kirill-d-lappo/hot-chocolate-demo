@@ -6,19 +6,23 @@ public class IdFilterInput : LongOperationFilterInputType
 {
   protected override void Configure(IFilterInputTypeDescriptor descriptor)
   {
-    foreach (var operation in Operations())
-    {
-      descriptor
-        .Operation(operation)
-        .Type<LongType>();
-    }
-  }
+    var collectionOfLongType = typeof(ListType<>).MakeGenericType(typeof(LongType));
+    var longType = typeof(LongType);
 
-  private static IEnumerable<int> Operations()
-  {
-    yield return DefaultFilterOperations.Equals;
-    yield return DefaultFilterOperations.NotEquals;
-    yield return DefaultFilterOperations.In;
-    yield return DefaultFilterOperations.NotIn;
+    descriptor
+      .Operation(DefaultFilterOperations.Equals)
+      .Type(longType);
+
+    descriptor
+      .Operation(DefaultFilterOperations.NotEquals)
+      .Type(longType);
+
+    descriptor
+      .Operation(DefaultFilterOperations.In)
+      .Type(collectionOfLongType);
+
+    descriptor
+      .Operation(DefaultFilterOperations.NotIn)
+      .Type(collectionOfLongType);
   }
 }

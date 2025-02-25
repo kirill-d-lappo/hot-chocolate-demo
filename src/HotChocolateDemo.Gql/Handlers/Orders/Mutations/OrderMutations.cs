@@ -27,6 +27,7 @@ public class OrderMutations
     return new CreateOrderParameters
     {
       UserId = input.UserId,
+      CreationSource = input.CreationSource,
     };
   }
 }

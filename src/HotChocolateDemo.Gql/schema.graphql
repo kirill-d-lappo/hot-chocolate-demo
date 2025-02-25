@@ -82,6 +82,7 @@ type Mutation {
 }
 
 type Order {
+  creationSource: OrderCreationSource!
   foodOrderItems: [FoodOrderItem]
   foods: [Food]
   id: Long!
@@ -190,6 +191,7 @@ input BooleanOperationFilterInput {
 }
 
 input CreateOrderInput {
+  creationSource: OrderCreationSource!
   userId: ID!
 }
 
@@ -204,8 +206,8 @@ input IdFilterInput {
   or: [IdFilterInput!]
   eq: Long
   neq: Long
-  in: Long
-  nin: Long
+  in: [Long]
+  nin: [Long]
 }
 
 input IntOperationFilterInput {
@@ -236,8 +238,8 @@ input OrderNumberFilterInput {
   or: [OrderNumberFilterInput!]
   eq: String
   neq: String
-  in: String
-  nin: String
+  in: [String]
+  nin: [String]
   startsWith: String
   nstartsWith: String
 }
@@ -321,6 +323,12 @@ input UserNameFilterInput {
 input UserSortInput {
   id: SortEnumType
   userName: SortEnumType
+}
+
+enum OrderCreationSource {
+  UNKNOWN
+  FRONT_END
+  THIRD_PARTY
 }
 
 enum Severity {
