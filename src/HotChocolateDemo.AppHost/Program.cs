@@ -1,7 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var sqlPassword = builder.AddParameter("Database.Password", true);
-var sqlDataPath = builder.AddParameter("Database.DataPath")
+var sqlPassword = builder.AddParameter("Database-Password", true);
+var sqlDataPath = builder.AddParameter("Database-DataPath")
     .Resource?.Value
   ?? "./db-data";
 
