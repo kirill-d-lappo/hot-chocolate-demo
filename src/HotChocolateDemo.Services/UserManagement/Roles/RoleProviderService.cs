@@ -30,8 +30,8 @@ public class RoleProviderService : IRoleProviderService
       .Roles
       .AsNoTracking()
       .Select(RoleSelector)
-      .WithFilter(filterContext)
-      .WithSelection(selection)
+      .WhereFiltering(filterContext)
+      .SelectSelection(selection)
       .OrderBy(u => u.Id)
       .ToPageAsync(pageArgs, ct);
   }

@@ -56,19 +56,10 @@ public class HCDemoDbContext : DbContext
       .UsingEntity<RolePermissionEntity>();
 
     modelBuilder
-      .Entity<OrderEntity>()
-      .HasMany(e => e.Foods)
-      .WithMany(e => e.Orders)
-      .UsingEntity<FoodOrderItemEntity>(
-        l => l
-          .HasOne(vav => vav.Food)
-          .WithMany(n => n.FoodOrderItems)
-          .OnDelete(DeleteBehavior.ClientSetNull),
-        r => r
-          .HasOne(vav => vav.Order)
-          .WithMany(n => n.FoodOrderItems)
-          .OnDelete(DeleteBehavior.Cascade)
-      );
+      .Entity<FoodOrderItemEntity>()
+      .HasOne(e => e.Food)
+      .WithMany(e => e.FoodOrderItems)
+      .OnDelete(DeleteBehavior.SetNull);
 
     base.OnModelCreating(modelBuilder);
   }

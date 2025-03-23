@@ -28,7 +28,7 @@ public class UserProviderService : IUserProviderService
       .Users
       .AsNoTracking()
       .Select(UserSelector)
-      .WithSelection(selector)
+      .SelectSelection(selector)
       .OrderBy(u => u.Id)
       .ToPageAsync(pageArgs, ct);
   }

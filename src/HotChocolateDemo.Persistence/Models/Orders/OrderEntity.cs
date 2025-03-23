@@ -22,5 +22,4 @@ public class OrderEntity
 
   public ICollection<FoodOrderItemEntity> FoodOrderItems { get; set; }
 
-  public ICollection<FoodEntity> Foods { get; set; }
 }

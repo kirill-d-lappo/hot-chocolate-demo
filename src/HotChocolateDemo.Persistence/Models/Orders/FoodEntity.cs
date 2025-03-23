@@ -11,6 +11,4 @@ public class FoodEntity
   public string Name { get; set; }
 
   public ICollection<FoodOrderItemEntity> FoodOrderItems { get; set; }
-
-  public ICollection<OrderEntity> Orders { get; set; }
 }
