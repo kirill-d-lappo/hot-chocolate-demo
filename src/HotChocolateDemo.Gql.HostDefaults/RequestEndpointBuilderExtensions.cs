@@ -7,16 +7,16 @@ namespace Microsoft.Extensions.Hosting;
 
 public static class RequestEndpointBuilderExtensions
 {
-  public static IEndpointConventionBuilder MapRedirect(
+  public static IEndpointConventionBuilder MapGetRedirect(
     this IEndpointRouteBuilder builder,
     [StringSyntax("Uri")] string targetPath,
     bool isPermanent = false
   )
   {
-    return builder.MapRedirect("/", targetPath, isPermanent);
+    return builder.MapGetRedirect("/", targetPath, isPermanent);
   }
 
-  public static IEndpointConventionBuilder MapRedirect(
+  public static IEndpointConventionBuilder MapGetRedirect(
     this IEndpointRouteBuilder builder,
     [StringSyntax("Route")] string sourcePattern,
     [StringSyntax("Uri")] string targetPath,

@@ -44,8 +44,9 @@ return await app.RunWithConsoleCancellationAsync(
       {
         app.MapDefaultEndpoints();
 
-        app.MapGraphQL();
-        app.MapRedirect("./graphql");
+        const string graphQlPath = "/graphql";
+        app.MapGraphQL(graphQlPath);
+        app.MapGetRedirect(graphQlPath);
 
         await app.RunAsync(ct);
 
