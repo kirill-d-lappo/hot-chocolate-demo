@@ -1,7 +1,5 @@
 using HotChocolate.Diagnostics;
 using HotChocolate.Execution;
-using HotChocolateDemo.Gql.Filters;
-using HotChocolateDemo.Gql.Handlers.Orders.Queries;
 using HotChocolateDemo.Persistence;
 
 namespace HotChocolateDemo.Gql;
@@ -10,7 +8,7 @@ public static class GqlRegistrations
 {
   public static IServiceCollection AddGqlServices(this IServiceCollection services)
   {
-    services
+    var gqlBuilder = services
 
       // Note [2024-11-25 klappo] costs calculation is disabled for a while
       .AddGraphQLServer(disableDefaultSecurity: true)
@@ -79,6 +77,11 @@ public static class GqlRegistrations
       .AddErrorLogging()
       .AddHCDemoGqlTypes()
       .AddHCDemoServiceTypes();
+
+    // Note [2025-04-07 klappo] TimeSpan will be formatted in Dotnet "hh:mm:ss" format, not ISO PT2H4M
+    gqlBuilder
+      .BindRuntimeType<TimeSpan, TimeSpanType>()
+      .AddType(new TimeSpanType(TimeSpanFormat.DotNet));
 
     // Note [2025-01-23 klappo] that hash provider is used in persisted operations
     // FixMe [2025-01-23 klappo] figure it out how it is used in HC pipeline, atm the pipeline just grabs file by its name
