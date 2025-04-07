@@ -15,6 +15,15 @@ namespace HotChocolateDemo.Persistence.Migrations
                 schema: "dbo",
                 table: "FoodOrderItems");
 
+            migrationBuilder.AlterColumn<long>(
+                name: "FoodId",
+                schema: "dbo",
+                table: "FoodOrderItems",
+                type: "bigint",
+                nullable: true,
+                oldClrType: typeof(long),
+                oldType: "bigint");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_FoodOrderItems_Foods_FoodId",
                 schema: "dbo",
@@ -33,6 +42,17 @@ namespace HotChocolateDemo.Persistence.Migrations
                 name: "FK_FoodOrderItems_Foods_FoodId",
                 schema: "dbo",
                 table: "FoodOrderItems");
+
+            migrationBuilder.AlterColumn<long>(
+                name: "FoodId",
+                schema: "dbo",
+                table: "FoodOrderItems",
+                type: "bigint",
+                nullable: false,
+                defaultValue: 0L,
+                oldClrType: typeof(long),
+                oldType: "bigint",
+                oldNullable: true);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_FoodOrderItems_Foods_FoodId",

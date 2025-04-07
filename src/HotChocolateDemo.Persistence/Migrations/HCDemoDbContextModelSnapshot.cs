@@ -51,7 +51,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<long>("FoodId")
+                    b.Property<long?>("FoodId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("OrderId")
@@ -195,8 +195,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.HasOne("HotChocolateDemo.Persistence.Models.Orders.FoodEntity", "Food")
                         .WithMany("FoodOrderItems")
                         .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HotChocolateDemo.Persistence.Models.Orders.OrderEntity", "Order")
                         .WithMany("FoodOrderItems")

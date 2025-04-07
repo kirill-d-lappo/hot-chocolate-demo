@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotChocolateDemo.Persistence.Migrations
 {
     [DbContext(typeof(HCDemoDbContext))]
-    [Migration("20250323203655_Removed_OrderFood_DirectConnection")]
+    [Migration("20250331093011_Removed_OrderFood_DirectConnection")]
     partial class Removed_OrderFood_DirectConnection
     {
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<long>("FoodId")
+                    b.Property<long?>("FoodId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("OrderId")
@@ -198,8 +198,7 @@ namespace HotChocolateDemo.Persistence.Migrations
                     b.HasOne("HotChocolateDemo.Persistence.Models.Orders.FoodEntity", "Food")
                         .WithMany("FoodOrderItems")
                         .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("HotChocolateDemo.Persistence.Models.Orders.OrderEntity", "Order")
                         .WithMany("FoodOrderItems")
