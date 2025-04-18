@@ -9,6 +9,24 @@ interface Error {
 }
 
 "A connection to a list of items."
+type AllFoodsConnection {
+  "A list of edges."
+  edges: [AllFoodsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Food]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type AllFoodsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Food
+}
+
+"A connection to a list of items."
 type AllOrdersConnection {
   "A list of edges."
   edges: [AllOrdersEdge!]
@@ -64,7 +82,7 @@ type Food {
 type FoodOrderItem {
   count: Int!
   food: Food
-  foodId: Long!
+  foodId: Long
   id: Long!
   order: Order
   orderId: Long!
@@ -110,6 +128,8 @@ type Permission {
 }
 
 type Query {
+  "Searches for all foods in the system."
+  allFoods("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [FoodSortInput!] where: FoodFilterInput): AllFoodsConnection
   "Searches for all orders in the system."
   allOrders("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [OrderSortInput!] where: OrderFilterInput): AllOrdersConnection
   "Searches for all users in the system."
@@ -191,7 +211,7 @@ input BooleanOperationFilterInput {
 }
 
 input CreateOrderInput {
-  creationSource: OrderCreationSource!
+  foodIds: [Long!]
   userId: ID!
 }
 
@@ -199,6 +219,31 @@ input CreateUserInput {
   activityLevel: UserActivityLevel!
   birthDateTime: DateTime
   userName: String!
+}
+
+input FoodFilterInput {
+  and: [FoodFilterInput!]
+  or: [FoodFilterInput!]
+  id: LongOperationFilterInput
+  name: StringOperationFilterInput
+  foodOrderItems: ListFilterInputTypeOfFoodOrderItemFilterInput
+  orders: ListFilterInputTypeOfOrderFilterInput
+}
+
+input FoodOrderItemFilterInput {
+  and: [FoodOrderItemFilterInput!]
+  or: [FoodOrderItemFilterInput!]
+  id: LongOperationFilterInput
+  foodId: LongOperationFilterInput
+  food: FoodFilterInput
+  orderId: LongOperationFilterInput
+  order: OrderFilterInput
+  count: IntOperationFilterInput
+}
+
+input FoodSortInput {
+  id: SortEnumType
+  name: SortEnumType
 }
 
 input IdFilterInput {
@@ -223,6 +268,35 @@ input IntOperationFilterInput {
   nlt: Int
   lte: Int
   nlte: Int
+}
+
+input ListFilterInputTypeOfFoodOrderItemFilterInput {
+  all: FoodOrderItemFilterInput
+  none: FoodOrderItemFilterInput
+  some: FoodOrderItemFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfOrderFilterInput {
+  all: OrderFilterInput
+  none: OrderFilterInput
+  some: OrderFilterInput
+  any: Boolean
+}
+
+input LongOperationFilterInput {
+  eq: Long
+  neq: Long
+  in: [Long]
+  nin: [Long]
+  gt: Long
+  ngt: Long
+  gte: Long
+  ngte: Long
+  lt: Long
+  nlt: Long
+  lte: Long
+  nlte: Long
 }
 
 input OrderFilterInput {

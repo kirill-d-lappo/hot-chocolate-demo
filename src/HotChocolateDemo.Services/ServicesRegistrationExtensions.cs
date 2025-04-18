@@ -1,4 +1,5 @@
 using FluentValidation;
+using HotChocolateDemo.Services.OrderManagement.Foods;
 using HotChocolateDemo.Services.OrderManagement.Orders;
 using HotChocolateDemo.Services.UserManagement.Roles;
 using HotChocolateDemo.Services.UserManagement.Users;
@@ -20,6 +21,8 @@ public static class ServicesRegistrationExtensions
 
     services.AddScoped<IOrderCreationService, OrderCreationService>();
     services.AddScoped<IOrderProviderService, OrderProviderService>();
+
+    services.AddScoped<IFoodProviderService, FoodProviderService>();
 
     services.AddScoped<IRoleProviderService, RoleProviderService>();
 

@@ -4,7 +4,7 @@ public class FoodOrderItem
 {
   public long Id { get; set; }
 
-  public long FoodId { get; set; }
+  public long? FoodId { get; set; }
 
   public Food Food { get; set; }
 

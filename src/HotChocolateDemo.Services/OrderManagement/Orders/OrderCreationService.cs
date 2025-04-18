@@ -1,8 +1,6 @@
-﻿using HotChocolate.Subscriptions;
-using HotChocolateDemo.Persistence;
+﻿using HotChocolateDemo.Persistence;
 using HotChocolateDemo.Persistence.Models.Orders;
 using HotChocolateDemo.Services.OrderManagement.Orders.Errors;
-using HotChocolateDemo.Services.OrderManagement.Orders.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -12,36 +10,21 @@ public class OrderCreationService : IOrderCreationService
 {
   private readonly IDbContextFactory<HCDemoDbContext> _dbContextFactory;
   private readonly ILogger<OrderCreationService> _logger;
-  private readonly ITopicEventSender _topicEventSender;
 
-  public OrderCreationService(
-    IDbContextFactory<HCDemoDbContext> dbContextFactory,
-    ILogger<OrderCreationService> logger,
-    ITopicEventSender topicEventSender
-  )
+  public OrderCreationService(IDbContextFactory<HCDemoDbContext> dbContextFactory, ILogger<OrderCreationService> logger)
   {
     _dbContextFactory = dbContextFactory;
     _logger = logger;
-    _topicEventSender = topicEventSender;
   }
 
   public async Task<long> CreateOrderAsync(CreateOrderParameters parameters, CancellationToken ct)
   {
     var order = await CreateOrder(parameters, ct);
+    var orderId = order.Id;
 
-    await _topicEventSender.SendAsync(
-      TopicNames.NewOrderWasCreated,
-      new NewOrderWasCreatedMessage
-      {
-        OrderId = order.Id,
-        OrderNumber = order.OrderNumber,
-      },
-      ct
-    );
+    _logger.OrderWasCreated(orderId);
 
-    _logger.OrderWasCreated(order);
-
-    return order.Id;
+    return orderId;
   }
 
   private async Task<OrderEntity> CreateOrder(CreateOrderParameters parameters, CancellationToken ct)
@@ -53,6 +36,14 @@ public class OrderCreationService : IOrderCreationService
         .ToString("N"),
       UserId = parameters.UserId,
       CreationSource = parameters.CreationSource,
+      FoodOrderItems = parameters
+        .FoodIds
+        ?.Select(fid => new FoodOrderItemEntity
+          {
+            FoodId = fid,
+          }
+        )
+        .ToList(),
     };
 
     await using var dbContext = await _dbContextFactory.CreateDbContextAsync(ct);

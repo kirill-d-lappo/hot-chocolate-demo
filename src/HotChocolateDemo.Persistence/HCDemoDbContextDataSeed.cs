@@ -1,4 +1,6 @@
-﻿using HotChocolateDemo.Models.UserManagement;
+﻿using HotChocolateDemo.Models.Orders;
+using HotChocolateDemo.Models.UserManagement;
+using HotChocolateDemo.Persistence.Models.Orders;
 using HotChocolateDemo.Persistence.Models.UserManagement;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +12,7 @@ public static class HCDemoDbContextDataSeed
   {
     return optionsBuilder
       .UseSeeding(InitData)
-      .UseAsyncSeeding(
-        (context, b, _) =>
+      .UseAsyncSeeding((context, b, _) =>
         {
           InitData(context, b);
 
@@ -90,6 +91,40 @@ public static class HCDemoDbContextDataSeed
     };
 
     dbContext.Users.AddRange(users);
+
+    var foods = new FoodEntity[]
+    {
+      new()
+      {
+        Name = "Big Shnitzel",
+      },
+      new()
+      {
+        Name = "Chicken Salad",
+      },
+    };
+
+    dbContext.Foods.AddRange(foods);
+
+    var orders = new OrderEntity[]
+    {
+      new()
+      {
+        OrderNumber = Guid
+          .NewGuid()
+          .ToString("N"),
+        FoodOrderItems = foods
+          .Select(f => new FoodOrderItemEntity
+            {
+              Food = f,
+            }
+          )
+          .ToList(),
+        CreationSource = OrderCreationSource.Unknown,
+      },
+    };
+
+    dbContext.Orders.AddRange(orders);
 
     dbContext.SaveChanges();
   }
