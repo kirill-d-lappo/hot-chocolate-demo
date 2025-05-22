@@ -1,4 +1,4 @@
-﻿#syntax=docker/dockerfile:1.7-labs
+﻿#syntax=docker/dockerfile:1-labs
 
 # enable --parents parameter: https://docs.docker.com/reference/dockerfile/#copy---parents
 
