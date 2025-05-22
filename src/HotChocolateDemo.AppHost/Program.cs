@@ -1,9 +1,10 @@
+using HotChocolateDemo.AppHost;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var sqlPassword = builder.AddParameter("Database-Password", true);
-var sqlDataPath = builder.AddParameter("Database-DataPath")
-    .Resource?.Value
-  ?? "./db-data";
+
+var sqlDataPath = builder.AddParameter("Database-DataPath").GetNonEmptyValueOrDefault("./db-data");
 
 if (!Directory.Exists(sqlDataPath))
 {

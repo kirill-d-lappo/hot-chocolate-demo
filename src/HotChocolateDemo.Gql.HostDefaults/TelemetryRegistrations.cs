@@ -15,7 +15,7 @@ public static class TelemetryRegistrations
   {
     var appName = builder.Environment.ApplicationName;
     var envName = builder.Environment.EnvironmentName;
-    var isDevelopment = builder.Environment.IsDevelopment();
+    var isDevelopment = !builder.Environment.IsProduction();
 
     var otel = builder.Services.AddOpenTelemetry();
 
