@@ -347,7 +347,7 @@ input StringOperationFilterInput {
 
 input UpdateUserImageInput {
   file: Upload!
-  userId: ID!
+  userId: Long!
 }
 
 input UpdateUserInput {
