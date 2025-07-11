@@ -15,6 +15,7 @@ public static class FoodQuery
   /// Searches for all foods in the system.
   /// </summary>
   [UsePaging]
+  [UseProjection]
   [UseFiltering]
   [UseSorting]
   public static Task<Connection<Food>> AllFoods(
