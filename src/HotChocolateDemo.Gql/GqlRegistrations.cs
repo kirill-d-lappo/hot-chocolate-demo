@@ -12,8 +12,7 @@ public static class GqlRegistrations
 
       // Note [2024-11-25 klappo] costs calculation is disabled for a while
       .AddGraphQLServer(disableDefaultSecurity: true)
-      .InitializeOnStartup(
-        (executor, ct) =>
+      .InitializeOnStartup((executor, ct) =>
         {
           var request = OperationRequestBuilder
             .New()
@@ -25,8 +24,7 @@ public static class GqlRegistrations
           return executor.ExecuteAsync(request, ct);
         }
       )
-      .ModifyOptions(
-        o =>
+      .ModifyOptions(o =>
         {
           o.SortFieldsByName = true;
         }
@@ -46,16 +44,16 @@ public static class GqlRegistrations
       // Note [2025-02-19 klappo] enable at least one NodeResolver on a type to add it to Node type set
       // .AddGlobalObjectIdentification() // adds "node" query and support for ID type
       // .AddDefaultNodeIdSerializer(useUrlSafeBase64: true) // and support for ID type
-      .ModifyRequestOptions(
-        o =>
+      .ModifyRequestOptions(o =>
         {
           o.IncludeExceptionDetails = true;
         }
       )
-      .ModifyPagingOptions(
-        o =>
+      .ModifyPagingOptions(o =>
         {
           o.IncludeNodesField = true;
+          o.DefaultPageSize = 5;
+          o.MaxPageSize = 10;
         }
       )
       .AddFiltering()
@@ -63,8 +61,7 @@ public static class GqlRegistrations
       .AddProjections()
       .RegisterDbContextFactory<HCDemoDbContext>()
       .AddDbContextCursorPagingProvider()
-      .AddInstrumentation(
-        o =>
+      .AddInstrumentation(o =>
         {
           o.RequestDetails = RequestDetails.All;
           o.IncludeDocument = true;
