@@ -102,6 +102,14 @@ public static class HCDemoDbContextDataSeed
       {
         Name = "Chicken Salad",
       },
+            new()
+      {
+        Name = "Chili",
+      },
+            new()
+      {
+        Name = "Chili",
+      },
     };
 
     dbContext.Foods.AddRange(foods);
