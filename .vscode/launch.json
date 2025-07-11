@@ -1,0 +1,83 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Gql API (Debug)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-gql",
+            "program": "${workspaceFolder}/src/HotChocolateDemo.Gql/bin/Debug/net9.0/HotChocolateDemo.Gql.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/HotChocolateDemo.Gql",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Launch AppHost (Debug)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-apphost",
+            "program": "${workspaceFolder}/src/HotChocolateDemo.AppHost/bin/Debug/net9.0/HotChocolateDemo.AppHost.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/HotChocolateDemo.AppHost",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Launch Gql API (Release)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-gql",
+            "program": "${workspaceFolder}/src/HotChocolateDemo.Gql/bin/Debug/net9.0/HotChocolateDemo.Gql.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/HotChocolateDemo.Gql",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch Both (Gql API + AppHost)",
+            "configurations": [
+                "Launch Gql API (Debug)",
+                "Launch AppHost (Debug)"
+            ],
+            "stopAll": true
+        }
+    ]
+}
