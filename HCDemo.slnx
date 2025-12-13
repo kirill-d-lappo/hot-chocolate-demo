@@ -1,0 +1,17 @@
+﻿<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="src\HCDemo.AppHost\HCDemo.AppHost.csproj" Type="C#" />
+  </Folder>
+  <Folder Name="/solution/">
+    <File Path="Directory.Packages.props" />
+    <File Path="Directory.Build.props" />
+    <File Path="HCDemo.SchemaGen.props" />
+    <File Path="global.json" />
+    <File Path="HCDemo.SchemaGen.targets" />
+  </Folder>
+  <Project Path="src\HCDemo.Gql.HostDefaults\HCDemo.Gql.HostDefaults.csproj" Type="C#" />
+  <Project Path="src\HCDemo.Gql\HCDemo.Gql.csproj" Type="C#" />
+  <Project Path="src\HCDemo.Models\HCDemo.Models.csproj" Type="C#" />
+  <Project Path="src\HCDemo.Persistence\HCDemo.Persistence.csproj" Type="C#" />
+  <Project Path="src\HCDemo.Services\HCDemo.Services.csproj" Type="C#" />
+</Solution>
