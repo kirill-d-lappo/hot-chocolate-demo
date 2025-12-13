@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HCDemo.Gql\HCDemo.Gql.csproj" />
+    <ProjectReference Include="..\HCDemo.Gql.Api\HCDemo.Gql.Api.csproj" />
   </ItemGroup>
 
 </Project>

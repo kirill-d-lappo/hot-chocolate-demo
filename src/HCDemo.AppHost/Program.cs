@@ -21,7 +21,7 @@ var sql = builder
 var db = sql.AddDatabase("HCDemo", "hcdemo");
 
 builder
-  .AddProject<Projects.HCDemo_Gql>("hcdemo-gql")
+  .AddProject<Projects.HCDemo_Gql_Api>("hcdemo-gql")
   .WithReference(db)
   .WaitFor(db);
 
