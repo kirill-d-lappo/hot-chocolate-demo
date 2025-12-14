@@ -1,0 +1,48 @@
+// Project tasks configuration. See https://zed.dev/docs/tasks for documentation.
+[
+  {
+    "label": "watch:api",
+    "command": "dotnet watch --project src/HCDemo.Gql.Api -c Debug",
+    "env": {
+      "ASPNET_ENVIRONMENT": "Development"
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true,
+    "tags": ["run", "debug"]
+  },
+  {
+    "label": "build:api",
+    "command": "dotnet build --project src/HCDemo.Gql.Api -c Debug",
+    "env": {
+      "ASPNET_ENVIRONMENT": "Development"
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true,
+    "tags": ["run", "debug"]
+  },
+  {
+    "label": "restore",
+    "command": "dotnet restore .",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "reveal_target": "dock",
+    "hide": "never",
+    "shell": "system",
+    "show_summary": true,
+    "show_command": true,
+    "tags": ["run", "debug"]
+  }
+]
