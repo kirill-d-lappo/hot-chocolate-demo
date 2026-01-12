@@ -1,8 +1,8 @@
 using HCDemo.Gql.Filters;
-using HotChocolate.Data.Filters;
 using HCDemo.Models.Orders;
+using HotChocolate.Data.Filters;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Queries.Filters;
+namespace HCDemo.Gql.Handlers.Orders.Queries.Filters;
 
 public class OrderFilterInput : FilterInputType<Order>
 {

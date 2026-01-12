@@ -1,7 +1,6 @@
-using HCDemo.Models.Orders;
 using HCDemo.Models.UserManagement;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Mutations;
+namespace HCDemo.Gql.Handlers.Orders.Mutations;
 
 public class CreateOrderInput
 {

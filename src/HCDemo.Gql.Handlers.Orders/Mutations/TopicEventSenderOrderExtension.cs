@@ -1,7 +1,7 @@
-using HotChocolate.Subscriptions;
 using HCDemo.Services.OrderManagement.Orders.Events;
+using HotChocolate.Subscriptions;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Mutations;
+namespace HCDemo.Gql.Handlers.Orders.Mutations;
 
 internal static class TopicEventSenderOrderExtension
 {

@@ -1,33 +1,34 @@
 using GreenDonut.Data;
+using HCDemo.Models.Orders;
+using HCDemo.Services.OrderManagement.Foods;
 using HotChocolate.Data.Filters;
 using HotChocolate.Data.Sorting;
 using HotChocolate.Execution.Processing;
 using HotChocolate.Types.Pagination;
-using HCDemo.Models.Orders;
-using HCDemo.Services.OrderManagement.Orders;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Queries;
+namespace HCDemo.Gql.Handlers.Foods.Queries;
 
 [QueryType]
-public static class OrderQuery
+public static class FoodQuery
 {
   /// <summary>
-  /// Searches for all orders in the system.
+  /// Searches for all foods in the system.
   /// </summary>
   [UsePaging]
+  [UseProjection]
   [UseFiltering]
   [UseSorting]
-  public static Task<Connection<Order>> AllOrders(
+  public static Task<Connection<Food>> AllFoods(
     PagingArguments pagingArgs,
     ISelection selection,
     IFilterContext filterContext,
     ISortingContext sortingContext,
-    IOrderProviderService provider,
+    IFoodProviderService provider,
     CancellationToken ct
   )
   {
     return provider
-      .FindAllOrdersAsync(pagingArgs, selection.AsSelector<Order>(), filterContext, sortingContext, ct)
+      .FindAllFoodsAsync(pagingArgs, selection.AsSelector<Food>(), filterContext, sortingContext, ct)
       .ToConnectionAsync();
   }
 }

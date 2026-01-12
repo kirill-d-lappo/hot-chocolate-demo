@@ -1,1 +1,1 @@
-[assembly: Module("HCDemoUserTypes")]
+[assembly: Module("HCDemoHandlerUserTypes")]

@@ -3,7 +3,7 @@ using HCDemo.Models.UserManagement;
 using HCDemo.Services.OrderManagement.Foods;
 using HCDemo.Services.UserManagement.Users;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Queries;
+namespace HCDemo.Gql.Handlers.Orders.Queries;
 
 [ExtendObjectType<Order>]
 public static class OrderQueryExtensions

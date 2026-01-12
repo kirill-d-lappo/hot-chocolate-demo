@@ -5,11 +5,14 @@
   <Folder Name="/solution/">
     <File Path="Directory.Packages.props" />
     <File Path="Directory.Build.props" />
+    <File Path="graphql.config.yml" />
     <File Path="HCDemo.SchemaGen.props" />
     <File Path="global.json" />
     <File Path="HCDemo.SchemaGen.targets" />
   </Folder>
   <Project Path="src/HCDemo.Gql.Filters/HCDemo.Gql.Filters.csproj" />
+  <Project Path="src/HCDemo.Gql.Handlers.Foods/HCDemo.Gql.Handlers.Foods.csproj" />
+  <Project Path="src/HCDemo.Gql.Handlers.Orders/HCDemo.Gql.Handlers.Orders.csproj" />
   <Project Path="src/HCDemo.Gql.Handlers.Users/HCDemo.Gql.Handlers.Users.csproj" />
   <Project Path="src\HCDemo.Gql.Api\HCDemo.Gql.Api.csproj" />
   <Project Path="src\HCDemo.Gql.HostDefaults\HCDemo.Gql.HostDefaults.csproj" />

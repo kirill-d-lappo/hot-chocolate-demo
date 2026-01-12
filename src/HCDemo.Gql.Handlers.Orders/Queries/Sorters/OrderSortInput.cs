@@ -1,7 +1,7 @@
-using HotChocolate.Data.Sorting;
 using HCDemo.Models.Orders;
+using HotChocolate.Data.Sorting;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Queries.Sorters;
+namespace HCDemo.Gql.Handlers.Orders.Queries.Sorters;
 
 public class OrderSortInput : SortInputType<Order>
 {

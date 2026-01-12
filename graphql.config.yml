@@ -1,0 +1,4 @@
+projects:
+  administration:
+    schema: "src/HCDemo.Gql.Api/schema.graphql"
+    documents: "**/*.graphql"

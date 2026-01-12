@@ -2,10 +2,10 @@ name: hc-demo
 
 services:
   mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2025-latest
     env_file: .env
     ports:
-      - 1433:1433
+      - 1434:1433
     healthcheck:
       interval: 10s
       timeout: 3s
@@ -14,7 +14,7 @@ services:
       test: ${SQL_CMD} -C -S localhost -U sa -P $${SA_PASSWORD} -Q "SELECT 1"
 
   mssql-init:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2025-latest
     env_file: .env
     entrypoint: ${SQL_CMD} -C -S ${HCDEMO_DB_SERVER} -U sa -P ${SA_PASSWORD} -d master -i /data/init.sql -e -I
     volumes:

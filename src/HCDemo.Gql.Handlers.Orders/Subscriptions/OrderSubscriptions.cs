@@ -2,7 +2,7 @@
 using HCDemo.Services.OrderManagement.Orders;
 using HCDemo.Services.OrderManagement.Orders.Events;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Subscriptions;
+namespace HCDemo.Gql.Handlers.Orders.Subscriptions;
 
 [SubscriptionType]
 public static class OrderSubscriptions

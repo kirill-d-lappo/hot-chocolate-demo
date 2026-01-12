@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using HotChocolate.Subscriptions;
 using HCDemo.Models.Orders;
 using HCDemo.Services.OrderManagement.Orders;
+using HotChocolate.Subscriptions;
 
-namespace HCDemo.Gql.Api.Handlers.Orders.Mutations;
+namespace HCDemo.Gql.Handlers.Orders.Mutations;
 
 [MutationType]
 public class OrderMutations

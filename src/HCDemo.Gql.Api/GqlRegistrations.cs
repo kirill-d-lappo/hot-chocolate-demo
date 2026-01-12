@@ -27,6 +27,7 @@ public static class GqlRegistrations
       .ModifyOptions(o =>
         {
           o.SortFieldsByName = true;
+          o.EnableFlagEnums = true;
         }
       )
       .AddQueryType()
@@ -76,11 +77,11 @@ public static class GqlRegistrations
       .AddUploadType()
       .AddTimeSpan();
 
-    gqlBuilder
-      .AddHCDemoGqlTypes()
-      .AddHCDemoServiceTypes();
+    gqlBuilder.Services.AddHCDemoServiceDataLoaders();
 
-    gqlBuilder.AddHCDemoUserTypes();
+    gqlBuilder.AddHCDemoHandlerUserTypes();
+    gqlBuilder.AddHCDemoHandlerOrderTypes();
+    gqlBuilder.AddHCDemoHandlerFoodTypes();
 
     // Note [2025-01-23 klappo] that hash provider is used in persisted operations
     // FixMe [2025-01-23 klappo] figure it out how it is used in HC pipeline, atm the pipeline just grabs file by its name

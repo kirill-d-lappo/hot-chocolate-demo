@@ -1,7 +1,7 @@
 using HotChocolate;
 
-[assembly: Module("HCDemoServiceTypes")]
-[assembly: DataLoaderModule("HCDemoServiceDataLoader")]
+// [assembly: Module("HCDemoServiceTypes")]
+[assembly: DataLoaderModule("HCDemoServiceDataLoaders")]
 [assembly:
   DataLoaderDefaults(
     AccessModifier = DataLoaderAccessModifier.PublicInterface,
