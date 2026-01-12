@@ -3,6 +3,9 @@ using GreenDonut.Data;
 using HCDemo.Models.UserManagement;
 using HCDemo.Persistence;
 using HCDemo.Persistence.Models.UserManagement;
+using HotChocolate.Data.Filters;
+using HotChocolate.Data.Sorting;
+using HotChocolate.Execution.Processing;
 using Microsoft.EntityFrameworkCore;
 
 namespace HCDemo.Services.UserManagement.Users;
@@ -16,9 +19,11 @@ public class UserProviderService : IUserProviderService
     _dbContextFactory = dbContextFactory;
   }
 
-  public async Task<Page<User>> FindAllUsersAsync(
+  public async Task<Page<UserEntity>> FindAllUsersAsync(
     PagingArguments pageArgs,
-    Expression<Func<User, User>> selector = null,
+    IFilterContext filterContext,
+    ISortingContext sortingContext,
+    ISelection selection,
     CancellationToken ct = default
   )
   {
@@ -27,9 +32,11 @@ public class UserProviderService : IUserProviderService
     return await dbContext
       .Users
       .AsNoTracking()
-      .Select(UserSelector)
-      .SelectSelection(selector)
       .OrderBy(u => u.Id)
+      // .Select(UserSelector)
+      .Select(selection)
+      .OrderBySorting(sortingContext)
+      .WhereFiltering(filterContext)
       .ToPageAsync(pageArgs, ct);
   }
 

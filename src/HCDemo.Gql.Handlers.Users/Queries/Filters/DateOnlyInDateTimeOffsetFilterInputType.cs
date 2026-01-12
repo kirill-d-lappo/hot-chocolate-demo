@@ -8,6 +8,9 @@ public class DateOnlyInDateTimeOffsetFilterInputType : ComparableOperationFilter
   {
     base.Configure(descriptor);
 
+    descriptor.AllowOr();
+    descriptor.AllowAnd();
+
     descriptor
       .Operation(DefaultFilterOperations.Equals)
       .Type<DateTimeType>();

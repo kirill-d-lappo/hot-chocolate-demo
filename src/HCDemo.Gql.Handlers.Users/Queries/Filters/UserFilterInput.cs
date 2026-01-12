@@ -18,8 +18,9 @@ public class UserFilterInput : FilterInputType<User>
       .Field(o => o.UserName)
       .Type<UserNameFilterInput>();
 
-    descriptor
-      .Field(o => o.BirthDateTime)
-      .Type<DateOnlyInDateTimeOffsetFilterInputType>();
+    descriptor.Field(o => o.BirthDateTime)
+
+      // .Type<DateOnlyInDateTimeOffsetFilterInputType>();
+      ;
   }
 }

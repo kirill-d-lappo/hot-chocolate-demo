@@ -77,20 +77,45 @@ public static class HCDemoDbContextDataSeed
       new()
       {
         UserName = "klappo",
-        BirthDateTime = DateTimeOffset
-          .Now
-          .AddYears(-20)
-          .WithOffset(TimeSpan.FromHours(2)),
+        BirthDateTime = new DateTimeOffset(
+          2006,
+          7,
+          5,
+          20,
+          39,
+          43,
+          TimeSpan.FromHours(2)
+        ),
         ActivityLevel = UserActivityLevel.Advanced,
         Roles = [roles[0], roles[1],],
       },
       new()
       {
         UserName = "dmutrov",
-        BirthDateTime = DateTimeOffset
-          .Now
-          .AddYears(-25)
-          .WithOffset(TimeSpan.FromHours(2)),
+        BirthDateTime = new DateTimeOffset(
+          2006,
+          7,
+          5,
+          23,
+          44,
+          11,
+          TimeSpan.FromHours(2)
+        ),
+        ActivityLevel = UserActivityLevel.Pro,
+        Roles = [roles[1],],
+      },
+      new()
+      {
+        UserName = "agolobrd",
+        BirthDateTime = new DateTimeOffset(
+          2006,
+          7,
+          6,
+          1,
+          15,
+          12,
+          TimeSpan.FromHours(2)
+        ),
         ActivityLevel = UserActivityLevel.Pro,
         Roles = [roles[1],],
       },

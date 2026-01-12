@@ -1,14 +1,20 @@
 using System.Linq.Expressions;
 using GreenDonut.Data;
 using HCDemo.Models.UserManagement;
+using HCDemo.Persistence.Models.UserManagement;
+using HotChocolate.Data.Filters;
+using HotChocolate.Data.Sorting;
+using HotChocolate.Execution.Processing;
 
 namespace HCDemo.Services.UserManagement.Users;
 
 public interface IUserProviderService
 {
-  Task<Page<User>> FindAllUsersAsync(
+  Task<Page<UserEntity>> FindAllUsersAsync(
     PagingArguments pageArgs,
-    Expression<Func<User, User>> selector = null,
-    CancellationToken ct = default
+    IFilterContext filterContext,
+    ISortingContext sortingContext,
+    ISelection selection,
+    CancellationToken ct
   );
 }

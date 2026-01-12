@@ -49,7 +49,7 @@ type AllUsersConnection {
   "A list of edges."
   edges: [AllUsersEdge!]
   "A flattened list of the nodes."
-  nodes: [User]
+  nodes: [UserEntity]
   "Information to aid in pagination."
   pageInfo: PageInfo!
 }
@@ -59,7 +59,7 @@ type AllUsersEdge {
   "A cursor for use in pagination."
   cursor: String!
   "The item at the end of the edge."
-  node: User
+  node: UserEntity
 }
 
 type CreateOrderPayload {
@@ -127,13 +127,19 @@ type Permission {
   roles: [Role]
 }
 
+type PermissionEntity {
+  id: Long!
+  key: String
+  roles: [RoleEntity]
+}
+
 type Query {
   "Searches for all foods in the system."
   allFoods("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [FoodSortInput!] where: FoodFilterInput): AllFoodsConnection
   "Searches for all orders in the system."
   allOrders("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [OrderSortInput!] where: OrderFilterInput): AllOrdersConnection
   "Searches for all users in the system."
-  allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int): AllUsersConnection
+  allUsers("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [UserEntitySortInput!] where: UserEntityFilterInput): AllUsersConnection
   allUsersByActivityLevel(level: UserActivityLevel!): [User]
   "Searches for user by its id."
   userById(input: UserByIdInput): User
@@ -144,6 +150,13 @@ type Role {
   name: String
   permissions: [Permission]
   users: [User]
+}
+
+type RoleEntity {
+  id: Long!
+  name: String
+  permissions: [PermissionEntity]
+  users: [UserEntity]
 }
 
 type Subscription {
@@ -171,6 +184,15 @@ type User {
 
 type UserAlreadyExistsError implements Error {
   message: String!
+}
+
+type UserEntity {
+  activityLevel: UserActivityLevel!
+  birthDateTime: DateTime
+  id: Long!
+  imageFileName: String
+  roles: [RoleEntity]
+  userName: String
 }
 
 type UserNotFoundError implements Error {
@@ -211,6 +233,23 @@ input CreateUserInput {
 }
 
 input DateOnlyInDateTimeOffsetFilterInput {
+  and: [DateOnlyInDateTimeOffsetFilterInput!]
+  or: [DateOnlyInDateTimeOffsetFilterInput!]
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
+input DateTimeOperationFilterInput {
   eq: DateTime
   neq: DateTime
   in: [DateTime]
@@ -288,6 +327,27 @@ input ListFilterInputTypeOfOrderFilterInput {
   any: Boolean
 }
 
+input ListFilterInputTypeOfPermissionEntityFilterInput {
+  all: PermissionEntityFilterInput
+  none: PermissionEntityFilterInput
+  some: PermissionEntityFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfRoleEntityFilterInput {
+  all: RoleEntityFilterInput
+  none: RoleEntityFilterInput
+  some: RoleEntityFilterInput
+  any: Boolean
+}
+
+input ListFilterInputTypeOfUserEntityFilterInput {
+  all: UserEntityFilterInput
+  none: UserEntityFilterInput
+  some: UserEntityFilterInput
+  any: Boolean
+}
+
 input LongOperationFilterInput {
   eq: Long
   neq: Long
@@ -327,6 +387,23 @@ input OrderSortInput {
   orderNumber: SortEnumType
 }
 
+input PermissionEntityFilterInput {
+  and: [PermissionEntityFilterInput!]
+  or: [PermissionEntityFilterInput!]
+  id: LongOperationFilterInput
+  key: StringOperationFilterInput
+  roles: ListFilterInputTypeOfRoleEntityFilterInput
+}
+
+input RoleEntityFilterInput {
+  and: [RoleEntityFilterInput!]
+  or: [RoleEntityFilterInput!]
+  id: LongOperationFilterInput
+  name: StringOperationFilterInput
+  permissions: ListFilterInputTypeOfPermissionEntityFilterInput
+  users: ListFilterInputTypeOfUserEntityFilterInput
+}
+
 input StringOperationFilterInput {
   and: [StringOperationFilterInput!]
   or: [StringOperationFilterInput!]
@@ -353,6 +430,13 @@ input UpdateUserInput {
   id: ID!
 }
 
+input UserActivityLevelOperationFilterInput {
+  eq: UserActivityLevel
+  neq: UserActivityLevel
+  in: [UserActivityLevel!]
+  nin: [UserActivityLevel!]
+}
+
 input UserBirthdayFilterInput {
   and: [UserBirthdayFilterInput!]
   or: [UserBirthdayFilterInput!]
@@ -372,12 +456,31 @@ input UserByIdInput {
   id: Long!
 }
 
+input UserEntityFilterInput {
+  and: [UserEntityFilterInput!]
+  or: [UserEntityFilterInput!]
+  id: LongOperationFilterInput
+  userName: StringOperationFilterInput
+  birthDateTime: DateTimeOperationFilterInput
+  activityLevel: UserActivityLevelOperationFilterInput
+  roles: ListFilterInputTypeOfRoleEntityFilterInput
+  imageFileName: StringOperationFilterInput
+}
+
+input UserEntitySortInput {
+  id: SortEnumType
+  userName: SortEnumType
+  birthDateTime: SortEnumType
+  activityLevel: SortEnumType
+  imageFileName: SortEnumType
+}
+
 input UserFilterInput {
   and: [UserFilterInput!]
   or: [UserFilterInput!]
   id: IdFilterInput
   userName: UserNameFilterInput
-  birthDateTime: DateOnlyInDateTimeOffsetFilterInput
+  birthDateTime: DateTimeOperationFilterInput
 }
 
 input UserNameFilterInput {

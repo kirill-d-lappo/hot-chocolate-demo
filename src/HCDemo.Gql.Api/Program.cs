@@ -30,7 +30,7 @@ var app = builder.Build();
 
 return await app.RunWithConsoleCancellationAsync(async (app, ct) =>
   {
-    if (app.Environment.IsDevelopment() || app.Configuration.GetValue("DOTNET_RUNNING_IN_CONTAINER", false))
+    if (app.Configuration.GetValue("DOTNET_RUNNING_IN_CONTAINER", false))
     {
       await app.MigrateDatabaseAsync<HCDemoDbContext>(ct);
     }
