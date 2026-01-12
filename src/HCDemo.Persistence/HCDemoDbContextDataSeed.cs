@@ -78,7 +78,7 @@ public static class HCDemoDbContextDataSeed
       {
         UserName = "klappo",
         BirthDateTime = DateTimeOffset
-          .UtcNow
+          .Now
           .AddYears(-20)
           .WithOffset(TimeSpan.FromHours(2)),
         ActivityLevel = UserActivityLevel.Advanced,
@@ -88,7 +88,7 @@ public static class HCDemoDbContextDataSeed
       {
         UserName = "dmutrov",
         BirthDateTime = DateTimeOffset
-          .UtcNow
+          .Now
           .AddYears(-25)
           .WithOffset(TimeSpan.FromHours(2)),
         ActivityLevel = UserActivityLevel.Pro,
