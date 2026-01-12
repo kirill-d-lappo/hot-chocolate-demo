@@ -4,9 +4,9 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var sqlPassword = builder.AddParameter("Database-Password", true);
 
-var sqlDataPath = builder
+var sqlDataPath = await builder
   .AddParameter("Database-DataPath")
-  .GetNonEmptyValueOrDefault("./db-data");
+  .GetNonEmptyValueOrDefaultAsync("./db-data", CancellationToken.None);
 
 if (!Directory.Exists(sqlDataPath))
 {

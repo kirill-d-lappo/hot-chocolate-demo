@@ -4,15 +4,30 @@ namespace HCDemo.AppHost;
 
 public static class ResourceBuilderExtensions
 {
-  [return: NotNullIfNotNull(nameof(defaultValue))]
-  public static string GetNonEmptyValueOrDefault(this IResourceBuilder<ParameterResource> builder, string defaultValue)
+  extension(IResourceBuilder<ParameterResource> builder)
   {
-    var value = builder.Resource?.Value;
-    if (string.IsNullOrWhiteSpace(value))
+    [return: NotNullIfNotNull(nameof(defaultValue))]
+    public string GetNonEmptyValueOrDefault(string defaultValue)
     {
-      return defaultValue;
+      var value = builder.Resource.Value;
+      if (string.IsNullOrWhiteSpace(value))
+      {
+        return defaultValue;
+      }
+
+      return value;
     }
 
-    return value;
+    [return: NotNullIfNotNull(nameof(defaultValue))]
+    public async Task<string> GetNonEmptyValueOrDefaultAsync(string defaultValue, CancellationToken ct)
+    {
+      var value = await builder.Resource.GetValueAsync(ct);
+      if (string.IsNullOrWhiteSpace(value))
+      {
+        return defaultValue;
+      }
+
+      return value;
+    }
   }
 }
