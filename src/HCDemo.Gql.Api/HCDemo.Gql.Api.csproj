@@ -49,8 +49,4 @@
     <ProjectReference Include="..\HCDemo.Persistence\HCDemo.Persistence.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\Foods\" />
-  </ItemGroup>
-
 </Project>
