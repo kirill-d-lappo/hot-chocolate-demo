@@ -20,6 +20,6 @@ public class UserFilterInput : FilterInputType<User>
 
     descriptor
       .Field(o => o.BirthDateTime)
-      .Type<UserBirthdayFilterInput>();
+      .Type<DateOnlyInDateTimeOffsetFilterInputType>();
   }
 }

@@ -210,6 +210,21 @@ input CreateUserInput {
   userName: String!
 }
 
+input DateOnlyInDateTimeOffsetFilterInput {
+  eq: DateTime
+  neq: DateTime
+  in: [DateTime]
+  nin: [DateTime]
+  gt: DateTime
+  ngt: DateTime
+  gte: DateTime
+  ngte: DateTime
+  lt: DateTime
+  nlt: DateTime
+  lte: DateTime
+  nlte: DateTime
+}
+
 input FoodFilterInput {
   and: [FoodFilterInput!]
   or: [FoodFilterInput!]
@@ -362,7 +377,7 @@ input UserFilterInput {
   or: [UserFilterInput!]
   id: IdFilterInput
   userName: UserNameFilterInput
-  birthDateTime: UserBirthdayFilterInput
+  birthDateTime: DateOnlyInDateTimeOffsetFilterInput
 }
 
 input UserNameFilterInput {
@@ -379,6 +394,7 @@ input UserNameFilterInput {
 input UserSortInput {
   id: SortEnumType
   userName: SortEnumType
+  birthDateTime: SortEnumType
 }
 
 enum OrderCreationSource {
