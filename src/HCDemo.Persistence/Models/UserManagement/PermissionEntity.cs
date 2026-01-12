@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace HCDemo.Persistence.Models.UserManagement;
 
 public class PermissionEntity

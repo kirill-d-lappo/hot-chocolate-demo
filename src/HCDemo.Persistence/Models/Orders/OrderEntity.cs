@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using HCDemo.Models.Orders;
+﻿using HCDemo.Models.Orders;
 using HCDemo.Persistence.Models.UserManagement;
 
 namespace HCDemo.Persistence.Models.Orders;

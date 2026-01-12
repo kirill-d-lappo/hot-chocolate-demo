@@ -1,7 +1,7 @@
 using HotChocolate.Data.Filters;
 using HotChocolate.Data.Sorting;
 
-namespace HCDemo.Persistence;
+namespace HCDemo.Services;
 
 public static class QueryableFilteringExtensions
 {

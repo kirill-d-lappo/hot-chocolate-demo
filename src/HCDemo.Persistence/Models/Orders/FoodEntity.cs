@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HCDemo.Persistence.Models.Orders;
+﻿namespace HCDemo.Persistence.Models.Orders;
 
 public class FoodEntity
 {

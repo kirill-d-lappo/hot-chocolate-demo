@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using HCDemo.Models.UserManagement;
 
 namespace HCDemo.Persistence.Models.UserManagement;

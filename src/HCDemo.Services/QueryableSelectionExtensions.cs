@@ -1,8 +1,7 @@
 ﻿using System.Linq.Expressions;
-using HotChocolate.Data.Filters;
 using HotChocolate.Execution.Processing;
 
-namespace HCDemo.Persistence;
+namespace HCDemo.Services;
 
 public static class QueryableSelectionExtensions
 {
