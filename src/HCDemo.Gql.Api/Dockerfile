@@ -1,8 +1,4 @@
-﻿#syntax=docker/dockerfile:1-labs
-
-# enables "COPY --parents" parameter: https://docs.docker.com/reference/dockerfile/#copy---parents
-
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /repo
 
