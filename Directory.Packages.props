@@ -14,12 +14,14 @@
     <PackageVersion Include="HotChocolate.Data" Version="15.1.11" />
     <PackageVersion Include="HotChocolate.Data.EntityFramework" Version="15.1.11" />
     <PackageVersion Include="HotChocolate.Diagnostics" Version="15.1.11" />
+    <PackageVersion Include="HotChocolate.Language" Version="15.1.11" />
     <PackageVersion Include="HotChocolate.PersistedOperations.FileSystem" Version="15.1.11" />
     <PackageVersion Include="HotChocolate.Types" Version="15.1.11" />
     <PackageVersion Include="HotChocolate.Types.Analyzers" Version="15.1.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
+    <PackageVersion Include="HotChocolate.Utilities" Version="15.1.11" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -249,7 +249,24 @@ input DateOnlyInDateTimeOffsetFilterInput {
   nlte: DateTime
 }
 
-input DateTimeOperationFilterInput {
+input DatePartOperationFilterInput {
+  eq: String
+  neq: String
+  in: [String]
+  nin: [String]
+  gt: String
+  ngt: String
+  gte: String
+  ngte: String
+  lt: String
+  nlt: String
+  lte: String
+  nlte: String
+}
+
+input DateTimeExtendedOperationFilterInputType {
+  "Filters by the date portion only, ignoring time and offset components. Values should be in ISO 8601 date format (e.g., \"2000-01-15\")."
+  datePart: DatePartOperationFilterInput
   eq: DateTime
   neq: DateTime
   in: [DateTime]
@@ -327,27 +344,6 @@ input ListFilterInputTypeOfOrderFilterInput {
   any: Boolean
 }
 
-input ListFilterInputTypeOfPermissionEntityFilterInput {
-  all: PermissionEntityFilterInput
-  none: PermissionEntityFilterInput
-  some: PermissionEntityFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfRoleEntityFilterInput {
-  all: RoleEntityFilterInput
-  none: RoleEntityFilterInput
-  some: RoleEntityFilterInput
-  any: Boolean
-}
-
-input ListFilterInputTypeOfUserEntityFilterInput {
-  all: UserEntityFilterInput
-  none: UserEntityFilterInput
-  some: UserEntityFilterInput
-  any: Boolean
-}
-
 input LongOperationFilterInput {
   eq: Long
   neq: Long
@@ -387,23 +383,6 @@ input OrderSortInput {
   orderNumber: SortEnumType
 }
 
-input PermissionEntityFilterInput {
-  and: [PermissionEntityFilterInput!]
-  or: [PermissionEntityFilterInput!]
-  id: LongOperationFilterInput
-  key: StringOperationFilterInput
-  roles: ListFilterInputTypeOfRoleEntityFilterInput
-}
-
-input RoleEntityFilterInput {
-  and: [RoleEntityFilterInput!]
-  or: [RoleEntityFilterInput!]
-  id: LongOperationFilterInput
-  name: StringOperationFilterInput
-  permissions: ListFilterInputTypeOfPermissionEntityFilterInput
-  users: ListFilterInputTypeOfUserEntityFilterInput
-}
-
 input StringOperationFilterInput {
   and: [StringOperationFilterInput!]
   or: [StringOperationFilterInput!]
@@ -430,13 +409,6 @@ input UpdateUserInput {
   id: ID!
 }
 
-input UserActivityLevelOperationFilterInput {
-  eq: UserActivityLevel
-  neq: UserActivityLevel
-  in: [UserActivityLevel!]
-  nin: [UserActivityLevel!]
-}
-
 input UserBirthdayFilterInput {
   and: [UserBirthdayFilterInput!]
   or: [UserBirthdayFilterInput!]
@@ -459,12 +431,9 @@ input UserByIdInput {
 input UserEntityFilterInput {
   and: [UserEntityFilterInput!]
   or: [UserEntityFilterInput!]
-  id: LongOperationFilterInput
-  userName: StringOperationFilterInput
-  birthDateTime: DateTimeOperationFilterInput
-  activityLevel: UserActivityLevelOperationFilterInput
-  roles: ListFilterInputTypeOfRoleEntityFilterInput
-  imageFileName: StringOperationFilterInput
+  id: IdFilterInput
+  userName: UserNameFilterInput
+  birthDateTime: DateTimeExtendedOperationFilterInputType
 }
 
 input UserEntitySortInput {
@@ -480,7 +449,7 @@ input UserFilterInput {
   or: [UserFilterInput!]
   id: IdFilterInput
   userName: UserNameFilterInput
-  birthDateTime: DateTimeOperationFilterInput
+  birthDateTime: DateTimeExtendedOperationFilterInputType
 }
 
 input UserNameFilterInput {
