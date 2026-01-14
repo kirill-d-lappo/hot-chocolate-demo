@@ -264,7 +264,7 @@ input DatePartOperationFilterInput {
   nlte: String
 }
 
-input DateTimeOperationFilterInput {
+input DateTimeExtendedOperationFilterInputType {
   "Filters by the date portion only, ignoring time and offset components. Values should be in ISO 8601 date format (e.g., \"2000-01-15\")."
   datePart: DatePartOperationFilterInput
   eq: DateTime
@@ -433,7 +433,7 @@ input UserEntityFilterInput {
   or: [UserEntityFilterInput!]
   id: IdFilterInput
   userName: UserNameFilterInput
-  birthDateTime: DateTimeOperationFilterInput
+  birthDateTime: DateTimeExtendedOperationFilterInputType
 }
 
 input UserEntitySortInput {
@@ -449,7 +449,7 @@ input UserFilterInput {
   or: [UserFilterInput!]
   id: IdFilterInput
   userName: UserNameFilterInput
-  birthDateTime: DateTimeOperationFilterInput
+  birthDateTime: DateTimeExtendedOperationFilterInputType
 }
 
 input UserNameFilterInput {

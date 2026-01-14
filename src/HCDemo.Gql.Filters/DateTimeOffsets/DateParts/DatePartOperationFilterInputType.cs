@@ -5,8 +5,4 @@ namespace HCDemo.Gql.Filters.DateTimeOffsets.DateParts;
 /// </summary>
 public class DatePartOperationFilterInputType : ComparableOperationFilterInputType<string>
 {
-  protected override void Configure(IFilterInputTypeDescriptor descriptor)
-  {
-    base.Configure(descriptor);
-  }
 }

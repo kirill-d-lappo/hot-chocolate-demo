@@ -7,24 +7,26 @@ namespace HCDemo.Gql.Filters.DateTimeOffsets;
 
 public static class DatePartFilteringRegistrations
 {
-  /// <summary>
-  /// Adds the extended DateTimeOffset filtering with datePart support.
-  /// This replaces the default DateTimeOffset filter with our extended version
-  /// that includes a "datePart" field for date-only comparisons.
-  /// </summary>
   public static IRequestExecutorBuilder AddDateTimeExtendedFiltering(this IRequestExecutorBuilder builder)
   {
     return builder.AddConvention<IFilterConvention>(
       new FilterConventionExtension(x => x
+        .OverrideDateTimeFiltering<DateTimeExtendedOperationFilterInputType>()
+
         // Bind DateTimeOffset (and nullable) to our extended filter type globally
-        .BindRuntimeType<DateTimeOffset, DateTimeExtendedOperationFilterInputType>()
-        .BindRuntimeType<DateTimeOffset?, DateTimeExtendedOperationFilterInputType>()
-        // Add the custom field handlers for datePart operations
-        .AddProviderExtension(
-          new QueryableFilterProviderExtension(y => y.AddDatePartFilterHandlers())
-        )
+        .AddProviderExtension(new QueryableFilterProviderExtension(y => y.AddDatePartFilterHandlers()))
       )
     );
+  }
+
+  private static IFilterConventionDescriptor OverrideDateTimeFiltering<TFilterInputType>(
+    this IFilterConventionDescriptor descriptor
+  )
+    where TFilterInputType : FilterInputType
+  {
+    return descriptor
+      .BindRuntimeType<DateTimeOffset, TFilterInputType>()
+      .BindRuntimeType<DateTimeOffset?, TFilterInputType>();
   }
 
   private static IFilterProviderDescriptor<QueryableFilterContext> AddDatePartFilterHandlers(

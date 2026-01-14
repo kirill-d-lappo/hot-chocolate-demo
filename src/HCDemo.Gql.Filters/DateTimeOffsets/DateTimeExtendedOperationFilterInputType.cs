@@ -27,12 +27,13 @@ namespace HCDemo.Gql.Filters.DateTimeOffsets;
 /// WHERE CONVERT(date, BirthDateTime) = '2000-01-15'
 /// </code>
 /// </summary>
-public class
-  DateTimeExtendedOperationFilterInputType : DateTimeOperationFilterInputType //ComparableOperationFilterInputType<DateTimeOffset>
+public class DateTimeExtendedOperationFilterInputType : DateTimeOperationFilterInputType
 {
   protected override void Configure(IFilterInputTypeDescriptor descriptor)
   {
     base.Configure(descriptor);
+
+    descriptor.Name("DateTimeExtendedOperationFilterInputType");
 
     descriptor
       .Field(DateTimeOffsetFilterFields.DatePart)
