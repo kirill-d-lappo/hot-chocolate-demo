@@ -3,9 +3,11 @@
 WORKDIR /repo
 
 # Restore packages first for caching
-COPY ./*.slnx              ./
-COPY ./*.props             ./
-COPY --parents **/*.csproj ./
+COPY ./*.slnx                ./
+COPY ./global.json           ./
+COPY --parents **/*.props    ./
+COPY --parents **/*.targets  ./
+COPY --parents **/*.csproj   ./
 
 # sharing=locked: [...] so the caches use the option sharing=locked to ensure
 # sharing=locked: parallel builds using the same cache mount wait for each other

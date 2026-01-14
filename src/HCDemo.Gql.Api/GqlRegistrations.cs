@@ -1,5 +1,10 @@
+using HCDemo.Gql.Filters.DateTimeOffsets;
+using HCDemo.Gql.Filters.DateTimeOffsets.DateParts;
+using HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
 using HotChocolate.Diagnostics;
 using HotChocolate.Execution;
+using HotChocolate.Data.Filters;
+using HotChocolate.Data.Filters.Expressions;
 using HCDemo.Persistence;
 
 namespace HCDemo.Gql.Api;
@@ -58,6 +63,7 @@ public static class GqlRegistrations
         }
       )
       .AddFiltering()
+      .AddDateTimeExtendedFiltering()
       .AddSorting()
       .AddProjections()
       .RegisterDbContextFactory<HCDemoDbContext>()

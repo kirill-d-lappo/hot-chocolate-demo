@@ -2,7 +2,9 @@
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.Data" />
+    <PackageReference Include="HotChocolate.Language" />
     <PackageReference Include="HotChocolate.Types" />
+    <PackageReference Include="HotChocolate.Utilities" />
   </ItemGroup>
 
 </Project>
