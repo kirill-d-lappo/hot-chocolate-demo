@@ -1,3 +1,4 @@
-global using HotChocolate.Data;
-global using HotChocolate.Types;
 global using HotChocolate.Data.Filters;
+global using HotChocolate.Data;
+global using HotChocolate.Language;
+global using HotChocolate.Types;

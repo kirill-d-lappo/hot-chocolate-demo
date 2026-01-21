@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq.Expressions;
 using HotChocolate.Configuration;
 using HotChocolate.Data.Filters.Expressions;
-using HotChocolate.Language;
 
 namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 

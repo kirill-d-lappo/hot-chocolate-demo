@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using HotChocolate.Configuration;
 using HotChocolate.Data.Filters.Expressions;
-using HotChocolate.Language;
 using HotChocolate.Language.Visitors;
 
 namespace HCDemo.Gql.Filters.DateTimeFilters;

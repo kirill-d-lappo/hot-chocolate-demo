@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using HotChocolate.Data.Filters.Expressions;
-using HotChocolate.Language;
 
 namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 
@@ -76,9 +75,7 @@ public class DatePartNotInHandler : DatePartOperationHandlerBase
       }
       else
       {
-        throw new InvalidOperationException(
-          $"Expected StringValueNode in list but got '{item.GetType().Name}'"
-        );
+        throw new InvalidOperationException($"Expected StringValueNode in list but got '{item.GetType().Name}'");
       }
     }
 
