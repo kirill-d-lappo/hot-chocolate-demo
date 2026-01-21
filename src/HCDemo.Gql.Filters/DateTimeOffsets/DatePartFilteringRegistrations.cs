@@ -11,6 +11,7 @@ public static class DatePartFilteringRegistrations
   {
     return builder.AddConvention<IFilterConvention>(
       new FilterConventionExtension(x => x
+        .OverrideDateTimeOffsetFiltering<DateTimeExtendedOperationFilterInputType>()
         .OverrideDateTimeFiltering<DateTimeExtendedOperationFilterInputType>()
 
         // Bind DateTimeOffset (and nullable) to our extended filter type globally
@@ -19,7 +20,7 @@ public static class DatePartFilteringRegistrations
     );
   }
 
-  private static IFilterConventionDescriptor OverrideDateTimeFiltering<TFilterInputType>(
+  private static IFilterConventionDescriptor OverrideDateTimeOffsetFiltering<TFilterInputType>(
     this IFilterConventionDescriptor descriptor
   )
     where TFilterInputType : FilterInputType
@@ -27,6 +28,16 @@ public static class DatePartFilteringRegistrations
     return descriptor
       .BindRuntimeType<DateTimeOffset, TFilterInputType>()
       .BindRuntimeType<DateTimeOffset?, TFilterInputType>();
+  }
+
+  private static IFilterConventionDescriptor OverrideDateTimeFiltering<TFilterInputType>(
+    this IFilterConventionDescriptor descriptor
+  )
+    where TFilterInputType : FilterInputType
+  {
+    return descriptor
+      .BindRuntimeType<DateTime, TFilterInputType>()
+      .BindRuntimeType<DateTime?, TFilterInputType>();
   }
 
   private static IFilterProviderDescriptor<QueryableFilterContext> AddDatePartFilterHandlers(

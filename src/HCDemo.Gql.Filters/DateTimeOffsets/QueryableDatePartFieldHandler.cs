@@ -67,6 +67,17 @@ public class QueryableDatePartFieldHandler : FilterFieldHandler<QueryableFilterC
       var valueProperty = Expression.Property(property, nameof(Nullable<DateTimeOffset>.Value));
       dateExpression = Expression.Property(valueProperty, nameof(DateTimeOffset.Date));
     }
+    else if (property.Type == typeof(DateTime))
+    {
+      dateExpression = Expression.Property(property, nameof(DateTime.Date));
+    }
+    else if (property.Type == typeof(DateTime?))
+    {
+      // For nullable, access .Value.Date
+      // This is safe because EF Core handles null checking at SQL level
+      var valueProperty = Expression.Property(property, nameof(Nullable<DateTime>.Value));
+      dateExpression = Expression.Property(valueProperty, nameof(DateTime.Date));
+    }
     else
     {
       // Not a DateTimeOffset field, skip
