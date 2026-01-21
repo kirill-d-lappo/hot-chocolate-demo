@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using HotChocolate.Data.Filters.Expressions;
+using HotChocolate.Language;
 
 namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 
@@ -19,13 +20,13 @@ public class DatePartNotInHandler : DatePartOperationHandlerBase
   public override bool TryHandleOperation(
     QueryableFilterContext context,
     IFilterOperationField field,
-    HotChocolate.Language.ObjectFieldNode node,
+    ObjectFieldNode node,
     [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out Expression result
   )
   {
     var property = context.GetInstance();
     var value = node.Value;
-    var parsedValue = ParseInputValue(value, field);
+    var parsedValue = ParseListInputValue(value);
 
     var convertedValues = ConvertToDateTimeArray(parsedValue);
 
@@ -41,5 +42,46 @@ public class DatePartNotInHandler : DatePartOperationHandlerBase
     result = Expression.Not(inExpression);
 
     return true;
+  }
+
+  /// <summary>
+  /// Parses a list value node to an array of strings.
+  /// The 'nin' operation receives a ListValueNode containing StringValueNodes.
+  /// </summary>
+  private static string[] ParseListInputValue(IValueNode value)
+  {
+    if (value is NullValueNode)
+    {
+      return null;
+    }
+
+    if (value is not ListValueNode listNode)
+    {
+      throw new InvalidOperationException(
+        $"Expected ListValueNode for 'nin' operation but got '{value.GetType().Name}'"
+      );
+    }
+
+    var result = new List<string>();
+    foreach (var item in listNode.Items)
+    {
+      if (item is StringValueNode stringNode)
+      {
+        result.Add(stringNode.Value);
+      }
+      else if (item is NullValueNode)
+      {
+        // Skip null values in the list
+        continue;
+      }
+      else
+      {
+        throw new InvalidOperationException(
+          $"Expected StringValueNode in list but got '{item.GetType().Name}'"
+        );
+      }
+    }
+
+    return result.ToArray();
   }
 }
