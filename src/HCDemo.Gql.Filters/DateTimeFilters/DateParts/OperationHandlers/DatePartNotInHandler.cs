@@ -1,18 +1,18 @@
 using System.Linq.Expressions;
 using HotChocolate.Data.Filters.Expressions;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
+namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 
 /// <summary>
-/// Handler for datePart "in" operations.
+/// Handler for datePart "nin" (not in) operations.
 /// </summary>
-public class DatePartInHandler : DatePartOperationHandlerBase
+public class DatePartNotInHandler : DatePartOperationHandlerBase
 {
-  protected override int Operation => DefaultFilterOperations.In;
+  protected override int Operation => DefaultFilterOperations.NotIn;
 
   protected override Expression CreateComparisonExpression(Expression property, DateTime? value)
   {
-    // "in" uses array, need special handling
+    // "nin" uses array, need special handling
     throw new NotSupportedException("Use TryHandleOperation instead");
   }
 
@@ -36,7 +36,9 @@ public class DatePartInHandler : DatePartOperationHandlerBase
       return false;
     }
 
-    result = FilterExpressionBuilder.In(property, typeof(DateTime), convertedValues);
+    // Create NOT(In(...)) expression
+    var inExpression = FilterExpressionBuilder.In(property, typeof(DateTime), convertedValues);
+    result = Expression.Not(inExpression);
 
     return true;
   }

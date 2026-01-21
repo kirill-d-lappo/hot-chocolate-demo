@@ -5,7 +5,7 @@ using HotChocolate.Configuration;
 using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Language;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
+namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 
 /// <summary>
 /// Base class for datePart operation handlers that properly converts DateTimeOffset to DateTime.

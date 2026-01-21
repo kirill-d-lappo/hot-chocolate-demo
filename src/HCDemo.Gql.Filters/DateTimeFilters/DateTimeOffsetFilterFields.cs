@@ -1,4 +1,4 @@
-namespace HCDemo.Gql.Filters.DateTimeOffsets;
+namespace HCDemo.Gql.Filters.DateTimeFilters;
 
 public static class DateTimeOffsetFilterFields
 {

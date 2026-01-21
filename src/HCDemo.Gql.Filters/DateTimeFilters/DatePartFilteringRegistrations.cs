@@ -1,9 +1,9 @@
-using HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
+using HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Execution.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets;
+namespace HCDemo.Gql.Filters.DateTimeFilters;
 
 public static class DatePartFilteringRegistrations
 {

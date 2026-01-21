@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using HotChocolate.Data.Filters.Expressions;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
+namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 
 /// <summary>
 /// Handler for datePart "lt" (less than) operations.

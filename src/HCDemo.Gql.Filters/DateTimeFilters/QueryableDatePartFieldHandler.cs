@@ -5,7 +5,7 @@ using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Language;
 using HotChocolate.Language.Visitors;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets;
+namespace HCDemo.Gql.Filters.DateTimeFilters;
 
 /// <summary>
 /// Field handler that processes the "datePart" field on DateTimeOffset filters.

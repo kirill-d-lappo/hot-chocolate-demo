@@ -1,4 +1,4 @@
-namespace HCDemo.Gql.Filters.DateTimeOffsets.DateParts;
+namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts;
 
 /// <summary>
 /// Filter input type for date-only comparisons within the datePart field.

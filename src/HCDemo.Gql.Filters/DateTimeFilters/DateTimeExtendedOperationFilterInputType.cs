@@ -1,6 +1,6 @@
-using HCDemo.Gql.Filters.DateTimeOffsets.DateParts;
+using HCDemo.Gql.Filters.DateTimeFilters.DateParts;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets;
+namespace HCDemo.Gql.Filters.DateTimeFilters;
 
 /// <summary>
 /// Extended DateTimeOffset filter input type that includes a "datePart" field.

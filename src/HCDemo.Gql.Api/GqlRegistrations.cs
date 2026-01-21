@@ -1,6 +1,4 @@
-using HCDemo.Gql.Filters.DateTimeOffsets;
-using HCDemo.Gql.Filters.DateTimeOffsets.DateParts;
-using HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
+using HCDemo.Gql.Filters.DateTimeFilters;
 using HotChocolate.Diagnostics;
 using HotChocolate.Execution;
 using HotChocolate.Data.Filters;

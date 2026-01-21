@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 
-namespace HCDemo.Gql.Filters.DateTimeOffsets.DateParts.OperationHandlers;
+namespace HCDemo.Gql.Filters.DateTimeFilters.DateParts.OperationHandlers;
 
 /// <summary>
 /// Handler for datePart "lte" (less than or equal) operations.
