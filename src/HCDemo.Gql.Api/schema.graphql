@@ -95,6 +95,7 @@ type KeyValuePairOfStringAndObject {
 type Mutation {
   createOrder(input: CreateOrderInput!): CreateOrderPayload!
   createUser(input: CreateUserInput): CreateUserPayload!
+  startUserExport(input: StartUserExportInput!): StartUserExportPayload
   updateUser(input: UpdateUserInput): UpdateUserPayload!
   updateUserImage(input: UpdateUserImageInput!): UpdateUserImagePayload!
 }
@@ -157,6 +158,10 @@ type RoleEntity {
   name: String
   permissions: [PermissionEntity]
   users: [UserEntity]
+}
+
+type StartUserExportPayload {
+  isStarted: Boolean!
 }
 
 type Subscription {
@@ -381,6 +386,11 @@ input OrderNumberFilterInput {
 input OrderSortInput {
   id: SortEnumType
   orderNumber: SortEnumType
+}
+
+input StartUserExportInput {
+  order: [UserSortInput!]
+  where: UserFilterInput
 }
 
 input StringOperationFilterInput {

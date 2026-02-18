@@ -28,28 +28,23 @@ builder.AddServiceDefaults();
 
 var app = builder.Build();
 
-return await app.RunWithConsoleCancellationAsync(async (app, ct) =>
+return await app.RunWithGqlCliAsync(
+  args,
+  async (app, args, ct) =>
   {
-    if (app.Configuration.GetValue("DOTNET_RUNNING_IN_CONTAINER", false))
+    // if (app.Configuration.GetValue("DOTNET_RUNNING_IN_CONTAINER", false))
     {
       await app.MigrateDatabaseAsync<HCDemoDbContext>(ct);
     }
 
-    return await app.RunWithGqlCliAsync(
-      args,
-      async (app, args, ct) =>
-      {
-        app.MapDefaultEndpoints();
+    app.MapDefaultEndpoints();
 
-        const string graphQlPath = "/graphql";
-        app.MapGraphQL(graphQlPath);
-        app.MapGetRedirect(graphQlPath);
+    const string graphQlPath = "/graphql";
+    app.MapGraphQL(graphQlPath);
+    app.MapGetRedirect(graphQlPath);
 
-        await app.RunAsync(ct);
+    await app.RunAsync(ct);
 
-        return 0;
-      },
-      ct
-    );
+    return 0;
   }
 );
